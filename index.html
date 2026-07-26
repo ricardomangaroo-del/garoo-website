@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Title/description/OG/Twitter tags below are the correct values for
+     today's featured game (Matter MazeBall) so crawlers that don't run JS
+     still see accurate metadata. The script's renderFeaturedGame() rewrites
+     all of these from GAMES[].seo at runtime, so swapping in a newer game
+     keeps this block in sync automatically instead of relying on someone
+     to remember the manual edit. -->
 <title>Garoo Interactive — Matter MazeBall</title>
 <meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, launches on Steam August 3, 2026 — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
 <meta property="og:type" content="website">
@@ -17,29 +23,67 @@
 <meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,440;9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-0: #fbfbf9;
-    --bg-1: #f2f1ec;
-    --bg-2: #ffffff;
-    --ink-0: #16181a;
-    --ink-1: #52565c;
-    --ink-2: #6b6f63;
-    --accent: #67c41c;
-    --accent-dark: #4f9e16;
-    --accent-ink: #2f6b18;
-    --line: #e7e5df;
-    --line-strong: #d8d5cc;
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --font-display: "Fraunces", ui-serif, Georgia, serif;
-    --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    /* ===== Garoo studio chrome — neutral, applies everywhere ===== */
+    /* This is Garoo's own identity: bold cartoon outlines + hard offset
+       shadows, but NOT tied to any one game's hue. Header, footer, the
+       #studio and #contact sections, and the page background all use only
+       these tokens, so featuring a different game never repaints them. */
+    --ink: #283044;             /* cartoon outline — borders, hard shadows, text */
+    --paper: #fffaf0;           /* card cream */
+    --bg-0: #fffcf5;            /* page background — warm paper, lighter than cards */
+    --bg-1: #fff3d9;            /* soft banner tint (offers/quotes) */
+    --ink-0: var(--ink);
+    --ink-1: #45526b;           /* body copy — darkened from the game's --muted for AA on paper */
+    --ink-2: #5d6b85;           /* game's --muted, used for tertiary/small labels */
+    /* Garoo's own accent — a warm coral, deliberately not any shipped
+       game's palette (MazeBall owns green/gold/sky). Used for nav active
+       state, generic section underlines, selection, and other chrome that
+       must stay constant no matter which game is currently featured. */
+    --studio-accent: #ff6b4a;
+    --studio-accent-light: #ff9c82;   /* gradient top / hover tint base */
+    --studio-accent-dark: #c2431f;    /* borders, shadows — 4.9:1 on paper */
+    --studio-accent-ink: #8a2c14;     /* text-safe variant — 8.2:1 on paper */
+    --studio-accent-2: #0aa6b8;       /* secondary neutral, e.g. the 2nd manifesto dot — kept clearly separated in hue+lightness from --ink-2, the 3rd dot's color (was #3f7d8c, measured 1.16:1 against --ink-2, i.e. visually the same color) */
+    --studio-tint: #ffe3d9;           /* light hover wash for nav / ghost buttons */
+    --line: rgba(40,48,68,0.14);
+    --line-strong: var(--ink);
+    --radius-sm: 999px;         /* pill — buttons, chips, badges */
+    --radius-md: 20px;          /* cards */
+    --radius-lg: 28px;          /* large cards, phone bezel */
+    --font-display: "Baloo 2", "Arial Black", sans-serif;   /* headings, section titles */
+    --font-hero: "Luckiest Guy", "Arial Black", sans-serif; /* the one poster moment: h1 */
+    --font-body: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: var(--font-body); /* mono retired — cartoon voice doesn't code-comment */
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     /* springier curve reserved for playful, occasional moments (hero entrance,
        button press-release, the physics toy) — never for frequent UI chrome */
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* the studio's signature: a flat, hard-edged offset shadow instead of blur —
+       comic-panel depth, not soft-UI depth */
+    --shadow-hard-sm: 0 3px 0 var(--ink);
+    --shadow-hard-md: 0 5px 0 var(--ink);
+    --shadow-hard-lg: 0 8px 0 var(--ink);
+
+    /* ===== Featured-game palette — scoped to the hero + featured-game
+       section only ===== */
+    /* Defaults below are Matter MazeBall's real in-game colors (today's
+       featured game). GAMES[].palette in the script overrides these as
+       inline custom properties on #hero and #featured-game, so a future
+       game with a different palette repaints ONLY those two regions —
+       global chrome above never touches these tokens. */
+    --game-sky-top: #6fc3f2;
+    --game-sky-bottom: #cfeffd;
+    --game-accent: #58c968;
+    --game-accent-light: #7ddd8b;
+    --game-accent-dark: #2e9c43;
+    --game-accent-dark-rgb: 46,156,67;
+    --game-accent-ink: #1f7d31;
+    --game-secondary: #f5a623;
+    --game-glow: rgba(255,120,40,0.5);
+    --game-glow-strong: rgba(255,120,40,0.7);
   }
   * { box-sizing: border-box; }
   html, body {
@@ -51,91 +95,140 @@
     overflow-x: hidden;
   }
   a { color: inherit; }
+  /* Focus rings use --ink, not an accent color: on the hero's sky gradient
+     an accent-ink text color can drop below the 3:1 floor for non-text UI
+     indicators depending on the featured game's palette. --ink (the
+     cartoon outline color already used everywhere) holds 6.7:1+ against
+     every background on the page, so this stays a safe, on-brand default
+     regardless of which game is featured. */
   a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--accent-ink);
+    outline: 3px solid var(--ink);
     outline-offset: 3px;
     border-radius: 4px;
   }
-  ::selection { background: var(--accent); color: var(--ink-0); }
+  ::selection { background: var(--studio-accent); color: var(--ink); }
   .sr-only {
     position: absolute; width: 1px; height: 1px;
     padding: 0; margin: -1px; overflow: hidden;
     clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
   }
 
-  /* faint maze-grid texture on the canvas */
+  /* faint scattered dot texture — a quieter cousin of the game's paper cards,
+     not the sky-gradient itself, so long body copy stays easy to read */
   body {
     background-image:
-      radial-gradient(circle at 1px 1px, rgba(22,24,26,0.06) 1px, transparent 0);
-    background-size: 34px 34px;
+      radial-gradient(circle at 1px 1px, rgba(40,48,68,0.07) 1.5px, transparent 0);
+    background-size: 30px 30px;
   }
 
   header {
     position: sticky; top: 0; z-index: 10;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px clamp(20px, 6vw, 64px);
-    background: rgba(251,251,249,0.85);
+    padding: 14px clamp(20px, 6vw, 64px);
+    background: rgba(255,252,245,0.9);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 0 0 0 rgba(22,24,26,0);
-    transition: box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s var(--ease-out);
   }
   header.is-scrolled {
-    border-color: var(--line-strong);
-    box-shadow: 0 10px 26px -20px rgba(22,24,26,0.4);
+    border-bottom-color: var(--ink);
   }
   .logo {
     display: flex; align-items: center; gap: 10px;
-    font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
-    text-decoration: none; color: var(--ink-0);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16.5px; letter-spacing: 0.005em;
+    text-decoration: none; color: var(--ink);
+    /* invisible padding, not a size change: 32px mark + 7px top/bottom
+       clears the 44px touch-target floor without altering how it looks */
+    padding: 7px 0;
   }
-  .logo img { height: 28px; width: auto; display: block; }
-  nav { display: flex; gap: clamp(16px, 3vw, 30px); font-size: 14px; color: var(--ink-1); font-family: var(--font-mono); }
+  .logo img {
+    height: 32px; width: 32px; display: block;
+    border-radius: 9px; border: 2px solid var(--ink);
+    box-shadow: 0 2px 0 var(--ink);
+    background: var(--paper);
+    object-fit: contain; /* garoo-icon.png isn't square (876x559) — contain, don't stretch */
+  }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; font-size: 14px; }
   nav a {
     position: relative;
-    text-decoration: none; transition: color 0.15s ease;
+    text-decoration: none;
     display: inline-flex; align-items: center;
-    padding: 13px 4px; margin: -13px -4px;
     min-height: 44px; box-sizing: border-box;
+    padding: 0 16px;
+    font-family: var(--font-body); font-weight: 800; font-size: 13.5px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2.5px 0 var(--ink);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
   }
-  nav a::after {
-    content: ""; position: absolute; left: 4px; right: 4px; bottom: 10px;
-    height: 1.5px; background: var(--accent-ink);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.25s var(--ease-out);
+  nav a:hover { background: var(--studio-tint); }
+  nav a:active { transform: translateY(2px); box-shadow: 0 0.5px 0 var(--ink); }
+  nav a.is-active {
+    background: linear-gradient(180deg, var(--studio-accent-light), var(--studio-accent));
+    box-shadow: 0 2.5px 0 var(--studio-accent-dark);
   }
-  nav a:hover { color: var(--accent-ink); }
-  nav a:hover::after, nav a.is-active::after { transform: scaleX(1); }
-  nav a.is-active { color: var(--accent-ink); }
 
   /* ---------- hero ---------- */
   .hero {
     position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     align-items: center;
     gap: clamp(24px, 4vw, 48px);
-    padding: clamp(56px, 10vw, 108px) clamp(20px, 6vw, 64px) clamp(48px, 8vw, 88px);
+    padding: clamp(56px, 10vw, 108px) clamp(20px, 6vw, 64px) clamp(64px, 9vw, 100px);
     max-width: 1220px; margin: 0 auto;
+    border-bottom: 4px solid var(--ink);
+  }
+  /* sky backdrop bleeds full width behind the centered, max-width hero content —
+     the same gradient the featured game itself always plays on. Colors come
+     from --game-sky-*, set inline per-game on #hero — this rule never
+     hardcodes a specific game's hue. */
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 50%;
+    width: 100vw; transform: translateX(-50%);
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 140% 60% at 50% -15%, rgba(255,255,255,0.55) 0%, transparent 55%),
+      linear-gradient(180deg, var(--game-sky-top) 0%, var(--game-sky-bottom) 100%);
   }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; }
-    .hero-graphic { max-width: 260px; margin-bottom: 8px; }
+    .hero-graphic { max-width: 260px; margin-bottom: 8px; margin-inline: auto; }
   }
   h1 {
-    font-family: var(--font-display);
-    font-weight: 560;
-    font-size: clamp(38px, 5.6vw, 64px);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
+    font-family: var(--font-hero);
+    font-weight: 400;
+    font-size: clamp(34px, 5.6vw, 60px);
+    line-height: 1.08;
+    letter-spacing: 0.015em;
     margin: 0 0 24px;
     text-wrap: balance;
+    color: #fff;
+    -webkit-text-stroke: 2px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 3px 4px 0 var(--ink);
   }
-  h1 em { font-style: italic; color: var(--accent-ink); }
+  h1 em { font-style: normal; color: var(--game-secondary); -webkit-text-stroke: 2px var(--ink); }
+  /* Without stroke support the white h1 fill (and gold em) can drop to
+     ~1:1 contrast against the sky gradient — the stroke is doing all the
+     legibility work here, not just the "comic" look. Solid ink text is
+     the safe fallback for the handful of engines that don't support
+     -webkit-text-stroke. */
+  @supports not (-webkit-text-stroke: 1px black) {
+    h1, h1 em { color: var(--ink); text-shadow: none; }
+  }
   .lede {
     font-size: clamp(16.5px, 1.7vw, 19px);
-    color: var(--ink-1);
+    font-weight: 600;
+    color: var(--ink);
     max-width: 54ch;
     line-height: 1.65;
     margin: 0 0 36px;
@@ -154,21 +247,23 @@
 
   .launch-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 12.5px; font-weight: 500;
-    color: var(--accent-ink);
-    background: rgba(103,196,28,0.09);
-    border: 1px solid rgba(103,196,28,0.28);
-    padding: 6px 12px; border-radius: 999px;
+    font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 0.02em;
+    color: var(--ink);
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-hard-sm);
     margin: 0 0 18px;
+    transform: rotate(-1deg);
   }
   .launch-badge::before {
-    content: ""; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent); flex-shrink: 0;
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--game-accent-dark); flex-shrink: 0;
     animation: badgePulse 2.4s ease-in-out infinite;
   }
   @keyframes badgePulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(103,196,28,0.55); }
-    50% { box-shadow: 0 0 0 4px rgba(103,196,28,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--game-accent-dark-rgb), 0.55); }
+    50% { box-shadow: 0 0 0 4px rgba(var(--game-accent-dark-rgb), 0); }
   }
   @keyframes heroIn {
     from { opacity: 0; transform: translateY(18px) scale(0.97); }
@@ -179,26 +274,35 @@
     position: relative;
     display: inline-flex; align-items: center; gap: 8px;
     padding: 13px 24px; border-radius: var(--radius-sm);
-    font-size: 14.5px; font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 14.5px; font-weight: 800;
     text-decoration: none;
+    border: 3px solid var(--ink);
     min-height: 44px; box-sizing: border-box;
     overflow: hidden;
-    transition: transform 0.3s var(--ease-spring), background 0.15s ease, border-color 0.15s ease, box-shadow 0.25s var(--ease-out), color 0.15s ease;
+    box-shadow: var(--shadow-hard-md);
+    transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.12s ease, color 0.15s ease;
   }
+  /* btn-primary only ever appears inside the hero/featured-game section
+     (the "go buy/wishlist it" CTA), so it carries the featured game's
+     accent rather than a fixed studio color — a future game's primary CTA
+     recolors automatically via --game-accent-*. */
   .btn-primary {
-    background: var(--accent);
-    color: var(--ink-0);
-    box-shadow: 0 0 0 0 rgba(79,158,22,0);
+    background: linear-gradient(180deg, var(--game-accent-light), var(--game-accent));
+    color: var(--ink);
   }
-  .btn-primary:hover { transform: translateY(-2px) scale(1.015); background: var(--accent-dark); color: var(--ink-0); box-shadow: 0 12px 26px -10px rgba(79,158,22,0.55); }
-  .btn-primary:active { transform: translateY(0) scale(0.94); box-shadow: 0 4px 10px -6px rgba(79,158,22,0.5); transition-duration: 0.1s; }
+  .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.07); }
+  .btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  /* btn-ghost is the studio's neutral secondary action style — it shows up
+     both inside and outside game-scoped sections, so it stays on chrome
+     tokens rather than following whichever game is featured. */
   .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--ink-2);
-    color: var(--ink-0);
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    color: var(--ink);
   }
-  .btn-ghost:hover { border-color: var(--accent-dark); background: rgba(103,196,28,0.07); color: var(--accent-ink); transform: translateY(-1px); }
-  .btn-ghost:active { transform: scale(0.94); transition-duration: 0.1s; }
+  .btn-ghost:hover { background: var(--studio-tint); transform: translateY(-2px); }
+  .btn-ghost:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
 
   /* click burst: one small decorative pulse per press, WAAPI-driven so it
      never blocks navigation and never restarts oddly under rapid clicks */
@@ -230,13 +334,17 @@
   .hero-graphic svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .maze-path {
     fill: none;
-    stroke: var(--line-strong);
-    stroke-width: 2.5;
+    stroke: var(--ink);
+    stroke-opacity: 0.3;
+    stroke-width: 5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .maze-node { fill: var(--line-strong); }
+  .maze-node { fill: var(--game-secondary); stroke: var(--ink); stroke-width: 2; }
 
+  /* the ball's own icon/glow is set inline from the featured game's
+     assets.icon + palette.glow via JS — the background-image and rgba
+     glow below are just defaults matching Matter MazeBall's fireball. */
   .toy-ball {
     position: absolute; left: 0; top: 0;
     width: 46px; height: 46px; border-radius: 50%;
@@ -244,7 +352,8 @@
     background-image: url('assets/mazeball-icon.png');
     background-size: 130%;
     background-position: center;
-    box-shadow: 0 0 20px rgba(255,120,40,0.55), 0 8px 16px -8px rgba(22,24,26,0.35);
+    border: 3px solid var(--ink);
+    box-shadow: 0 5px 0 var(--ink), 0 0 18px var(--game-glow);
     touch-action: none;
     will-change: transform;
     transition: box-shadow 0.2s ease;
@@ -252,14 +361,14 @@
   }
   .toy-ball.is-dragging {
     cursor: grabbing;
-    box-shadow: 0 0 30px rgba(255,120,40,0.75), 0 12px 22px -8px rgba(22,24,26,0.4);
+    box-shadow: 0 7px 0 var(--ink), 0 0 26px var(--game-glow-strong);
   }
   .toy-ball:focus-visible {
-    outline: 2px solid var(--accent-ink); outline-offset: 4px;
+    outline: 3px solid var(--ink); outline-offset: 4px;
   }
   .toy-hint {
     position: absolute; left: 50%; bottom: -26px; translate: -50% 0;
-    font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-2);
+    font-family: var(--font-body); font-weight: 800; font-size: 11.5px; color: var(--ink);
     margin: 0; opacity: 0.85; pointer-events: none;
     transition: opacity 0.5s ease;
     white-space: nowrap;
@@ -284,10 +393,24 @@
 
   .section-head { margin-bottom: 44px; max-width: 62ch; }
   .section-head h2 {
-    font-family: var(--font-display); font-weight: 560;
-    font-size: clamp(26px, 3vw, 34px); margin: 0 0 10px; letter-spacing: -0.005em;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(26px, 3vw, 36px); line-height: 1.15; margin: 0 0 10px; letter-spacing: 0.005em;
+    color: var(--ink);
+    display: inline-block;
+    position: relative;
+    padding-bottom: 8px;
   }
-  .section-head p { color: var(--ink-1); font-size: 15.5px; margin: 0; max-width: 46ch; }
+  .section-head h2::after {
+    content: ""; position: absolute; left: 1px; bottom: 0;
+    width: 46px; height: 5px; border-radius: 3px;
+    /* --studio-accent-dark, not --studio-accent: the base coral measured
+       2.75:1 on --bg-0, under the 3:1 WCAG floor for non-text UI */
+    background: var(--studio-accent-dark);
+  }
+  /* the featured-game section is the one place this underline should
+     follow the game's own accent instead of the studio's */
+  #featured-game .section-head h2::after { background: var(--game-accent); }
+  .section-head p { color: var(--ink-1); font-weight: 600; font-size: 15.5px; margin: 0; max-width: 46ch; }
 
   /* ---------- principles: manifesto + spine ---------- */
   .manifesto {
@@ -298,30 +421,35 @@
   @media (max-width: 780px) { .manifesto { grid-template-columns: 1fr; } }
   .manifesto-lead p {
     font-family: var(--font-display);
+    font-weight: 600;
     font-size: clamp(20px, 2.3vw, 25px);
     line-height: 1.4;
     color: var(--ink-0);
     margin: 0;
     text-wrap: balance;
   }
-  .spine { position: relative; padding-left: 30px; }
-  .spine::before {
-    content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px;
-    width: 1px; background: var(--line-strong);
-    transform-origin: top;
-    transition: transform 0.8s var(--ease-out);
+  /* the timeline hairline becomes a stack of cartoon cards — each principle
+     its own paper card with a thick ink outline and a hard offset shadow,
+     colored dot standing in for the old spine marker */
+  .spine { position: relative; padding-left: 0; display: flex; flex-direction: column; gap: 16px; }
+  .spine::before { content: none; }
+  .waypoint {
+    position: relative; padding: 18px 20px 16px 56px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: var(--shadow-hard-sm);
   }
-  html.js-reveal .spine::before { transform: scaleY(0); }
-  html.js-reveal .spine.in-view::before { transform: scaleY(1); }
-  .waypoint { position: relative; padding-bottom: 34px; }
-  .waypoint:last-child { padding-bottom: 0; }
+  .waypoint:last-child { padding-bottom: 16px; }
   .waypoint::before {
-    content: ""; position: absolute; left: -30px; top: 5px;
-    width: 11px; height: 11px; border-radius: 50%;
-    background: var(--bg-0); border: 2px solid var(--accent-dark);
+    content: ""; position: absolute; left: 18px; top: 20px;
+    width: 15px; height: 15px; border-radius: 50%;
+    background: var(--studio-accent); border: 2px solid var(--ink);
   }
-  .waypoint h3 { font-size: 16.5px; margin: 0 0 6px; font-weight: 600; letter-spacing: -0.005em; }
-  .waypoint p { font-size: 14.5px; color: var(--ink-1); line-height: 1.6; margin: 0; max-width: 52ch; }
+  .waypoint:nth-child(2)::before { background: var(--studio-accent-2); }
+  .waypoint:nth-child(3)::before { background: var(--ink-2); }
+  .waypoint h3 { font-family: var(--font-display); font-size: 16.5px; margin: 0 0 6px; font-weight: 700; letter-spacing: 0; color: var(--ink); }
+  .waypoint p { font-size: 14.5px; font-weight: 600; color: var(--ink-1); line-height: 1.6; margin: 0; max-width: 52ch; }
 
   /* ---------- mazeball feature ---------- */
   .game-feature {
@@ -341,10 +469,10 @@
     position: relative;
     width: min(100%, 300px);
     padding: 14px 14px 22px;
-    border-radius: 34px;
+    border-radius: var(--radius-lg);
     background: linear-gradient(160deg, #1b2116, #0d100b);
-    border: 1px solid var(--line-strong);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(92,182,47,0.06);
+    border: 4px solid var(--ink);
+    box-shadow: 0 9px 0 var(--ink), 0 26px 44px -20px rgba(0,0,0,0.45);
     transition: transform 0.4s var(--ease-out);
     transform-style: preserve-3d;
     will-change: transform;
@@ -360,22 +488,50 @@
     background: rgba(244,247,240,0.14);
   }
   .game-shot {
-    width: 100%; height: auto; display: block;
+    width: 100%; display: block;
+    aspect-ratio: 9 / 19.5; /* phone-screen shape — content fills edge to edge, no letterboxing */
+    object-fit: cover;
     border-radius: 20px;
     border: 1px solid rgba(244,247,240,0.06);
   }
+  /* trailer toggle: the phone bezel autoplays a short muted loop, but any
+     video running longer than a couple seconds needs a real pause control
+     (not just prefers-reduced-motion) — WCAG 2.2.2, and it doubles as an
+     affordance that this is a video, not a screenshot. */
+  .trailer-toggle {
+    position: absolute; right: 24px; bottom: 30px; z-index: 2;
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper); border: 3px solid var(--ink);
+    box-shadow: var(--shadow-hard-sm);
+    color: var(--ink); cursor: pointer;
+    transition: transform 0.15s var(--ease-spring), box-shadow 0.15s ease;
+  }
+  .trailer-toggle:hover { transform: translateY(-1px); }
+  .trailer-toggle:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+  .trailer-toggle svg { width: 16px; height: 16px; display: block; }
+  .trailer-toggle .icon-pause { display: none; }
+  .trailer-toggle.is-playing .icon-play { display: none; }
+  .trailer-toggle.is-playing .icon-pause { display: block; }
   .game-title-row {
     display: flex; align-items: center; gap: 14px;
     margin-bottom: 22px;
   }
-  .game-icon { width: 50px; height: 50px; border-radius: 13px; display: block; }
+  .game-icon { width: 50px; height: 50px; border-radius: 13px; display: block; border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink); }
   .game-copy .eyebrow-mono {
-    font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-ink);
-    margin: 0 0 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-weight: 800; font-size: 11.5px; letter-spacing: 0.03em;
+    color: var(--ink);
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 5px 12px;
+    box-shadow: 0 2.5px 0 var(--ink);
+    margin: 0 0 12px;
   }
-  .game-copy h3 { font-family: var(--font-display); font-weight: 560; font-size: clamp(20px, 2.4vw, 25px); margin: 0 0 2px; }
-  .game-copy h3 .subtitle { font-size: 0.68em; font-weight: 400; font-style: italic; color: var(--ink-2); }
-  .game-sub { margin: 0; color: var(--ink-2); font-size: 13.5px; font-family: var(--font-mono); }
+  .game-copy h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.4vw, 25px); margin: 0 0 2px; color: var(--ink); }
+  .game-copy h3 .subtitle { font-size: 0.68em; font-weight: 600; font-style: normal; color: var(--ink-2); }
+  .game-sub { margin: 0; color: var(--ink-2); font-weight: 700; font-size: 13.5px; font-family: var(--font-body); }
   .feature-list {
     list-style: none; margin: 24px 0 30px; padding: 0;
     display: flex; flex-direction: column; gap: 14px;
@@ -388,61 +544,81 @@
     content: "";
     position: absolute; left: 0; top: 8px;
     width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
+    background: var(--game-accent);
     transition: transform 0.2s var(--ease-spring), background 0.2s ease;
   }
   .feature-list strong { color: var(--ink-0); }
   @media (hover: hover) and (pointer: fine) {
-    .feature-list li:hover::before { transform: scale(1.7); background: var(--accent-dark); }
-    .feature-list li:hover strong { color: var(--accent-ink); }
+    .feature-list li:hover::before { transform: scale(1.7); background: var(--game-accent-dark); }
+    .feature-list li:hover strong { color: var(--game-accent-ink); }
   }
   .feature-list strong { transition: color 0.2s ease; }
 
   /* ---------- contact ---------- */
+  #contact {
+    position: relative;
+    isolation: isolate;
+    max-width: none;
+    padding-top: clamp(64px, 9vw, 96px);
+    padding-bottom: clamp(64px, 9vw, 96px);
+  }
+  /* Contact isn't about any one game, so it stays on neutral studio paper
+     tones (--bg-1/--bg-0) rather than the featured game's sky gradient —
+     this backdrop never changes when the featured game does. */
+  #contact::before {
+    content: "";
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 140% 60% at 50% 115%, rgba(255,255,255,0.5) 0%, transparent 55%),
+      linear-gradient(0deg, var(--bg-1) 0%, var(--bg-0) 100%);
+    border-top: 4px solid var(--ink);
+  }
+  #contact .contact-card { max-width: 1220px; margin: 0 auto; }
   .contact-card {
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-lg);
     padding: clamp(32px, 6vw, 52px);
     display: flex; flex-wrap: wrap; gap: 32px;
     align-items: center; justify-content: space-between;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+    box-shadow: var(--shadow-hard-lg);
+    transition: transform 0.3s var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
     .contact-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 22px 44px -30px rgba(22,24,26,0.3);
-      border-color: var(--line-strong);
     }
   }
-  .contact-card h2 { font-family: var(--font-display); font-weight: 560; margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); }
-  .contact-card p { margin: 0; color: var(--ink-1); }
+  .contact-card h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); color: var(--ink); }
+  .contact-card p { margin: 0; color: var(--ink-1); font-weight: 600; }
   .contact-links { display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
   .contact-links a {
-    text-decoration: none; color: var(--ink-0); font-weight: 600;
+    text-decoration: none; color: var(--ink); font-weight: 800;
     display: inline-flex; align-items: center;
     padding: 13px 2px; margin: -13px -2px;
     min-height: 44px; box-sizing: border-box;
   }
-  .contact-links a:hover { color: var(--accent-ink); }
-  .contact-links span { color: var(--ink-2); font-size: 12.5px; font-family: var(--font-mono); display: block; margin-bottom: 4px; }
+  .contact-links a:hover { color: var(--studio-accent-ink); }
+  .contact-links span { color: var(--ink-2); font-weight: 800; font-size: 11.5px; letter-spacing: 0.03em; text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 4px; }
 
   footer {
     padding: 32px clamp(20px, 6vw, 64px) 48px;
     max-width: 1220px; margin: 0 auto;
     display: flex; flex-wrap: wrap; gap: 16px;
     align-items: center; justify-content: space-between;
-    border-top: 1px solid var(--line);
-    color: var(--ink-2); font-size: 12.5px; font-family: var(--font-mono);
+    border-top: 3px solid var(--ink);
+    color: var(--ink-2); font-weight: 700; font-size: 12.5px; font-family: var(--font-body);
   }
   footer nav { gap: 20px; }
   footer nav a {
-    color: var(--ink-2); text-decoration: none;
+    color: var(--ink-2); text-decoration: none; font-weight: 700;
+    background: none; border: none; box-shadow: none;
     display: inline-flex; align-items: center;
     padding: 13px 2px; margin: -13px -2px;
     min-height: 44px; box-sizing: border-box;
   }
-  footer nav a:hover { color: var(--ink-1); }
+  footer nav a:hover { color: var(--ink-1); background: none; transform: none; }
+  footer nav a:active { transform: none; box-shadow: none; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -478,7 +654,7 @@
     Garoo Interactive
   </a>
   <nav>
-    <a href="#mazeball">Matter MazeBall</a>
+    <a href="#featured-game" id="navGameLink">Matter MazeBall</a>
     <a href="#studio">Studio</a>
     <a href="#contact">Contact</a>
     <a href="privacy.html">Privacy</a>
@@ -486,18 +662,23 @@
 </header>
 
 <main>
-  <div class="hero">
+  <!-- Hero + #featured-game render from GAMES (newest releaseDate) via
+       renderFeaturedGame() in the script below. The markup here is the
+       default/fallback content for today's featured game (Matter MazeBall)
+       so the page is correct even if JS fails to run — the render function
+       just overwrites it. -->
+  <div class="hero" id="hero">
     <div class="hero-copy">
-      <p class="launch-badge">Launches on Steam · August 3, 2026</p>
-      <h1>Matter MazeBall — <em>tilt, roll, survive.</em></h1>
-      <p class="lede">
+      <p class="launch-badge" id="heroBadge">Launches on Steam · August 3, 2026</p>
+      <h1 id="heroHeadline">Matter MazeBall — <em>tilt, roll, survive.</em></h1>
+      <p class="lede" id="heroLede">
         A cel-shaded tilt-physics maze where what your ball is made of changes everything.
         Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought.
         30 elemental balls, 39 mazes across three worlds, no two runs alike.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
-        <a class="btn btn-ghost" href="#mazeball">See the game</a>
+        <a class="btn btn-primary" id="heroCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+        <a class="btn btn-ghost" href="#featured-game">See the game</a>
       </div>
     </div>
     <div class="scroll-cue" aria-hidden="true">
@@ -515,34 +696,42 @@
     </div>
   </div>
 
-  <section id="mazeball">
+  <section id="featured-game">
     <div class="section-head reveal">
-      <h2>Matter MazeBall</h2>
-      <p>Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.</p>
+      <h2 id="gameSectionTitle">Matter MazeBall</h2>
+      <p id="gameSectionBlurb">Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.</p>
     </div>
     <div class="game-feature">
       <div class="phone-stage reveal">
         <div class="phone-bezel" id="phoneBezel">
-          <img class="game-shot" src="assets/mazeball-screenshot.png" alt="Matter MazeBall gameplay — rolling a stone ball through a maze near the Colosseum">
+          <video class="game-shot" id="trailerVideo" muted loop playsinline preload="metadata"
+            poster="assets/mazeball-screenshot.png"
+            aria-label="Matter MazeBall trailer — tilt-physics maze gameplay across elemental balls and mazes">
+            <source src="assets/mazeball-trailer.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="trailer-toggle" id="trailerToggle" aria-pressed="false" aria-label="Play trailer">
+            <svg class="icon-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l10-5.5-10-5.5Z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5h3v11H4v-11Zm5 0h3v11H9v-11Z"/></svg>
+          </button>
         </div>
       </div>
       <div class="game-copy reveal">
-        <p class="eyebrow-mono">// launching on steam — august 3, 2026</p>
+        <p class="eyebrow-mono" id="gameEyebrow">// launching on steam — august 3, 2026</p>
         <div class="game-title-row">
-          <img src="assets/mazeball-icon.png" alt="" class="game-icon">
+          <img src="assets/mazeball-icon.png" alt="" class="game-icon" id="gameIconImg">
           <div>
-            <h3>Matter MazeBall <span class="subtitle">— Element Trials</span></h3>
-            <p class="game-sub">Casual · Puzzle · Local Co-op</p>
+            <h3 id="gameTitle">Matter MazeBall <span class="subtitle">— Element Trials</span></h3>
+            <p class="game-sub" id="gameTags">Casual · Puzzle · Local Co-op</p>
           </div>
         </div>
-        <ul class="feature-list">
+        <ul class="feature-list" id="gameFeatureList">
           <li><strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics</li>
           <li><strong>39 mazes, three worlds</strong> — elemental adventures, real-world cities, and mega-city landmarks</li>
           <li><strong>Living hazards & weather</strong> — lava, storms, wind and rain that physically push your ball around</li>
           <li><strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play</li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-primary" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+          <a class="btn btn-primary" id="gameCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
           <a class="btn btn-ghost" href="#contact">Say hello</a>
         </div>
       </div>
@@ -600,6 +789,185 @@
 </footer>
 
 <script>
+  // ===== Featured-game data =====
+  // Every shipped/launching Garoo game gets ONE entry here. The hero and
+  // the #featured-game section always render whichever entry has the
+  // newest releaseDate — add a game with a later date and it becomes
+  // featured automatically, no layout/markup changes needed. Keep entries
+  // to games that are actually shipped or have a confirmed launch date;
+  // this is not a backlog or a wishlist.
+  var GAMES = [
+    {
+      id: "mazeball",
+      name: "Matter MazeBall",
+      subtitle: "Element Trials",
+      tagline: "tilt, roll, survive.",
+      description: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought. 30 elemental balls, 39 mazes across three worlds, no two runs alike.",
+      sectionBlurb: "Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.",
+      tags: ["Casual", "Puzzle", "Local Co-op"],
+      badgeText: "Launches on Steam · August 3, 2026",
+      eyebrowText: "// launching on steam — august 3, 2026",
+      releaseDate: "2026-08-03", // Steam launch date — "newest" sorts on this
+      status: "Launching on Steam",
+      storeUrl: "https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/",
+      ctaLabel: "Wishlist on Steam",
+      ctaSrOnly: " (opens in a new tab on the Steam store)",
+      features: [
+        "<strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics",
+        "<strong>39 mazes, three worlds</strong> — elemental adventures, real-world cities, and mega-city landmarks",
+        "<strong>Living hazards & weather</strong> — lava, storms, wind and rain that physically push your ball around",
+        "<strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play"
+      ],
+      assets: {
+        icon: "assets/mazeball-icon.png",
+        screenshot: "assets/mazeball-screenshot.png",
+        trailer: "assets/mazeball-trailer.mp4",
+        trailerAlt: "Matter MazeBall trailer — tilt-physics maze gameplay across elemental balls and mazes",
+        toyAriaLabel: "Drag or flick the fireball — arrow keys nudge it too. Purely for fun, not required to read the page."
+      },
+      seo: {
+        title: "Garoo Interactive — Matter MazeBall",
+        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, launches on Steam August 3, 2026 — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
+        ogTitle: "Matter MazeBall — tilt, roll, survive.",
+        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Launching on Steam August 3, 2026.",
+        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Launching on Steam August 3, 2026."
+      },
+      // Matter MazeBall's real in-game colors — scoped only to #hero and
+      // #featured-game via inline custom properties, never global chrome.
+      palette: {
+        skyTop: "#6fc3f2",
+        skyBottom: "#cfeffd",
+        accent: "#58c968",
+        accentLight: "#7ddd8b",
+        accentDark: "#2e9c43",
+        accentDarkRgb: "46,156,67",
+        accentInk: "#1f7d31",
+        secondary: "#f5a623",
+        glow: "rgba(255,120,40,0.5)",
+        glowStrong: "rgba(255,120,40,0.7)"
+      }
+    }
+  ];
+
+  // Renders the newest GAMES[] entry into the hero + #featured-game section,
+  // and keeps <head> SEO/OG/Twitter tags in sync with it. Deliberately a
+  // plain DOM-fill function, not a templating layer — one object, one
+  // section of the page. The markup already contains this game's content
+  // as static fallback, so if this never ran the page would still be
+  // correct; this just makes a future roster change a one-line data edit.
+  function renderFeaturedGame() {
+    var game = GAMES.slice().sort(function (a, b) {
+      return new Date(b.releaseDate) - new Date(a.releaseDate);
+    })[0];
+    if (!game) return;
+    var p = game.palette || {};
+
+    // ---- SEO / head metadata ----
+    if (game.seo) {
+      document.title = game.seo.title;
+      setMeta('name', 'description', game.seo.description);
+      setMeta('property', 'og:title', game.seo.ogTitle);
+      setMeta('property', 'og:description', game.seo.ogDescription);
+      setMeta('name', 'twitter:title', game.seo.ogTitle);
+      setMeta('name', 'twitter:description', game.seo.twitterDescription || game.seo.ogDescription);
+      if (game.assets && game.assets.screenshot) {
+        var ogImage = window.location.origin + '/' + game.assets.screenshot.replace(/^\//, '');
+        setMeta('property', 'og:image', ogImage);
+        setMeta('name', 'twitter:image', ogImage);
+      }
+    }
+
+    // ---- per-game palette, scoped to #hero and #featured-game only ----
+    var heroEl = document.getElementById('hero');
+    var sectionEl = document.getElementById('featured-game');
+    [heroEl, sectionEl].forEach(function (el) {
+      if (!el) return;
+      setVar(el, '--game-sky-top', p.skyTop);
+      setVar(el, '--game-sky-bottom', p.skyBottom);
+      setVar(el, '--game-accent', p.accent);
+      setVar(el, '--game-accent-light', p.accentLight);
+      setVar(el, '--game-accent-dark', p.accentDark);
+      setVar(el, '--game-accent-dark-rgb', p.accentDarkRgb);
+      setVar(el, '--game-accent-ink', p.accentInk);
+      setVar(el, '--game-secondary', p.secondary);
+      setVar(el, '--game-glow', p.glow);
+      setVar(el, '--game-glow-strong', p.glowStrong);
+    });
+
+    // ---- nav ----
+    var navLink = document.getElementById('navGameLink');
+    if (navLink) navLink.textContent = game.name;
+
+    // ---- hero ----
+    setText('heroBadge', game.badgeText);
+    var headline = document.getElementById('heroHeadline');
+    if (headline) headline.innerHTML = escapeHtml(game.name) + ' — <em>' + escapeHtml(game.tagline) + '</em>';
+    setText('heroLede', game.description);
+    var heroCta = document.getElementById('heroCta');
+    if (heroCta) {
+      heroCta.href = game.storeUrl;
+      heroCta.innerHTML = escapeHtml(game.ctaLabel) + '<span class="sr-only">' + escapeHtml(game.ctaSrOnly || '') + '</span>';
+    }
+    var toyBall = document.getElementById('toyBall');
+    if (toyBall && game.assets && game.assets.icon) {
+      toyBall.style.backgroundImage = "url('" + game.assets.icon + "')";
+      if (game.assets.toyAriaLabel) toyBall.setAttribute('aria-label', game.assets.toyAriaLabel);
+    }
+
+    // ---- featured-game section ----
+    setText('gameSectionTitle', game.name);
+    setText('gameSectionBlurb', game.sectionBlurb);
+    setText('gameEyebrow', game.eyebrowText);
+    var iconImg = document.getElementById('gameIconImg');
+    if (iconImg && game.assets && game.assets.icon) iconImg.src = game.assets.icon;
+    var titleEl = document.getElementById('gameTitle');
+    if (titleEl) {
+      titleEl.innerHTML = escapeHtml(game.name) + (game.subtitle ? ' <span class="subtitle">— ' + escapeHtml(game.subtitle) + '</span>' : '');
+    }
+    setText('gameTags', (game.tags || []).join(' · '));
+    var list = document.getElementById('gameFeatureList');
+    if (list && game.features) {
+      list.innerHTML = game.features.map(function (f) { return '<li>' + f + '</li>'; }).join('');
+    }
+    var gameCta = document.getElementById('gameCta');
+    if (gameCta) {
+      gameCta.href = game.storeUrl;
+      gameCta.innerHTML = escapeHtml(game.ctaLabel) + '<span class="sr-only">' + escapeHtml(game.ctaSrOnly || '') + '</span>';
+    }
+    var video = document.getElementById('trailerVideo');
+    if (video && game.assets) {
+      var source = video.querySelector('source');
+      if (game.assets.trailer && source && source.src.indexOf(game.assets.trailer) === -1) {
+        source.src = game.assets.trailer;
+        video.load();
+      }
+      if (game.assets.screenshot) video.setAttribute('poster', game.assets.screenshot);
+      if (game.assets.trailerAlt) video.setAttribute('aria-label', game.assets.trailerAlt);
+    }
+  }
+
+  function setMeta(attr, key, value) {
+    if (value === undefined) return;
+    var el = document.querySelector('meta[' + attr + '="' + key + '"]');
+    if (el) el.setAttribute('content', value);
+  }
+  function setVar(el, name, value) {
+    if (value === undefined || value === null) return;
+    el.style.setProperty(name, value);
+  }
+  function setText(id, value) {
+    if (value === undefined) return;
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  renderFeaturedGame();
+
   // Scroll-driven header state + scroll cue fade. One rAF-throttled listener.
   (function () {
     var header = document.querySelector('header');
@@ -634,16 +1002,35 @@
         var link = map[entry.target.id];
         if (!link) return;
         if (entry.isIntersecting) {
-          links.forEach(function (a) { a.classList.remove('is-active'); });
+          links.forEach(function (a) { a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
           link.classList.add('is-active');
+          link.setAttribute('aria-current', 'true');
+        } else {
+          // A section leaving the band must clear its own link too — otherwise
+          // a stale "active" state (e.g. from a pre-layout-settle intersection
+          // during initial page load) never gets corrected.
+          link.classList.remove('is-active');
+          link.removeAttribute('aria-current');
         }
       });
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
-    Object.keys(map).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    // Wait for webfonts before observing: Baloo 2/Nunito swapping in mid-load
+    // shortens the hero just enough that #featured-game can briefly clip the
+    // observer's mid-viewport band during the FOUT->webfont layout shift,
+    // which used to leave the nav pill stuck "active" on page load before
+    // the visitor has scrolled anywhere.
+    function startObserving() {
+      Object.keys(map).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startObserving, startObserving);
+    } else {
+      startObserving();
+    }
   })();
 
   // Scroll reveal: progressive enhancement only. Content is fully visible by
@@ -665,6 +1052,36 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
     targets.forEach(function (el) { observer.observe(el); });
+  })();
+
+  // Trailer video: a real pause control (not just prefers-reduced-motion),
+  // since this loop runs 15s — long enough that WCAG 2.2.2 wants a way to
+  // stop it, and reduced-motion visitors get it paused-by-default on a
+  // static poster frame rather than an autoplaying loop at all.
+  (function () {
+    var video = document.getElementById('trailerVideo');
+    var toggle = document.getElementById('trailerToggle');
+    if (!video || !toggle) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function syncButton() {
+      var playing = !video.paused && !video.ended;
+      toggle.classList.toggle('is-playing', playing);
+      toggle.setAttribute('aria-pressed', String(playing));
+      toggle.setAttribute('aria-label', playing ? 'Pause trailer' : 'Play trailer');
+    }
+
+    toggle.addEventListener('click', function () {
+      if (video.paused) { video.play().catch(function () {}); } else { video.pause(); }
+    });
+    video.addEventListener('play', syncButton);
+    video.addEventListener('pause', syncButton);
+
+    if (reduceMotion) {
+      syncButton(); // stays paused on the poster frame until explicitly requested
+    } else {
+      video.play().then(syncButton).catch(syncButton); // autoplay can be blocked by the browser; button reflects reality either way
+    }
   })();
 
   (function () {

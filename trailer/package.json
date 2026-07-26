@@ -1,0 +1,24 @@
+{
+  "name": "trailer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "remotion studio src/index.ts",
+    "render:vertical": "remotion render src/index.ts Trailer-Vertical out/trailer-9x16.mp4",
+    "render:square": "remotion render src/index.ts Trailer-Square out/trailer-1x1.mp4",
+    "render:landscape": "remotion render src/index.ts Trailer-Landscape out/trailer-16x9.mp4",
+    "render:all": "npm run render:vertical && npm run render:square && npm run render:landscape"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "^4.0.499",
+    "@remotion/google-fonts": "^4.0.499",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.499"
+  }
+}

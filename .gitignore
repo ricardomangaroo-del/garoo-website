@@ -1,1 +1,3 @@
 .vercel
+trailer/node_modules
+trailer/out
