@@ -5,23 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Garoo Interactive</title>
 <meta name="description" content="How Garoo Interactive collects, uses, and protects data in Matter MazeBall.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,440;9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-0: #fbfbf9;
-    --bg-1: #ffffff;
-    --bg-2: #f2f1ec;
+    --bg-1: #f2f1ec;
+    --bg-2: #ffffff;
     --ink-0: #16181a;
     --ink-1: #52565c;
-    --ink-2: #8a8e94;
+    --ink-2: #6b6f63;
+    --accent: #67c41c;
+    --accent-dark: #4f9e16;
     --accent-ink: #2f6b18;
     --line: #e7e5df;
+    --line-strong: #d8d5cc;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
     background: var(--bg-0);
     color: var(--ink-0);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
   a { color: var(--accent-ink); }
@@ -30,43 +42,80 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+  ::selection { background: var(--accent); color: var(--ink-0); }
+
   header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px clamp(20px, 6vw, 64px);
     border-bottom: 1px solid var(--line);
+    background: rgba(251,251,249,0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    position: sticky; top: 0; z-index: 10;
+    box-shadow: 0 0 0 0 rgba(22,24,26,0);
+    transition: box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+  }
+  header.is-scrolled {
+    border-color: var(--line-strong);
+    box-shadow: 0 10px 26px -20px rgba(22,24,26,0.4);
   }
   .logo {
     display: flex; align-items: center; gap: 10px;
-    font-weight: 700; font-size: 17px;
+    font-weight: 600; font-size: 16px;
     text-decoration: none; color: var(--ink-0);
   }
-  .logo img { height: 30px; width: auto; display: block; }
+  .logo img { height: 28px; width: auto; display: block; }
   nav a {
-    color: var(--ink-1); text-decoration: none; font-size: 14px;
+    position: relative;
+    color: var(--ink-1); text-decoration: none; font-size: 14px; font-family: var(--font-mono);
     display: inline-flex; align-items: center;
     padding: 13px 4px; margin: -13px -4px;
     min-height: 44px; box-sizing: border-box;
+    transition: color 0.15s ease;
   }
-  nav a:hover { color: var(--ink-0); }
+  nav a::after {
+    content: ""; position: absolute; left: 4px; right: 4px; bottom: 10px;
+    height: 1.5px; background: var(--accent-ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s var(--ease-out);
+  }
+  nav a:hover { color: var(--accent-ink); }
+  nav a:hover::after { transform: scaleX(1); }
 
   main {
     max-width: 760px; margin: 0 auto;
     padding: clamp(40px, 8vw, 80px) clamp(20px, 6vw, 64px) 100px;
   }
-  h1 { font-size: clamp(30px, 5vw, 42px); margin: 8px 0; letter-spacing: -0.02em; }
-  .updated { color: var(--ink-2); font-size: 14px; margin-bottom: 48px; }
-  h2 { font-size: 20px; margin: 40px 0 12px; }
+  h1 {
+    font-family: var(--font-display); font-weight: 560;
+    font-size: clamp(30px, 5vw, 42px); margin: 8px 0; letter-spacing: -0.005em;
+  }
+  .updated { color: var(--ink-2); font-size: 13.5px; font-family: var(--font-mono); margin-bottom: 48px; }
+  h2 { font-family: var(--font-display); font-weight: 560; font-size: 21px; margin: 40px 0 12px; }
   p, li { color: var(--ink-1); line-height: 1.7; font-size: 15.5px; }
   ul { padding-left: 22px; }
   .callout {
-    background: var(--bg-2); border: 1px solid var(--line);
-    border-radius: 14px; padding: 20px 24px; margin: 24px 0;
+    background: var(--bg-1); border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 20px 24px; margin: 24px 0;
     font-size: 14.5px; color: var(--ink-1);
+  }
+
+  /* content settles in on load — a legal document doesn't need scroll
+     choreography, but it shouldn't just snap in either */
+  main > * {
+    animation: docIn 0.5s var(--ease-out) backwards;
+  }
+  main > h1 { animation-delay: 0.02s; }
+  main > .updated { animation-delay: 0.08s; }
+  main > *:nth-child(n+3) { animation-delay: 0.14s; }
+  @keyframes docIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   footer {
     border-top: 1px solid var(--line);
     padding: 24px clamp(20px, 6vw, 64px);
-    color: var(--ink-2); font-size: 13px;
+    color: var(--ink-2); font-size: 12.5px; font-family: var(--font-mono);
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }
   footer a {
@@ -83,6 +132,7 @@
     *, *::before, *::after {
       transition-duration: 0.001ms !important;
       animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
     }
   }
 </style>
@@ -90,7 +140,7 @@
 <body>
 <header>
   <a class="logo" href="index.html">
-    <img src="assets/garoo-icon.png" alt="Garoo Interactive">
+    <img src="assets/garoo-icon.png" alt="">
     Garoo Interactive
   </a>
   <nav><a href="index.html">Back to home</a></nav>
@@ -101,67 +151,71 @@
   <p class="updated">Last updated: July 26, 2026</p>
 
   <p>
-    Garoo Interactive ("we," "us," "our") makes Matter MazeBall, a mobile game. This policy
-    explains what information the app collects, how we use it, and the choices you have.
+    Garoo Interactive ("we," "us," "our") makes Matter MazeBall. This page explains, plainly,
+    what the game knows, what it doesn't, and the choices you have either way.
   </p>
 
   <div class="callout">
-    Our default position is to collect as little as possible. Matter MazeBall runs entirely on
-    your device and doesn't send any personal data anywhere.
+    The short version: Matter MazeBall runs entirely on your device. There's no account to make,
+    no login, and — as of this version — nothing it collects is sent anywhere.
   </div>
 
   <h2>Information we collect</h2>
-  <p>We may collect:</p>
+  <p>The app keeps, on your device only:</p>
   <ul>
-    <li><strong>Gameplay data stored locally</strong> — progress, settings, and preferences saved on your device. This never leaves your device unless the app explicitly offers cloud save.</li>
-    <li><strong>Basic analytics</strong> — anonymous, aggregate usage data (e.g. session length, level reached, crash reports) used to improve the game. We do not use advertising identifiers or build cross-app profiles.</li>
+    <li><strong>Gameplay data</strong> — progress, settings, coins, and cosmetics saved locally. This never leaves your device unless a future version explicitly offers cloud save, and this policy will say so before it does.</li>
+    <li><strong>An anonymous installation ID and gameplay log</strong> — a random ID generated on your device, plus events like session length, level reached and outcome, which ball you picked, and basic error/crash information. It's first-party, stays on your device, and isn't tied to your name, account, or advertising ID. You can wipe it any time from <strong>Settings → Reset analytics ID</strong>.</li>
     <li><strong>Contact information you provide</strong> — if you email us for support, we keep that correspondence to respond to you.</li>
   </ul>
 
   <h2>Information we do not collect</h2>
   <ul>
     <li>We do not sell personal data.</li>
-    <li>We do not use third-party advertising trackers by default.</li>
+    <li>We do not use third-party advertising or analytics SDKs.</li>
+    <li>We do not have user accounts or logins, so we have no way to identify who you are.</li>
     <li>We do not knowingly collect personal data from children.</li>
   </ul>
 
   <h2>How we use information</h2>
   <p>
-    Any data we do collect is used only to operate, maintain, and improve Matter MazeBall — fixing
-    bugs, balancing difficulty, and understanding which features are actually used. We do not use
-    it to build advertising profiles.
+    The on-device log helps us understand things like where players get stuck in the maze —
+    nothing more exotic than that. As of this version it stays on your device; it is not
+    transmitted, sold, or used to build an advertising profile. If a future version ever changes
+    that, this policy will say so before the change ships, not after.
   </p>
 
   <h2>Your choices</h2>
   <ul>
-    <li>Most gameplay data can be cleared by clearing your device or browser's local storage for the app.</li>
-    <li>You can contact us at any time to ask what data we hold about you or to request deletion.</li>
+    <li>Reset just the analytics log any time from <strong>Settings → Reset analytics ID</strong>, without touching your saved progress.</li>
+    <li>Clear everything — progress included — by clearing the app's storage or uninstalling it.</li>
+    <li>Email us any time to ask what we hold or to request deletion.</li>
   </ul>
 
   <h2>Data retention & deletion</h2>
   <p>
-    Locally stored gameplay data persists only on your device until you clear it or uninstall the
-    app. Support correspondence is retained only as long as needed to resolve your request. To
-    request deletion of any data associated with you, contact us using the details below.
+    Locally stored gameplay data and the analytics log persist only on your device until you clear
+    them or uninstall the app. Support correspondence is kept only as long as needed to resolve
+    your request. To request deletion of anything tied to you, contact us using the details below.
   </p>
 
   <h2>Children's privacy</h2>
   <p>
-    Matter MazeBall is rated Everyone and is not directed at children under 13. We do not
-    knowingly collect personal data from children. If you believe a child has provided us with
+    Matter MazeBall is rated Everyone and isn't directed at children under 13. We do not
+    knowingly collect personal data from children — the on-device log identifies only an
+    anonymous, randomly generated ID, never a person. If you believe a child has provided us with
     personal data, contact us and we will delete it.
   </p>
 
   <h2>Changes to this policy</h2>
   <p>
-    We may update this policy as our products evolve. Material changes will be reflected here with
-    an updated date at the top of the page.
+    We'll update this page as the game evolves, and any change that actually affects your privacy
+    — like adding ads or a server — lands here, with a new date at the top, before it ships.
   </p>
 
   <h2>Contact us</h2>
   <p>
     Questions about this policy or your data? Email us at
-    <a href="mailto:ricardomangaroo@gmail.com">ricardomangaroo@gmail.com</a>.
+    <a href="mailto:hello@garoointeractive.com">hello@garoointeractive.com</a>.
   </p>
 </main>
 
@@ -169,6 +223,22 @@
   <span>&copy; 2026 Garoo Interactive. All rights reserved.</span>
   <a href="index.html">Home</a>
 </footer>
+
+<script>
+  (function () {
+    var header = document.querySelector('header');
+    var ticking = false;
+    function update() {
+      header.classList.toggle('is-scrolled', (window.scrollY || window.pageYOffset) > 8);
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  })();
+</script>
 
 </body>
 </html>

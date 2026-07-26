@@ -4,37 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Garoo Interactive — Matter MazeBall</title>
-<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall is our first release — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
+<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, launches on Steam August 3, 2026 — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Matter MazeBall — tilt, roll, survive.">
+<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Launching on Steam August 3, 2026.">
+<meta property="og:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
+<meta property="og:url" content="https://garoointeractive.com/">
+<meta property="og:site_name" content="Garoo Interactive">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Matter MazeBall — tilt, roll, survive.">
+<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Launching on Steam August 3, 2026.">
+<meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,440;9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-0: #fbfbf9;
-    --bg-1: #ffffff;
-    --bg-2: #f2f1ec;
+    --bg-1: #f2f1ec;
+    --bg-2: #ffffff;
     --ink-0: #16181a;
     --ink-1: #52565c;
-    --ink-2: #8a8e94;
-    --accent: #5cb62f;
+    --ink-2: #6b6f63;
+    --accent: #67c41c;
+    --accent-dark: #4f9e16;
     --accent-ink: #2f6b18;
     --line: #e7e5df;
-    --radius: 14px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-0: #fbfbf9;
-      --bg-1: #ffffff;
-      --bg-2: #f2f1ec;
-      --ink-0: #16181a;
-      --ink-1: #52565c;
-      --ink-2: #8a8e94;
-      --line: #e7e5df;
-    }
+    --line-strong: #d8d5cc;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    /* springier curve reserved for playful, occasional moments (hero entrance,
+       button press-release, the physics toy) — never for frequent UI chrome */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
     background: var(--bg-0);
     color: var(--ink-0);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -44,147 +56,328 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+  ::selection { background: var(--accent); color: var(--ink-0); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  /* faint maze-grid texture on the canvas */
+  body {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(22,24,26,0.06) 1px, transparent 0);
+    background-size: 34px 34px;
+  }
 
   header {
     position: sticky; top: 0; z-index: 10;
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px clamp(20px, 6vw, 64px);
     background: rgba(251,251,249,0.85);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
+    box-shadow: 0 0 0 0 rgba(22,24,26,0);
+    transition: box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+  }
+  header.is-scrolled {
+    border-color: var(--line-strong);
+    box-shadow: 0 10px 26px -20px rgba(22,24,26,0.4);
   }
   .logo {
     display: flex; align-items: center; gap: 10px;
-    font-weight: 700; font-size: 17px; letter-spacing: 0.1px;
+    font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
     text-decoration: none; color: var(--ink-0);
   }
-  .logo img { height: 30px; width: auto; display: block; }
-  nav { display: flex; gap: clamp(16px, 3vw, 32px); font-size: 14px; color: var(--ink-1); }
+  .logo img { height: 28px; width: auto; display: block; }
+  nav { display: flex; gap: clamp(16px, 3vw, 30px); font-size: 14px; color: var(--ink-1); font-family: var(--font-mono); }
   nav a {
+    position: relative;
     text-decoration: none; transition: color 0.15s ease;
     display: inline-flex; align-items: center;
     padding: 13px 4px; margin: -13px -4px;
     min-height: 44px; box-sizing: border-box;
   }
-  nav a:hover { color: var(--ink-0); }
-
-  .hero {
-    padding: clamp(64px, 11vw, 120px) clamp(20px, 6vw, 64px) clamp(40px, 7vw, 80px);
-    max-width: 1100px; margin: 0 auto;
+  nav a::after {
+    content: ""; position: absolute; left: 4px; right: 4px; bottom: 10px;
+    height: 1.5px; background: var(--accent-ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s var(--ease-out);
   }
-  .kicker {
-    font-size: 13px; font-weight: 600; color: var(--ink-2);
-    margin: 0 0 18px;
+  nav a:hover { color: var(--accent-ink); }
+  nav a:hover::after, nav a.is-active::after { transform: scaleX(1); }
+  nav a.is-active { color: var(--accent-ink); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    padding: clamp(56px, 10vw, 108px) clamp(20px, 6vw, 64px) clamp(48px, 8vw, 88px);
+    max-width: 1220px; margin: 0 auto;
+  }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-graphic { max-width: 260px; margin-bottom: 8px; }
   }
   h1 {
-    font-size: clamp(38px, 6.2vw, 68px);
-    line-height: 1.06;
-    letter-spacing: -0.025em;
-    margin: 0 0 26px;
-    max-width: 17ch;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: 560;
+    font-size: clamp(38px, 5.6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 24px;
+    text-wrap: balance;
   }
-  h1 .accented { color: var(--accent-ink); }
+  h1 em { font-style: italic; color: var(--accent-ink); }
   .lede {
-    font-size: clamp(17px, 1.9vw, 20px);
+    font-size: clamp(16.5px, 1.7vw, 19px);
     color: var(--ink-1);
-    max-width: 58ch;
+    max-width: 54ch;
     line-height: 1.65;
-    margin: 0 0 40px;
+    margin: 0 0 36px;
   }
   .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn {
+
+  /* hero content settles in on load, staggered, with a touch of overshoot —
+     never gated (visible by default) */
+  .hero-copy > * {
+    animation: heroIn 0.6s var(--ease-spring) backwards;
+  }
+  .hero-copy > .launch-badge { animation-delay: 0s; }
+  .hero-copy > h1 { animation-delay: 0.08s; }
+  .hero-copy > .lede { animation-delay: 0.18s; }
+  .hero-copy > .cta-row { animation-delay: 0.28s; }
+
+  .launch-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 26px; border-radius: 10px;
-    font-size: 15px; font-weight: 600;
+    font-family: var(--font-mono); font-size: 12.5px; font-weight: 500;
+    color: var(--accent-ink);
+    background: rgba(103,196,28,0.09);
+    border: 1px solid rgba(103,196,28,0.28);
+    padding: 6px 12px; border-radius: 999px;
+    margin: 0 0 18px;
+  }
+  .launch-badge::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+    animation: badgePulse 2.4s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(103,196,28,0.55); }
+    50% { box-shadow: 0 0 0 4px rgba(103,196,28,0); }
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 24px; border-radius: var(--radius-sm);
+    font-size: 14.5px; font-weight: 600;
     text-decoration: none;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    min-height: 44px; box-sizing: border-box;
+    overflow: hidden;
+    transition: transform 0.3s var(--ease-spring), background 0.15s ease, border-color 0.15s ease, box-shadow 0.25s var(--ease-out), color 0.15s ease;
   }
   .btn-primary {
-    background: var(--ink-0);
-    color: #fff;
+    background: var(--accent);
+    color: var(--ink-0);
+    box-shadow: 0 0 0 0 rgba(79,158,22,0);
   }
-  .btn-primary:hover { transform: translateY(-1px); background: #000; }
+  .btn-primary:hover { transform: translateY(-2px) scale(1.015); background: var(--accent-dark); color: var(--ink-0); box-shadow: 0 12px 26px -10px rgba(79,158,22,0.55); }
+  .btn-primary:active { transform: translateY(0) scale(0.94); box-shadow: 0 4px 10px -6px rgba(79,158,22,0.5); transition-duration: 0.1s; }
   .btn-ghost {
     background: transparent;
-    border: 1px solid var(--line);
+    border: 1px solid var(--ink-2);
     color: var(--ink-0);
   }
-  .btn-ghost:hover { border-color: var(--ink-2); }
+  .btn-ghost:hover { border-color: var(--accent-dark); background: rgba(103,196,28,0.07); color: var(--accent-ink); transform: translateY(-1px); }
+  .btn-ghost:active { transform: scale(0.94); transition-duration: 0.1s; }
 
-  section { padding: clamp(48px, 7vw, 88px) clamp(20px, 6vw, 64px); max-width: 1100px; margin: 0 auto; }
-  .section-head { margin-bottom: 40px; display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .section-head h2 { font-size: clamp(24px, 3.2vw, 32px); margin: 0; letter-spacing: -0.015em; font-weight: 700; }
-  .section-head p { color: var(--ink-1); font-size: 15.5px; max-width: 46ch; margin: 0; }
+  /* click burst: one small decorative pulse per press, WAAPI-driven so it
+     never blocks navigation and never restarts oddly under rapid clicks */
+  .btn-burst {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none; transform: translate(-50%, -50%);
+  }
 
-  .principles {
+  /* scroll cue: fades as the visitor starts reading, never re-appears */
+  .scroll-cue {
+    position: absolute; left: 50%; bottom: 6px; translate: -50% 0;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: var(--ink-2); opacity: 1;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .scroll-cue svg { display: block; animation: cueBob 2.2s ease-in-out infinite; }
+  @keyframes cueBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+  @media (max-width: 860px) { .scroll-cue { display: none; } }
+
+  /* hero graphic: a maze corridor you can actually play with — the ball is a
+     real drag/flick physics toy, not a scripted loop, because "physics toy"
+     is the entire product hook and the site should let you touch it. */
+  .hero-graphic { position: relative; width: 100%; max-width: 400px; aspect-ratio: 400 / 320; margin-inline: auto; }
+  .hero-graphic svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .maze-path {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .maze-node { fill: var(--line-strong); }
+
+  .toy-ball {
+    position: absolute; left: 0; top: 0;
+    width: 46px; height: 46px; border-radius: 50%;
+    background-color: #1a0f08;
+    background-image: url('assets/mazeball-icon.png');
+    background-size: 130%;
+    background-position: center;
+    box-shadow: 0 0 20px rgba(255,120,40,0.55), 0 8px 16px -8px rgba(22,24,26,0.35);
+    touch-action: none;
+    will-change: transform;
+    transition: box-shadow 0.2s ease;
+    cursor: grab;
+  }
+  .toy-ball.is-dragging {
+    cursor: grabbing;
+    box-shadow: 0 0 30px rgba(255,120,40,0.75), 0 12px 22px -8px rgba(22,24,26,0.4);
+  }
+  .toy-ball:focus-visible {
+    outline: 2px solid var(--accent-ink); outline-offset: 4px;
+  }
+  .toy-hint {
+    position: absolute; left: 50%; bottom: -26px; translate: -50% 0;
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-2);
+    margin: 0; opacity: 0.85; pointer-events: none;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+  }
+  .toy-hint.is-hidden { opacity: 0; }
+  @media (max-width: 860px) { .toy-hint { display: none; } }
+
+  section { padding: clamp(48px, 7vw, 88px) clamp(20px, 6vw, 64px); max-width: 1220px; margin: 0 auto; }
+
+  /* ---------- scroll reveal ----------
+     Default state is always visible. JS only opts elements into the
+     "pending" state after confirming IntersectionObserver support, so a
+     blocked script, a headless render, or a hidden tab never hides content. */
+  .reveal {
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  }
+  html.js-reveal .reveal { opacity: 0; transform: translateY(20px); }
+  html.js-reveal .reveal.in-view { opacity: 1; transform: translateY(0); }
+  html.js-reveal .manifesto .waypoint:nth-child(1) { transition-delay: 0ms; }
+  html.js-reveal .manifesto .waypoint:nth-child(2) { transition-delay: 90ms; }
+  html.js-reveal .manifesto .waypoint:nth-child(3) { transition-delay: 180ms; }
+
+  .section-head { margin-bottom: 44px; max-width: 62ch; }
+  .section-head h2 {
+    font-family: var(--font-display); font-weight: 560;
+    font-size: clamp(26px, 3vw, 34px); margin: 0 0 10px; letter-spacing: -0.005em;
+  }
+  .section-head p { color: var(--ink-1); font-size: 15.5px; margin: 0; max-width: 46ch; }
+
+  /* ---------- principles: manifesto + spine ---------- */
+  .manifesto {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(32px, 5vw, 64px);
   }
-  @media (max-width: 720px) {
-    .principles { grid-template-columns: 1fr; }
+  @media (max-width: 780px) { .manifesto { grid-template-columns: 1fr; } }
+  .manifesto-lead p {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.3vw, 25px);
+    line-height: 1.4;
+    color: var(--ink-0);
+    margin: 0;
+    text-wrap: balance;
   }
-  .principle-lead {
-    background: var(--ink-0);
-    color: #fff;
-    padding: clamp(32px, 4vw, 44px);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    min-height: 240px;
+  .spine { position: relative; padding-left: 30px; }
+  .spine::before {
+    content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px;
+    width: 1px; background: var(--line-strong);
+    transform-origin: top;
+    transition: transform 0.8s var(--ease-out);
   }
-  .principle-lead .tag {
-    font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    color: #9fe27a; margin-bottom: 14px;
+  html.js-reveal .spine::before { transform: scaleY(0); }
+  html.js-reveal .spine.in-view::before { transform: scaleY(1); }
+  .waypoint { position: relative; padding-bottom: 34px; }
+  .waypoint:last-child { padding-bottom: 0; }
+  .waypoint::before {
+    content: ""; position: absolute; left: -30px; top: 5px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg-0); border: 2px solid var(--accent-dark);
   }
-  .principle-lead h3 { font-size: clamp(22px, 2.5vw, 27px); margin: 0 0 10px; letter-spacing: -0.01em; }
-  .principle-lead p { font-size: 15px; color: rgba(255,255,255,0.72); line-height: 1.6; margin: 0; max-width: 34ch; }
+  .waypoint h3 { font-size: 16.5px; margin: 0 0 6px; font-weight: 600; letter-spacing: -0.005em; }
+  .waypoint p { font-size: 14.5px; color: var(--ink-1); line-height: 1.6; margin: 0; max-width: 52ch; }
 
-  .principle-list {
-    display: flex; flex-direction: column;
-    background: var(--bg-1);
-  }
-  .principle-row {
-    display: flex; gap: 18px;
-    padding: 24px clamp(20px, 3vw, 28px);
-    border-bottom: 1px solid var(--line);
-  }
-  .principle-row:last-child { border-bottom: none; }
-  .principle-row .num {
-    font-size: 13px; font-weight: 700; color: var(--ink-2);
-    font-variant-numeric: tabular-nums;
-    padding-top: 2px;
-  }
-  .principle-row h3 { font-size: 16px; margin: 0 0 6px; }
-  .principle-row p { font-size: 14px; color: var(--ink-1); line-height: 1.55; margin: 0; }
-
+  /* ---------- mazeball feature ---------- */
   .game-feature {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(28px, 4vw, 48px);
+    grid-template-columns: 0.8fr 1fr;
+    gap: clamp(32px, 5vw, 56px);
     align-items: center;
   }
   @media (max-width: 780px) {
     .game-feature { grid-template-columns: 1fr; }
   }
+  .phone-stage {
+    perspective: 1400px;
+    display: flex; justify-content: center;
+  }
+  .phone-bezel {
+    position: relative;
+    width: min(100%, 300px);
+    padding: 14px 14px 22px;
+    border-radius: 34px;
+    background: linear-gradient(160deg, #1b2116, #0d100b);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(92,182,47,0.06);
+    transition: transform 0.4s var(--ease-out);
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: phoneFloat 6s ease-in-out infinite;
+  }
+  @keyframes phoneFloat {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -6px; }
+  }
+  .phone-bezel::before {
+    content: ""; position: absolute; top: 6px; left: 50%; translate: -50% 0;
+    width: 46px; height: 5px; border-radius: 3px;
+    background: rgba(244,247,240,0.14);
+  }
   .game-shot {
-    width: 100%; height: auto;
-    border-radius: var(--radius);
-    border: 1px solid var(--line);
-    display: block;
+    width: 100%; height: auto; display: block;
+    border-radius: 20px;
+    border: 1px solid rgba(244,247,240,0.06);
   }
   .game-title-row {
     display: flex; align-items: center; gap: 14px;
     margin-bottom: 22px;
   }
-  .game-icon { width: 52px; height: 52px; border-radius: 13px; display: block; }
-  .game-copy h3 { font-size: clamp(20px, 2.4vw, 24px); margin: 0 0 2px; font-weight: 700; }
-  .game-sub { margin: 0; color: var(--ink-2); font-size: 14px; }
+  .game-icon { width: 50px; height: 50px; border-radius: 13px; display: block; }
+  .game-copy .eyebrow-mono {
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-ink);
+    margin: 0 0 10px;
+  }
+  .game-copy h3 { font-family: var(--font-display); font-weight: 560; font-size: clamp(20px, 2.4vw, 25px); margin: 0 0 2px; }
+  .game-copy h3 .subtitle { font-size: 0.68em; font-weight: 400; font-style: italic; color: var(--ink-2); }
+  .game-sub { margin: 0; color: var(--ink-2); font-size: 13.5px; font-family: var(--font-mono); }
   .feature-list {
-    list-style: none; margin: 0 0 28px; padding: 0;
+    list-style: none; margin: 24px 0 30px; padding: 0;
     display: flex; flex-direction: column; gap: 14px;
   }
   .feature-list li {
@@ -194,36 +387,53 @@
   .feature-list li::before {
     content: "";
     position: absolute; left: 0; top: 8px;
-    width: 7px; height: 7px; border-radius: 50%;
+    width: 6px; height: 6px; border-radius: 50%;
     background: var(--accent);
+    transition: transform 0.2s var(--ease-spring), background 0.2s ease;
   }
   .feature-list strong { color: var(--ink-0); }
+  @media (hover: hover) and (pointer: fine) {
+    .feature-list li:hover::before { transform: scale(1.7); background: var(--accent-dark); }
+    .feature-list li:hover strong { color: var(--accent-ink); }
+  }
+  .feature-list strong { transition: color 0.2s ease; }
 
+  /* ---------- contact ---------- */
   .contact-card {
-    background: var(--bg-2);
+    background: var(--bg-1);
     border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: clamp(32px, 6vw, 56px);
+    border-radius: var(--radius-md);
+    padding: clamp(32px, 6vw, 52px);
     display: flex; flex-wrap: wrap; gap: 32px;
     align-items: center; justify-content: space-between;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
   }
-  .contact-card h2 { margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); font-weight: 700; }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 44px -30px rgba(22,24,26,0.3);
+      border-color: var(--line-strong);
+    }
+  }
+  .contact-card h2 { font-family: var(--font-display); font-weight: 560; margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); }
   .contact-card p { margin: 0; color: var(--ink-1); }
   .contact-links { display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
   .contact-links a {
     text-decoration: none; color: var(--ink-0); font-weight: 600;
-    display: inline-block; padding: 11px 2px; margin: -11px -2px;
+    display: inline-flex; align-items: center;
+    padding: 13px 2px; margin: -13px -2px;
+    min-height: 44px; box-sizing: border-box;
   }
   .contact-links a:hover { color: var(--accent-ink); }
-  .contact-links span { color: var(--ink-2); font-size: 13px; display: block; margin-bottom: 2px; }
+  .contact-links span { color: var(--ink-2); font-size: 12.5px; font-family: var(--font-mono); display: block; margin-bottom: 4px; }
 
   footer {
     padding: 32px clamp(20px, 6vw, 64px) 48px;
-    max-width: 1100px; margin: 0 auto;
+    max-width: 1220px; margin: 0 auto;
     display: flex; flex-wrap: wrap; gap: 16px;
     align-items: center; justify-content: space-between;
     border-top: 1px solid var(--line);
-    color: var(--ink-2); font-size: 13px;
+    color: var(--ink-2); font-size: 12.5px; font-family: var(--font-mono);
   }
   footer nav { gap: 20px; }
   footer nav a {
@@ -238,8 +448,20 @@
     *, *::before, *::after {
       transition-duration: 0.001ms !important;
       animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
     }
-    .btn-primary:hover { transform: none; }
+    .btn-primary:hover, .btn-ghost:hover { transform: none; }
+    .phone-bezel { transform: none !important; animation: none !important; }
+    .contact-card:hover { transform: none; }
+    .scroll-cue svg { animation: none !important; }
+    .launch-badge::before { animation: none !important; box-shadow: none !important; }
+    .feature-list li:hover::before { transform: none !important; }
+    /* reveal content is never gated behind motion — show it plainly, instantly */
+    html.js-reveal .reveal,
+    html.js-reveal .spine::before {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   @media (max-width: 560px) {
@@ -252,7 +474,7 @@
 
 <header>
   <a class="logo" href="/">
-    <img src="assets/garoo-icon.png" alt="Garoo Interactive">
+    <img src="assets/garoo-icon.png" alt="">
     Garoo Interactive
   </a>
   <nav>
@@ -265,69 +487,52 @@
 
 <main>
   <div class="hero">
-    <p class="kicker">Our first release</p>
-    <h1>Matter MazeBall — <span class="accented">tilt, roll, survive.</span></h1>
-    <p class="lede">
-      A cel-shaded tilt-physics maze game where what your ball is made of changes everything.
-      Stone sinks. Ice melts. Fire spreads. 30 elemental balls, 39 mazes across three worlds,
-      no two runs alike.
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#mazeball">See the game</a>
-      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    <div class="hero-copy">
+      <p class="launch-badge">Launches on Steam · August 3, 2026</p>
+      <h1>Matter MazeBall — <em>tilt, roll, survive.</em></h1>
+      <p class="lede">
+        A cel-shaded tilt-physics maze where what your ball is made of changes everything.
+        Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought.
+        30 elemental balls, 39 mazes across three worlds, no two runs alike.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+        <a class="btn btn-ghost" href="#mazeball">See the game</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 1L8 8L15 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="hero-graphic">
+      <svg viewBox="0 0 400 320" id="mazeSvg" aria-hidden="true">
+        <path class="maze-path" d="M 20 250 L 20 170 L 110 170 L 110 60 L 230 60 L 230 130 L 320 130 L 320 250 L 380 250" />
+        <circle class="maze-node" cx="20" cy="250" r="4" />
+        <circle class="maze-node" cx="380" cy="250" r="4" />
+      </svg>
+      <div class="toy-ball" id="toyBall" role="button" tabindex="0"
+        aria-label="Drag or flick the fireball — arrow keys nudge it too. Purely for fun, not required to read the page."></div>
+      <p class="toy-hint" id="toyHint">flick it</p>
     </div>
   </div>
 
-  <section id="studio">
-    <div class="section-head">
-      <h2>What we believe</h2>
-      <p>A small set of rules we don't break, no matter how many games we ship.</p>
-    </div>
-    <div class="principles">
-      <div class="principle-lead">
-        <span class="tag">Rule one</span>
-        <h3>Original first</h3>
-        <p>Every game starts from a mechanic we haven't seen before, not a genre we're chasing. If it feels like something else, we haven't found the game yet.</p>
-      </div>
-      <div class="principle-list">
-        <div class="principle-row">
-          <span class="num">02</span>
-          <div>
-            <h3>Premium, built by hand</h3>
-            <p>Every visual and sound is procedural — generated in code, not pulled from an asset store.</p>
-          </div>
-        </div>
-        <div class="principle-row">
-          <span class="num">03</span>
-          <div>
-            <h3>No dark patterns</h3>
-            <p>"One more run" should feel like your own idea. We never guilt, pressure, or trick.</p>
-          </div>
-        </div>
-        <div class="principle-row">
-          <span class="num">04</span>
-          <div>
-            <h3>Accessible by default</h3>
-            <p>Colorblind-safe, readable, and playable by as many people as the game allows.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="mazeball">
-    <div class="section-head">
+    <div class="section-head reveal">
       <h2>Matter MazeBall</h2>
       <p>Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.</p>
     </div>
     <div class="game-feature">
-      <img class="game-shot" src="assets/mazeball-screenshot.png" alt="Matter MazeBall gameplay — rolling a stone ball through a maze near the Colosseum">
-      <div class="game-copy">
+      <div class="phone-stage reveal">
+        <div class="phone-bezel" id="phoneBezel">
+          <img class="game-shot" src="assets/mazeball-screenshot.png" alt="Matter MazeBall gameplay — rolling a stone ball through a maze near the Colosseum">
+        </div>
+      </div>
+      <div class="game-copy reveal">
+        <p class="eyebrow-mono">// launching on steam — august 3, 2026</p>
         <div class="game-title-row">
           <img src="assets/mazeball-icon.png" alt="" class="game-icon">
           <div>
-            <h3>Matter MazeBall</h3>
-            <p class="game-sub">Puzzle · Everyone</p>
+            <h3>Matter MazeBall <span class="subtitle">— Element Trials</span></h3>
+            <p class="game-sub">Casual · Puzzle · Local Co-op</p>
           </div>
         </div>
         <ul class="feature-list">
@@ -337,14 +542,41 @@
           <li><strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play</li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#contact">Coming soon to Google Play</a>
+          <a class="btn btn-primary" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+          <a class="btn btn-ghost" href="#contact">Say hello</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="studio">
+    <div class="section-head reveal">
+      <h2>What we don't compromise on</h2>
+      <p>Three rules that hold regardless of genre, platform, or how many games we've shipped.</p>
+    </div>
+    <div class="manifesto">
+      <div class="manifesto-lead reveal">
+        <p>Every game starts from a mechanic we haven't seen before, never a genre we're chasing. If it feels like something else, we haven't found the game yet.</p>
+      </div>
+      <div class="spine reveal">
+        <div class="waypoint reveal">
+          <h3>Premium, built by hand</h3>
+          <p>Every visual and sound is procedural — written in code, not licensed from a store.</p>
+        </div>
+        <div class="waypoint reveal">
+          <h3>No dark patterns</h3>
+          <p>"One more run" should feel like your own idea. We never guilt, pressure, or trick.</p>
+        </div>
+        <div class="waypoint reveal">
+          <h3>Accessible by default</h3>
+          <p>Colorblind-safe, readable, and built to include as many players as the game allows.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section id="contact">
-    <div class="contact-card">
+    <div class="contact-card reveal">
       <div>
         <h2>Let's talk</h2>
         <p>Press, partnerships, support, or just a note — we read everything ourselves.</p>
@@ -352,7 +584,7 @@
       <div class="contact-links">
         <div>
           <span>General & support</span>
-          <a href="mailto:ricardomangaroo@gmail.com">ricardomangaroo@gmail.com</a>
+          <a href="mailto:hello@garoointeractive.com">hello@garoointeractive.com</a>
         </div>
       </div>
     </div>
@@ -363,9 +595,362 @@
   <span>&copy; 2026 Garoo Interactive. All rights reserved.</span>
   <nav>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="mailto:ricardomangaroo@gmail.com">Contact</a>
+    <a href="mailto:hello@garoointeractive.com">Contact</a>
   </nav>
 </footer>
+
+<script>
+  // Scroll-driven header state + scroll cue fade. One rAF-throttled listener.
+  (function () {
+    var header = document.querySelector('header');
+    var cue = document.querySelector('.scroll-cue');
+    var ticking = false;
+
+    function update() {
+      var y = window.scrollY || window.pageYOffset;
+      if (header) header.classList.toggle('is-scrolled', y > 8);
+      if (cue) cue.style.opacity = Math.max(0, 1 - y / 160);
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  })();
+
+  // Nav active-section indicator, matching the section currently in view.
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('header nav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var link = map[entry.target.id];
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('is-active'); });
+          link.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  })();
+
+  // Scroll reveal: progressive enhancement only. Content is fully visible by
+  // default; we opt elements into a "pending" state only once we know
+  // IntersectionObserver exists and the visitor hasn't asked for reduced motion.
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+    document.documentElement.classList.add('js-reveal');
+    var targets = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    targets.forEach(function (el) { observer.observe(el); });
+  })();
+
+  (function () {
+    var bezel = document.getElementById('phoneBezel');
+    if (!bezel) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduceMotion || !canHover) return;
+
+    var stage = bezel.parentElement;
+    var current = { x: 0, y: 0 };
+    var target = { x: 0, y: 0 };
+    var raf = null;
+
+    function apply() {
+      current.x += (target.x - current.x) * 0.12;
+      current.y += (target.y - current.y) * 0.12;
+      bezel.style.transform = 'rotateX(' + current.y + 'deg) rotateY(' + current.x + 'deg)';
+      if (Math.abs(target.x - current.x) > 0.01 || Math.abs(target.y - current.y) > 0.01) {
+        raf = requestAnimationFrame(apply);
+      } else {
+        raf = null;
+      }
+    }
+
+    function start() {
+      if (!raf) raf = requestAnimationFrame(apply);
+    }
+
+    stage.addEventListener('mousemove', function (e) {
+      var rect = stage.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width - 0.5;
+      var py = (e.clientY - rect.top) / rect.height - 0.5;
+      target.x = px * 14;
+      target.y = -py * 10;
+      start();
+    });
+
+    stage.addEventListener('mouseleave', function () {
+      target.x = 0; target.y = 0;
+      start();
+    });
+  })();
+
+  // Hero physics toy: a real drag/flick ball with gravity, wall bounce and
+  // squash/stretch — the one place on the site that lets a visitor actually
+  // feel Matter MazeBall's core sensation before they click through.
+  // Decorative and fully optional: it never gates or blocks any content,
+  // works with mouse, touch, and keyboard, and degrades to instant,
+  // non-continuous motion under prefers-reduced-motion.
+  (function () {
+    var ball = document.getElementById('toyBall');
+    var hint = document.getElementById('toyHint');
+    var stage = ball ? ball.parentElement : null;
+    if (!ball || !stage) return;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var RADIUS = 22; // half of the 44px ball
+
+    var bounds = { w: 0, h: 0 };
+    function measure() {
+      var r = stage.getBoundingClientRect();
+      bounds.w = r.width; bounds.h = r.height;
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
+    // Rest near the maze's exit node so it reads as "belonging" to the path.
+    var pos = { x: 0, y: 0 };
+    var vel = { x: 0, y: 0 };
+    var scale = { x: 1, y: 1 };
+    var spin = 0;
+    var dragging = false;
+    var dragOffset = { x: 0, y: 0 };
+    var samples = [];
+    var rafId = null;
+    var hintDismissed = false;
+
+    function setInitialPosition() {
+      measure();
+      pos.x = bounds.w * 0.86 - RADIUS;
+      pos.y = bounds.h * 0.78 - RADIUS;
+      render();
+    }
+
+    function render() {
+      ball.style.transform =
+        'translate(' + pos.x + 'px,' + pos.y + 'px) ' +
+        'rotate(' + spin + 'deg) ' +
+        'scale(' + scale.x + ',' + scale.y + ')';
+    }
+
+    function dismissHint() {
+      if (hintDismissed || !hint) return;
+      hintDismissed = true;
+      hint.classList.add('is-hidden');
+      try { localStorage.setItem('mazeball_toy_seen', '1'); } catch (e) {}
+    }
+    try { if (localStorage.getItem('mazeball_toy_seen') === '1') dismissHint(); } catch (e) {}
+
+    function clientPoint(e) {
+      if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function onPointerDown(e) {
+      dragging = true;
+      dismissHint();
+      vel.x = 0; vel.y = 0;
+      ball.classList.add('is-dragging');
+      var rect = stage.getBoundingClientRect();
+      var p = clientPoint(e);
+      dragOffset.x = (p.x - rect.left) - pos.x;
+      dragOffset.y = (p.y - rect.top) - pos.y;
+      samples.length = 0;
+      samples.push({ x: pos.x, y: pos.y, t: performance.now() });
+      if (ball.setPointerCapture && e.pointerId !== undefined) {
+        try { ball.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+      e.preventDefault();
+    }
+
+    function onPointerMove(e) {
+      if (!dragging) return;
+      var rect = stage.getBoundingClientRect();
+      var p = clientPoint(e);
+      pos.x = clamp(p.x - rect.left - dragOffset.x, -RADIUS * 0.4, bounds.w - RADIUS * 1.6);
+      pos.y = clamp(p.y - rect.top - dragOffset.y, -RADIUS * 0.4, bounds.h - RADIUS * 1.6);
+      var now = performance.now();
+      samples.push({ x: pos.x, y: pos.y, t: now });
+      if (samples.length > 6) samples.shift();
+      if (reduceMotion) { render(); return; }
+      render();
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    function onPointerUp() {
+      if (!dragging) return;
+      dragging = false;
+      ball.classList.remove('is-dragging');
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+
+      if (reduceMotion) {
+        // No flick physics for reduced motion — just settle instantly in place.
+        vel.x = 0; vel.y = 0;
+        settleToFloor();
+        return;
+      }
+
+      // Velocity from the last couple of drag samples = a real flick.
+      var a = samples[0], b = samples[samples.length - 1];
+      if (a && b && b.t > a.t) {
+        var dt = (b.t - a.t) / 1000;
+        vel.x = (b.x - a.x) / dt * 0.06;
+        vel.y = (b.y - a.y) / dt * 0.06;
+      }
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+    function settleToFloor() {
+      pos.y = bounds.h - RADIUS * 1.6;
+      pos.x = clamp(pos.x, 0, bounds.w - RADIUS * 2);
+      scale.x = 1; scale.y = 1;
+      render();
+    }
+
+    var GRAVITY = 1500; // px/s^2
+    var RESTITUTION = 0.62;
+    var FRICTION = 0.985;
+    var lastT = null;
+
+    function tick(now) {
+      rafId = requestAnimationFrame(tick);
+      if (dragging) { lastT = now; return; }
+      if (lastT === null) lastT = now;
+      var dt = Math.min((now - lastT) / 1000, 0.032);
+      lastT = now;
+
+      vel.y += GRAVITY * dt;
+      vel.x *= FRICTION;
+      pos.x += vel.x * dt;
+      pos.y += vel.y * dt;
+
+      var floor = bounds.h - RADIUS * 1.6;
+      var left = 0, right = bounds.w - RADIUS * 2;
+      var bounced = false;
+
+      if (pos.y > floor) {
+        pos.y = floor;
+        if (Math.abs(vel.y) > 40) {
+          vel.y = -vel.y * RESTITUTION;
+          bounced = true;
+        } else {
+          vel.y = 0;
+        }
+      }
+      if (pos.x < left) { pos.x = left; vel.x = -vel.x * RESTITUTION; bounced = true; }
+      if (pos.x > right) { pos.x = right; vel.x = -vel.x * RESTITUTION; bounced = true; }
+
+      // Squash on impact, gentle stretch in flight — settles back to round.
+      if (bounced) {
+        var impact = Math.min(Math.abs(vel.y) / 900, 0.4);
+        scale.x = 1 + impact; scale.y = 1 - impact;
+      } else {
+        scale.x += (1 - scale.x) * 0.22;
+        scale.y += (1 - scale.y) * 0.22;
+      }
+      spin += vel.x * dt * 2.2;
+
+      render();
+
+      var atRest = Math.abs(vel.x) < 4 && Math.abs(vel.y) < 4 && pos.y >= floor - 0.5;
+      if (atRest) {
+        vel.x = 0; vel.y = 0;
+        scale.x = 1; scale.y = 1;
+        render();
+        cancelAnimationFrame(rafId);
+        rafId = null;
+        lastT = null;
+      }
+    }
+
+    function nudge(dx, dy) {
+      dismissHint();
+      if (reduceMotion) {
+        pos.x = clamp(pos.x + dx * 6, 0, bounds.w - RADIUS * 2);
+        pos.y = clamp(pos.y + dy * 6, 0, bounds.h - RADIUS * 1.6);
+        render();
+        return;
+      }
+      vel.x += dx * 90;
+      vel.y += dy * 90 - 60;
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    ball.addEventListener('pointerdown', onPointerDown);
+    ball.addEventListener('keydown', function (e) {
+      switch (e.key) {
+        case 'ArrowLeft': nudge(-1, 0); e.preventDefault(); break;
+        case 'ArrowRight': nudge(1, 0); e.preventDefault(); break;
+        case 'ArrowUp': nudge(0, -1); e.preventDefault(); break;
+        case 'ArrowDown': nudge(0, 1); e.preventDefault(); break;
+        case 'Enter': case ' ': nudge(0, -1.4); e.preventDefault(); break;
+      }
+    });
+
+    setInitialPosition();
+    window.addEventListener('resize', function () {
+      if (!dragging && !rafId) setInitialPosition();
+    });
+  })();
+
+  // Button click-burst: a tiny decorative radial pulse on press, driven by
+  // the Web Animations API so it never restarts oddly under rapid clicks and
+  // never delays the actual navigation/action.
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('pointerdown', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height) * 1.4;
+        var burst = document.createElement('span');
+        burst.className = 'btn-burst';
+        burst.style.width = size + 'px';
+        burst.style.height = size + 'px';
+        burst.style.left = (e.clientX - rect.left) + 'px';
+        burst.style.top = (e.clientY - rect.top) + 'px';
+        btn.appendChild(burst);
+        var anim = burst.animate(
+          [{ transform: 'translate(-50%,-50%) scale(0)', opacity: 1 },
+           { transform: 'translate(-50%,-50%) scale(1)', opacity: 0 }],
+          { duration: 420, easing: 'cubic-bezier(0.23,1,0.32,1)' }
+        );
+        anim.onfinish = function () { burst.remove(); };
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
