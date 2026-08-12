@@ -271,7 +271,7 @@ const CtaBeat: React.FC = () => {
             style={{ padding: "10px 24px" }}
           >
             <span style={{ fontFamily: nunito, fontWeight: 800, fontSize: 24, color: INK }}>
-              Launches on Steam · August 3, 2026
+              Out Now on Steam
             </span>
           </ComicCard>
         </div>
@@ -283,7 +283,7 @@ const CtaBeat: React.FC = () => {
             style={{ padding: "22px 44px" }}
           >
             <span style={{ fontFamily: luckiestGuy, fontSize: 44, color: PAPER, WebkitTextStroke: `2px ${INK}` }}>
-              Wishlist Now
+              Play Now
             </span>
           </ComicCard>
         </div>

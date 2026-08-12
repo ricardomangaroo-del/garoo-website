@@ -10,16 +10,16 @@
      keeps this block in sync automatically instead of relying on someone
      to remember the manual edit. -->
 <title>Garoo Interactive — Matter MazeBall</title>
-<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, launches on Steam August 3, 2026 — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
+<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Launching on Steam August 3, 2026.">
+<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam.">
 <meta property="og:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <meta property="og:url" content="https://garoointeractive.com/">
 <meta property="og:site_name" content="Garoo Interactive">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Launching on Steam August 3, 2026.">
+<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam.">
 <meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -327,54 +327,32 @@
   }
   @media (max-width: 860px) { .scroll-cue { display: none; } }
 
-  /* hero graphic: a maze corridor you can actually play with — the ball is a
-     real drag/flick physics toy, not a scripted loop, because "physics toy"
-     is the entire product hook and the site should let you touch it. */
+  /* hero graphic: a small stacked-photo collage of real gameplay stills
+     (fire/ice/water) — replaces the earlier interactive maze+ball toy,
+     which read as tacky (painterly bitmap ball clashing with the page's
+     flat vector style). Static comic-card photo tiles instead, same
+     ink-border + hard-shadow treatment used everywhere else on the page. */
   .hero-graphic { position: relative; width: 100%; max-width: 400px; aspect-ratio: 400 / 320; margin-inline: auto; }
-  .hero-graphic svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-  .maze-path {
-    fill: none;
-    stroke: var(--ink);
-    stroke-opacity: 0.3;
-    stroke-width: 5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .maze-node { fill: var(--game-secondary); stroke: var(--ink); stroke-width: 2; }
-
-  /* the ball's own icon/glow is set inline from the featured game's
-     assets.icon + palette.glow via JS — the background-image and rgba
-     glow below are just defaults matching Matter MazeBall's fireball. */
-  .toy-ball {
-    position: absolute; left: 0; top: 0;
-    width: 46px; height: 46px; border-radius: 50%;
-    background-color: #1a0f08;
-    background-image: url('assets/mazeball-icon.png');
-    background-size: 130%;
-    background-position: center;
+  .hero-gallery { position: absolute; inset: 0; }
+  .hero-tile {
+    position: absolute;
+    width: 46%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 18px;
     border: 3px solid var(--ink);
-    box-shadow: 0 5px 0 var(--ink), 0 0 18px var(--game-glow);
-    touch-action: none;
-    will-change: transform;
-    transition: box-shadow 0.2s ease;
-    cursor: grab;
+    box-shadow: var(--shadow-hard-md);
+    background: var(--paper);
   }
-  .toy-ball.is-dragging {
-    cursor: grabbing;
-    box-shadow: 0 7px 0 var(--ink), 0 0 26px var(--game-glow-strong);
+  .hero-tile-fire { left: 2%; top: 6%; transform: rotate(-7deg); z-index: 1; }
+  .hero-tile-ice { left: 27%; top: 32%; width: 52%; transform: rotate(4deg); z-index: 3; }
+  .hero-tile-water { left: 50%; top: 4%; transform: rotate(-3deg); z-index: 2; }
+  @media (hover: hover) and (pointer: fine) {
+    .hero-tile { transition: transform 0.25s var(--ease-out); }
+    .hero-tile-fire:hover { transform: rotate(-7deg) translateY(-4px); }
+    .hero-tile-ice:hover { transform: rotate(4deg) translateY(-4px); }
+    .hero-tile-water:hover { transform: rotate(-3deg) translateY(-4px); }
   }
-  .toy-ball:focus-visible {
-    outline: 3px solid var(--ink); outline-offset: 4px;
-  }
-  .toy-hint {
-    position: absolute; left: 50%; bottom: -26px; translate: -50% 0;
-    font-family: var(--font-body); font-weight: 800; font-size: 11.5px; color: var(--ink);
-    margin: 0; opacity: 0.85; pointer-events: none;
-    transition: opacity 0.5s ease;
-    white-space: nowrap;
-  }
-  .toy-hint.is-hidden { opacity: 0; }
-  @media (max-width: 860px) { .toy-hint { display: none; } }
 
   section { padding: clamp(48px, 7vw, 88px) clamp(20px, 6vw, 64px); max-width: 1220px; margin: 0 auto; }
 
@@ -465,14 +443,20 @@
     perspective: 1400px;
     display: flex; justify-content: center;
   }
+  /* Thinner frame than a first pass at this used (was 4px, the only 4px
+     border on the page against 2-3px everywhere else) — a device mockup is
+     a different visual job than the comic paper-cards, so it keeps the
+     ink-outline language but drops to the site's standard 3px weight and a
+     single flat comic shadow instead of stacking a soft blurred shadow on
+     top, which read as a thick plastic case rather than a phone. */
   .phone-bezel {
     position: relative;
-    width: min(100%, 300px);
-    padding: 14px 14px 22px;
-    border-radius: var(--radius-lg);
+    width: min(100%, 280px);
+    padding: 10px 10px 16px;
+    border-radius: 22px;
     background: linear-gradient(160deg, #1b2116, #0d100b);
-    border: 4px solid var(--ink);
-    box-shadow: 0 9px 0 var(--ink), 0 26px 44px -20px rgba(0,0,0,0.45);
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-hard-md);
     transition: transform 0.4s var(--ease-out);
     transform-style: preserve-3d;
     will-change: transform;
@@ -483,8 +467,8 @@
     50% { translate: 0 -6px; }
   }
   .phone-bezel::before {
-    content: ""; position: absolute; top: 6px; left: 50%; translate: -50% 0;
-    width: 46px; height: 5px; border-radius: 3px;
+    content: ""; position: absolute; top: 5px; left: 50%; translate: -50% 0;
+    width: 40px; height: 4px; border-radius: 3px;
     background: rgba(244,247,240,0.14);
   }
   .game-shot {
@@ -669,7 +653,7 @@
        just overwrites it. -->
   <div class="hero" id="hero">
     <div class="hero-copy">
-      <p class="launch-badge" id="heroBadge">Launches on Steam · August 3, 2026</p>
+      <p class="launch-badge" id="heroBadge">Out now on Steam</p>
       <h1 id="heroHeadline">Matter MazeBall — <em>tilt, roll, survive.</em></h1>
       <p class="lede" id="heroLede">
         A cel-shaded tilt-physics maze where what your ball is made of changes everything.
@@ -677,7 +661,7 @@
         30 elemental balls, 39 mazes across three worlds, no two runs alike.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" id="heroCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+        <a class="btn btn-primary" id="heroCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
         <a class="btn btn-ghost" href="#featured-game">See the game</a>
       </div>
     </div>
@@ -685,14 +669,11 @@
       <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 1L8 8L15 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="hero-graphic">
-      <svg viewBox="0 0 400 320" id="mazeSvg" aria-hidden="true">
-        <path class="maze-path" d="M 20 250 L 20 170 L 110 170 L 110 60 L 230 60 L 230 130 L 320 130 L 320 250 L 380 250" />
-        <circle class="maze-node" cx="20" cy="250" r="4" />
-        <circle class="maze-node" cx="380" cy="250" r="4" />
-      </svg>
-      <div class="toy-ball" id="toyBall" role="button" tabindex="0"
-        aria-label="Drag or flick the fireball — arrow keys nudge it too. Purely for fun, not required to read the page."></div>
-      <p class="toy-hint" id="toyHint">flick it</p>
+      <div class="hero-gallery">
+        <img class="hero-tile hero-tile-fire" src="assets/hero-fire.jpg" alt="Fire-level gameplay — the ball rolling past a spreading lava hazard">
+        <img class="hero-tile hero-tile-water" src="assets/hero-water.jpg" alt="Water-level gameplay — the ball navigating a flooded maze corridor">
+        <img class="hero-tile hero-tile-ice" src="assets/hero-ice.jpg" alt="Ice-level gameplay — the ball weaving through a crystalline maze">
+      </div>
     </div>
   </div>
 
@@ -716,7 +697,7 @@
         </div>
       </div>
       <div class="game-copy reveal">
-        <p class="eyebrow-mono" id="gameEyebrow">// launching on steam — august 3, 2026</p>
+        <p class="eyebrow-mono" id="gameEyebrow">// out now on steam</p>
         <div class="game-title-row">
           <img src="assets/mazeball-icon.png" alt="" class="game-icon" id="gameIconImg">
           <div>
@@ -731,7 +712,7 @@
           <li><strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play</li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-primary" id="gameCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Wishlist on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+          <a class="btn btn-primary" id="gameCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
           <a class="btn btn-ghost" href="#contact">Say hello</a>
         </div>
       </div>
@@ -805,12 +786,12 @@
       description: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought. 30 elemental balls, 39 mazes across three worlds, no two runs alike.",
       sectionBlurb: "Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.",
       tags: ["Casual", "Puzzle", "Local Co-op"],
-      badgeText: "Launches on Steam · August 3, 2026",
-      eyebrowText: "// launching on steam — august 3, 2026",
-      releaseDate: "2026-08-03", // Steam launch date — "newest" sorts on this
-      status: "Launching on Steam",
+      badgeText: "Out now on Steam",
+      eyebrowText: "// out now on steam",
+      releaseDate: "2026-08-11", // Steam launch date — "newest" sorts on this
+      status: "Available on Steam",
       storeUrl: "https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/",
-      ctaLabel: "Wishlist on Steam",
+      ctaLabel: "Get it on Steam",
       ctaSrOnly: " (opens in a new tab on the Steam store)",
       features: [
         "<strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics",
@@ -822,15 +803,14 @@
         icon: "assets/mazeball-icon.png",
         screenshot: "assets/mazeball-screenshot.png",
         trailer: "assets/mazeball-trailer.mp4",
-        trailerAlt: "Matter MazeBall trailer — tilt-physics maze gameplay across elemental balls and mazes",
-        toyAriaLabel: "Drag or flick the fireball — arrow keys nudge it too. Purely for fun, not required to read the page."
+        trailerAlt: "Matter MazeBall trailer — tilt-physics maze gameplay across elemental balls and mazes"
       },
       seo: {
         title: "Garoo Interactive — Matter MazeBall",
-        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, launches on Steam August 3, 2026 — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
+        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
         ogTitle: "Matter MazeBall — tilt, roll, survive.",
-        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Launching on Steam August 3, 2026.",
-        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Launching on Steam August 3, 2026."
+        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam.",
+        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam."
       },
       // Matter MazeBall's real in-game colors — scoped only to #hero and
       // #featured-game via inline custom properties, never global chrome.
@@ -908,12 +888,6 @@
       heroCta.href = game.storeUrl;
       heroCta.innerHTML = escapeHtml(game.ctaLabel) + '<span class="sr-only">' + escapeHtml(game.ctaSrOnly || '') + '</span>';
     }
-    var toyBall = document.getElementById('toyBall');
-    if (toyBall && game.assets && game.assets.icon) {
-      toyBall.style.backgroundImage = "url('" + game.assets.icon + "')";
-      if (game.assets.toyAriaLabel) toyBall.setAttribute('aria-label', game.assets.toyAriaLabel);
-    }
-
     // ---- featured-game section ----
     setText('gameSectionTitle', game.name);
     setText('gameSectionBlurb', game.sectionBlurb);
@@ -1123,221 +1097,6 @@
     stage.addEventListener('mouseleave', function () {
       target.x = 0; target.y = 0;
       start();
-    });
-  })();
-
-  // Hero physics toy: a real drag/flick ball with gravity, wall bounce and
-  // squash/stretch — the one place on the site that lets a visitor actually
-  // feel Matter MazeBall's core sensation before they click through.
-  // Decorative and fully optional: it never gates or blocks any content,
-  // works with mouse, touch, and keyboard, and degrades to instant,
-  // non-continuous motion under prefers-reduced-motion.
-  (function () {
-    var ball = document.getElementById('toyBall');
-    var hint = document.getElementById('toyHint');
-    var stage = ball ? ball.parentElement : null;
-    if (!ball || !stage) return;
-
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var RADIUS = 22; // half of the 44px ball
-
-    var bounds = { w: 0, h: 0 };
-    function measure() {
-      var r = stage.getBoundingClientRect();
-      bounds.w = r.width; bounds.h = r.height;
-    }
-    measure();
-    window.addEventListener('resize', measure);
-
-    // Rest near the maze's exit node so it reads as "belonging" to the path.
-    var pos = { x: 0, y: 0 };
-    var vel = { x: 0, y: 0 };
-    var scale = { x: 1, y: 1 };
-    var spin = 0;
-    var dragging = false;
-    var dragOffset = { x: 0, y: 0 };
-    var samples = [];
-    var rafId = null;
-    var hintDismissed = false;
-
-    function setInitialPosition() {
-      measure();
-      pos.x = bounds.w * 0.86 - RADIUS;
-      pos.y = bounds.h * 0.78 - RADIUS;
-      render();
-    }
-
-    function render() {
-      ball.style.transform =
-        'translate(' + pos.x + 'px,' + pos.y + 'px) ' +
-        'rotate(' + spin + 'deg) ' +
-        'scale(' + scale.x + ',' + scale.y + ')';
-    }
-
-    function dismissHint() {
-      if (hintDismissed || !hint) return;
-      hintDismissed = true;
-      hint.classList.add('is-hidden');
-      try { localStorage.setItem('mazeball_toy_seen', '1'); } catch (e) {}
-    }
-    try { if (localStorage.getItem('mazeball_toy_seen') === '1') dismissHint(); } catch (e) {}
-
-    function clientPoint(e) {
-      if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      return { x: e.clientX, y: e.clientY };
-    }
-
-    function onPointerDown(e) {
-      dragging = true;
-      dismissHint();
-      vel.x = 0; vel.y = 0;
-      ball.classList.add('is-dragging');
-      var rect = stage.getBoundingClientRect();
-      var p = clientPoint(e);
-      dragOffset.x = (p.x - rect.left) - pos.x;
-      dragOffset.y = (p.y - rect.top) - pos.y;
-      samples.length = 0;
-      samples.push({ x: pos.x, y: pos.y, t: performance.now() });
-      if (ball.setPointerCapture && e.pointerId !== undefined) {
-        try { ball.setPointerCapture(e.pointerId); } catch (err) {}
-      }
-      window.addEventListener('pointermove', onPointerMove);
-      window.addEventListener('pointerup', onPointerUp);
-      window.addEventListener('pointercancel', onPointerUp);
-      e.preventDefault();
-    }
-
-    function onPointerMove(e) {
-      if (!dragging) return;
-      var rect = stage.getBoundingClientRect();
-      var p = clientPoint(e);
-      pos.x = clamp(p.x - rect.left - dragOffset.x, -RADIUS * 0.4, bounds.w - RADIUS * 1.6);
-      pos.y = clamp(p.y - rect.top - dragOffset.y, -RADIUS * 0.4, bounds.h - RADIUS * 1.6);
-      var now = performance.now();
-      samples.push({ x: pos.x, y: pos.y, t: now });
-      if (samples.length > 6) samples.shift();
-      if (reduceMotion) { render(); return; }
-      render();
-      if (!rafId) rafId = requestAnimationFrame(tick);
-    }
-
-    function onPointerUp() {
-      if (!dragging) return;
-      dragging = false;
-      ball.classList.remove('is-dragging');
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      window.removeEventListener('pointercancel', onPointerUp);
-
-      if (reduceMotion) {
-        // No flick physics for reduced motion — just settle instantly in place.
-        vel.x = 0; vel.y = 0;
-        settleToFloor();
-        return;
-      }
-
-      // Velocity from the last couple of drag samples = a real flick.
-      var a = samples[0], b = samples[samples.length - 1];
-      if (a && b && b.t > a.t) {
-        var dt = (b.t - a.t) / 1000;
-        vel.x = (b.x - a.x) / dt * 0.06;
-        vel.y = (b.y - a.y) / dt * 0.06;
-      }
-      if (!rafId) rafId = requestAnimationFrame(tick);
-    }
-
-    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
-    function settleToFloor() {
-      pos.y = bounds.h - RADIUS * 1.6;
-      pos.x = clamp(pos.x, 0, bounds.w - RADIUS * 2);
-      scale.x = 1; scale.y = 1;
-      render();
-    }
-
-    var GRAVITY = 1500; // px/s^2
-    var RESTITUTION = 0.62;
-    var FRICTION = 0.985;
-    var lastT = null;
-
-    function tick(now) {
-      rafId = requestAnimationFrame(tick);
-      if (dragging) { lastT = now; return; }
-      if (lastT === null) lastT = now;
-      var dt = Math.min((now - lastT) / 1000, 0.032);
-      lastT = now;
-
-      vel.y += GRAVITY * dt;
-      vel.x *= FRICTION;
-      pos.x += vel.x * dt;
-      pos.y += vel.y * dt;
-
-      var floor = bounds.h - RADIUS * 1.6;
-      var left = 0, right = bounds.w - RADIUS * 2;
-      var bounced = false;
-
-      if (pos.y > floor) {
-        pos.y = floor;
-        if (Math.abs(vel.y) > 40) {
-          vel.y = -vel.y * RESTITUTION;
-          bounced = true;
-        } else {
-          vel.y = 0;
-        }
-      }
-      if (pos.x < left) { pos.x = left; vel.x = -vel.x * RESTITUTION; bounced = true; }
-      if (pos.x > right) { pos.x = right; vel.x = -vel.x * RESTITUTION; bounced = true; }
-
-      // Squash on impact, gentle stretch in flight — settles back to round.
-      if (bounced) {
-        var impact = Math.min(Math.abs(vel.y) / 900, 0.4);
-        scale.x = 1 + impact; scale.y = 1 - impact;
-      } else {
-        scale.x += (1 - scale.x) * 0.22;
-        scale.y += (1 - scale.y) * 0.22;
-      }
-      spin += vel.x * dt * 2.2;
-
-      render();
-
-      var atRest = Math.abs(vel.x) < 4 && Math.abs(vel.y) < 4 && pos.y >= floor - 0.5;
-      if (atRest) {
-        vel.x = 0; vel.y = 0;
-        scale.x = 1; scale.y = 1;
-        render();
-        cancelAnimationFrame(rafId);
-        rafId = null;
-        lastT = null;
-      }
-    }
-
-    function nudge(dx, dy) {
-      dismissHint();
-      if (reduceMotion) {
-        pos.x = clamp(pos.x + dx * 6, 0, bounds.w - RADIUS * 2);
-        pos.y = clamp(pos.y + dy * 6, 0, bounds.h - RADIUS * 1.6);
-        render();
-        return;
-      }
-      vel.x += dx * 90;
-      vel.y += dy * 90 - 60;
-      if (!rafId) rafId = requestAnimationFrame(tick);
-    }
-
-    ball.addEventListener('pointerdown', onPointerDown);
-    ball.addEventListener('keydown', function (e) {
-      switch (e.key) {
-        case 'ArrowLeft': nudge(-1, 0); e.preventDefault(); break;
-        case 'ArrowRight': nudge(1, 0); e.preventDefault(); break;
-        case 'ArrowUp': nudge(0, -1); e.preventDefault(); break;
-        case 'ArrowDown': nudge(0, 1); e.preventDefault(); break;
-        case 'Enter': case ' ': nudge(0, -1.4); e.preventDefault(); break;
-      }
-    });
-
-    setInitialPosition();
-    window.addEventListener('resize', function () {
-      if (!dragging && !rafId) setInitialPosition();
     });
   })();
 
