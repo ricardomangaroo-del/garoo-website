@@ -10,16 +10,16 @@
      keeps this block in sync automatically instead of relying on someone
      to remember the manual edit. -->
 <title>Garoo Interactive — Matter MazeBall</title>
-<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
+<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam and Google Play — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam.">
+<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.">
 <meta property="og:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <meta property="og:url" content="https://garoointeractive.com/">
 <meta property="og:site_name" content="Garoo Interactive">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam.">
+<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam and Google Play.">
 <meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -303,6 +303,19 @@
   }
   .btn-ghost:hover { background: var(--studio-tint); transform: translateY(-2px); }
   .btn-ghost:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+
+  /* Google Play badge: the official combined logo+text asset. Google's
+     guidelines forbid recoloring/resizing distortion, so this link gets no
+     btn-* background/border treatment of its own — just sizing and the
+     shared hover/press motion, applied to the <img> instead of a fill. */
+  .btn-store-badge {
+    display: inline-flex; align-items: center;
+    min-height: 44px;
+    transition: transform 0.12s ease;
+  }
+  .btn-store-badge:hover { transform: translateY(-2px); }
+  .btn-store-badge:active { transform: translateY(1px); }
+  .btn-store-badge img { height: 50px; width: auto; display: block; }
 
   /* click burst: one small decorative pulse per press, WAAPI-driven so it
      never blocks navigation and never restarts oddly under rapid clicks */
@@ -653,7 +666,7 @@
        just overwrites it. -->
   <div class="hero" id="hero">
     <div class="hero-copy">
-      <p class="launch-badge" id="heroBadge">Out now on Steam</p>
+      <p class="launch-badge" id="heroBadge">Out now on Steam & Google Play</p>
       <h1 id="heroHeadline">Matter MazeBall — <em>tilt, roll, survive.</em></h1>
       <p class="lede" id="heroLede">
         A cel-shaded tilt-physics maze where what your ball is made of changes everything.
@@ -662,6 +675,7 @@
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" id="heroCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+        <a class="btn-store-badge" id="heroCtaSecondary" href="https://play.google.com/store/apps/details?id=com.garoo.mazeball" target="_blank" rel="noopener"><img src="assets/google-play-badge.png" alt="Get it on Google Play (opens in a new tab on the Google Play store)"></a>
         <a class="btn btn-ghost" href="#featured-game">See the game</a>
       </div>
     </div>
@@ -697,7 +711,7 @@
         </div>
       </div>
       <div class="game-copy reveal">
-        <p class="eyebrow-mono" id="gameEyebrow">// out now on steam</p>
+        <p class="eyebrow-mono" id="gameEyebrow">// out now on steam & google play</p>
         <div class="game-title-row">
           <img src="assets/mazeball-icon.png" alt="" class="game-icon" id="gameIconImg">
           <div>
@@ -713,6 +727,7 @@
         </ul>
         <div class="cta-row">
           <a class="btn btn-primary" id="gameCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
+          <a class="btn-store-badge" id="gameCtaSecondary" href="https://play.google.com/store/apps/details?id=com.garoo.mazeball" target="_blank" rel="noopener"><img src="assets/google-play-badge.png" alt="Get it on Google Play (opens in a new tab on the Google Play store)"></a>
           <a class="btn btn-ghost" href="#contact">Say hello</a>
         </div>
       </div>
@@ -786,13 +801,16 @@
       description: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought. 30 elemental balls, 39 mazes across three worlds, no two runs alike.",
       sectionBlurb: "Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.",
       tags: ["Casual", "Puzzle", "Local Co-op"],
-      badgeText: "Out now on Steam",
-      eyebrowText: "// out now on steam",
-      releaseDate: "2026-08-11", // Steam launch date — "newest" sorts on this
-      status: "Available on Steam",
+      badgeText: "Out now on Steam & Google Play",
+      eyebrowText: "// out now on steam & google play",
+      releaseDate: "2026-08-25", // most recent launch (Google Play) — "newest" sorts on this
+      status: "Available on Steam & Google Play",
       storeUrl: "https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/",
       ctaLabel: "Get it on Steam",
       ctaSrOnly: " (opens in a new tab on the Steam store)",
+      secondaryStoreUrl: "https://play.google.com/store/apps/details?id=com.garoo.mazeball",
+      secondaryCtaLabel: "Get it on Google Play",
+      secondaryCtaSrOnly: " (opens in a new tab on the Google Play store)",
       features: [
         "<strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics",
         "<strong>39 mazes, three worlds</strong> — elemental adventures, real-world cities, and mega-city landmarks",
@@ -807,10 +825,10 @@
       },
       seo: {
         title: "Garoo Interactive — Matter MazeBall",
-        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
+        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam and Google Play — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
         ogTitle: "Matter MazeBall — tilt, roll, survive.",
-        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam.",
-        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam."
+        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.",
+        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam and Google Play."
       },
       // Matter MazeBall's real in-game colors — scoped only to #hero and
       // #featured-game via inline custom properties, never global chrome.
@@ -888,6 +906,17 @@
       heroCta.href = game.storeUrl;
       heroCta.innerHTML = escapeHtml(game.ctaLabel) + '<span class="sr-only">' + escapeHtml(game.ctaSrOnly || '') + '</span>';
     }
+    var heroCtaSecondary = document.getElementById('heroCtaSecondary');
+    if (heroCtaSecondary) {
+      if (game.secondaryStoreUrl) {
+        heroCtaSecondary.hidden = false;
+        heroCtaSecondary.href = game.secondaryStoreUrl;
+        var heroBadgeImg = heroCtaSecondary.querySelector('img');
+        if (heroBadgeImg) heroBadgeImg.alt = game.secondaryCtaLabel + (game.secondaryCtaSrOnly || '');
+      } else {
+        heroCtaSecondary.hidden = true;
+      }
+    }
     // ---- featured-game section ----
     setText('gameSectionTitle', game.name);
     setText('gameSectionBlurb', game.sectionBlurb);
@@ -907,6 +936,17 @@
     if (gameCta) {
       gameCta.href = game.storeUrl;
       gameCta.innerHTML = escapeHtml(game.ctaLabel) + '<span class="sr-only">' + escapeHtml(game.ctaSrOnly || '') + '</span>';
+    }
+    var gameCtaSecondary = document.getElementById('gameCtaSecondary');
+    if (gameCtaSecondary) {
+      if (game.secondaryStoreUrl) {
+        gameCtaSecondary.hidden = false;
+        gameCtaSecondary.href = game.secondaryStoreUrl;
+        var gameBadgeImg = gameCtaSecondary.querySelector('img');
+        if (gameBadgeImg) gameBadgeImg.alt = game.secondaryCtaLabel + (game.secondaryCtaSrOnly || '');
+      } else {
+        gameCtaSecondary.hidden = true;
+      }
     }
     var video = document.getElementById('trailerVideo');
     if (video && game.assets) {
