@@ -10,16 +10,16 @@
      keeps this block in sync automatically instead of relying on someone
      to remember the manual edit. -->
 <title>Garoo Interactive — Matter MazeBall</title>
-<meta name="description" content="Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam and Google Play — a tilt-physics maze game with 30 elemental balls and 39 mazes.">
+<meta name="description" content="Garoo Interactive is a small independent studio. We build original physics games, ourselves, start to finish. Our first release, Matter MazeBall: Element Trials, is out now on Steam and Google Play — 30 elemental balls, 39 mazes, and no two runs alike.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.">
+<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.">
 <meta property="og:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <meta property="og:url" content="https://garoointeractive.com/">
 <meta property="og:site_name" content="Garoo Interactive">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam and Google Play.">
+<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. Out now on Steam and Google Play.">
 <meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,9 +164,13 @@
     border: 2px solid var(--ink);
     border-radius: var(--radius-sm);
     box-shadow: 0 2.5px 0 var(--ink);
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+    transition: transform 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out), background 0.15s ease;
   }
-  nav a:hover { background: var(--studio-tint); }
+  /* pill lifts and its flat shadow falls further, same "off the page" cue
+     the buttons already use — nav previously had no hover motion at all */
+  @media (hover: hover) and (pointer: fine) {
+    nav a:hover { background: var(--studio-tint); transform: translateY(-1px); box-shadow: 0 3.5px 0 var(--ink); }
+  }
   nav a:active { transform: translateY(2px); box-shadow: 0 0.5px 0 var(--ink); }
   nav a.is-active {
     background: linear-gradient(180deg, var(--studio-accent-light), var(--studio-accent));
@@ -281,7 +285,7 @@
     min-height: 44px; box-sizing: border-box;
     overflow: hidden;
     box-shadow: var(--shadow-hard-md);
-    transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.12s ease, color 0.15s ease;
+    transition: transform 0.16s var(--ease-out), background 0.15s ease, box-shadow 0.16s var(--ease-out), color 0.15s ease;
   }
   /* btn-primary only ever appears inside the hero/featured-game section
      (the "go buy/wishlist it" CTA), so it carries the featured game's
@@ -311,7 +315,7 @@
   .btn-store-badge {
     display: inline-flex; align-items: center;
     min-height: 44px;
-    transition: transform 0.12s ease;
+    transition: transform 0.16s var(--ease-out);
   }
   .btn-store-badge:hover { transform: translateY(-2px); }
   .btn-store-badge:active { transform: translateY(1px); }
@@ -330,7 +334,7 @@
     position: absolute; left: 50%; bottom: 6px; translate: -50% 0;
     display: flex; flex-direction: column; align-items: center; gap: 4px;
     color: var(--ink-2); opacity: 1;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s var(--ease-out);
     pointer-events: none;
   }
   .scroll-cue svg { display: block; animation: cueBob 2.2s ease-in-out infinite; }
@@ -361,10 +365,10 @@
   .hero-tile-ice { left: 27%; top: 32%; width: 52%; transform: rotate(4deg); z-index: 3; }
   .hero-tile-water { left: 50%; top: 4%; transform: rotate(-3deg); z-index: 2; }
   @media (hover: hover) and (pointer: fine) {
-    .hero-tile { transition: transform 0.25s var(--ease-out); }
-    .hero-tile-fire:hover { transform: rotate(-7deg) translateY(-4px); }
-    .hero-tile-ice:hover { transform: rotate(4deg) translateY(-4px); }
-    .hero-tile-water:hover { transform: rotate(-3deg) translateY(-4px); }
+    .hero-tile { transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out); }
+    .hero-tile-fire:hover { transform: rotate(-7deg) translateY(-4px); box-shadow: var(--shadow-hard-lg); }
+    .hero-tile-ice:hover { transform: rotate(4deg) translateY(-4px); box-shadow: var(--shadow-hard-lg); }
+    .hero-tile-water:hover { transform: rotate(-3deg) translateY(-4px); box-shadow: var(--shadow-hard-lg); }
   }
 
   section { padding: clamp(48px, 7vw, 88px) clamp(20px, 6vw, 64px); max-width: 1220px; margin: 0 auto; }
@@ -376,13 +380,24 @@
   .reveal {
     transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
   }
-  html.js-reveal .reveal { opacity: 0; transform: translateY(20px); }
-  html.js-reveal .reveal.in-view { opacity: 1; transform: translateY(0); }
+  /* :where() here too, for the same reason as the .in-view rule below —
+     otherwise this pre-reveal rule (0,2,1) still outranks .waypoint:hover /
+     .contact-card:hover (0,2,0) even on an element that already carries
+     .in-view, since both selectors keep matching once a class is added. */
+  :where(html.js-reveal) .reveal { opacity: 0; transform: translateY(20px); }
+  /* :where() keeps this rule's own specificity at just .reveal.in-view (0,2,0)
+     instead of (0,3,1) — otherwise it permanently outranks .waypoint:hover /
+     .contact-card:hover (also 0,2,0), which are later in the sheet and should
+     win by source order. Without this, the reveal system's resting
+     translateY(0) silently cancels the hover lift on every card that carries
+     .reveal, even though the hover shadow still deepens — a lift-less "flat"
+     hover that doesn't match the rest of the page. */
+  :where(html.js-reveal) .reveal.in-view { opacity: 1; transform: translateY(0); }
   html.js-reveal .manifesto .waypoint:nth-child(1) { transition-delay: 0ms; }
   html.js-reveal .manifesto .waypoint:nth-child(2) { transition-delay: 90ms; }
   html.js-reveal .manifesto .waypoint:nth-child(3) { transition-delay: 180ms; }
 
-  .section-head { margin-bottom: 44px; max-width: 62ch; }
+  .section-head { margin-bottom: clamp(36px, 5vw, 52px); max-width: 62ch; }
   .section-head h2 {
     font-family: var(--font-display); font-weight: 800;
     font-size: clamp(26px, 3vw, 36px); line-height: 1.15; margin: 0 0 10px; letter-spacing: 0.005em;
@@ -430,8 +445,15 @@
     border: 3px solid var(--ink);
     border-radius: 18px;
     box-shadow: var(--shadow-hard-sm);
+    transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
   }
   .waypoint:last-child { padding-bottom: 16px; }
+  /* these three cards were the one static element on the page — everything
+     else (buttons, nav, tiles, contact card) already lifts on hover. Same
+     flat-shadow "further off the page" cue, one step down from the buttons'. */
+  @media (hover: hover) and (pointer: fine) {
+    .waypoint:hover { transform: translateY(-3px); box-shadow: var(--shadow-hard-md); }
+  }
   .waypoint::before {
     content: ""; position: absolute; left: 18px; top: 20px;
     width: 15px; height: 15px; border-radius: 50%;
@@ -439,7 +461,7 @@
   }
   .waypoint:nth-child(2)::before { background: var(--studio-accent-2); }
   .waypoint:nth-child(3)::before { background: var(--ink-2); }
-  .waypoint h3 { font-family: var(--font-display); font-size: 16.5px; margin: 0 0 6px; font-weight: 700; letter-spacing: 0; color: var(--ink); }
+  .waypoint h3 { font-family: var(--font-display); font-size: 16.5px; line-height: 1.25; margin: 0 0 6px; font-weight: 700; letter-spacing: 0.005em; color: var(--ink); }
   .waypoint p { font-size: 14.5px; font-weight: 600; color: var(--ink-1); line-height: 1.6; margin: 0; max-width: 52ch; }
 
   /* ---------- mazeball feature ---------- */
@@ -526,7 +548,7 @@
     box-shadow: 0 2.5px 0 var(--ink);
     margin: 0 0 12px;
   }
-  .game-copy h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.4vw, 25px); margin: 0 0 2px; color: var(--ink); }
+  .game-copy h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.2; letter-spacing: 0.005em; margin: 0 0 2px; color: var(--ink); }
   .game-copy h3 .subtitle { font-size: 0.68em; font-weight: 600; font-style: normal; color: var(--ink-2); }
   .game-sub { margin: 0; color: var(--ink-2); font-weight: 700; font-size: 13.5px; font-family: var(--font-body); }
   .feature-list {
@@ -579,15 +601,18 @@
     display: flex; flex-wrap: wrap; gap: 32px;
     align-items: center; justify-content: space-between;
     box-shadow: var(--shadow-hard-lg);
-    transition: transform 0.3s var(--ease-out);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
     .contact-card:hover {
       transform: translateY(-3px);
+      /* card lifts further off the page, so its cast shadow falls further too —
+         same flat-offset language, just a deeper distance, no blur added */
+      box-shadow: 0 11px 0 var(--ink);
     }
   }
-  .contact-card h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); color: var(--ink); }
-  .contact-card p { margin: 0; color: var(--ink-1); font-weight: 600; }
+  .contact-card h2 { font-family: var(--font-display); font-weight: 800; line-height: 1.2; letter-spacing: 0.005em; margin: 0 0 8px; font-size: clamp(22px, 3vw, 28px); color: var(--ink); }
+  .contact-card p { margin: 0; color: var(--ink-1); font-weight: 600; line-height: 1.6; }
   .contact-links { display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
   .contact-links a {
     text-decoration: none; color: var(--ink); font-weight: 800;
@@ -625,7 +650,10 @@
     }
     .btn-primary:hover, .btn-ghost:hover { transform: none; }
     .phone-bezel { transform: none !important; animation: none !important; }
-    .contact-card:hover { transform: none; }
+    .contact-card:hover { transform: none; box-shadow: var(--shadow-hard-lg); }
+    nav a:hover { transform: none; }
+    .waypoint:hover { transform: none; box-shadow: var(--shadow-hard-sm); }
+    .hero-tile-fire:hover, .hero-tile-ice:hover, .hero-tile-water:hover { box-shadow: var(--shadow-hard-md); }
     .scroll-cue svg { animation: none !important; }
     .launch-badge::before { animation: none !important; box-shadow: none !important; }
     .feature-list li:hover::before { transform: none !important; }
@@ -669,9 +697,9 @@
       <p class="launch-badge" id="heroBadge">Out now on Steam & Google Play</p>
       <h1 id="heroHeadline">Matter MazeBall — <em>tilt, roll, survive.</em></h1>
       <p class="lede" id="heroLede">
-        A cel-shaded tilt-physics maze where what your ball is made of changes everything.
-        Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought.
-        30 elemental balls, 39 mazes across three worlds, no two runs alike.
+        Every ball rolls differently. Stone sinks. Ice melts. Fire spreads.
+        The maze doesn't care which one you brought.
+        30 elemental balls, 39 mazes across three worlds — no two runs alike.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" id="heroCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
@@ -694,7 +722,7 @@
   <section id="featured-game">
     <div class="section-head reveal">
       <h2 id="gameSectionTitle">Matter MazeBall</h2>
-      <p id="gameSectionBlurb">Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.</p>
+      <p id="gameSectionBlurb">Tilt-and-roll physics mazes where fire, ice, water, and storms decide how your ball moves.</p>
     </div>
     <div class="game-feature">
       <div class="phone-stage reveal">
@@ -711,7 +739,7 @@
         </div>
       </div>
       <div class="game-copy reveal">
-        <p class="eyebrow-mono" id="gameEyebrow">// out now on steam & google play</p>
+        <p class="eyebrow-mono" id="gameEyebrow">Available now on Steam & Google Play</p>
         <div class="game-title-row">
           <img src="assets/mazeball-icon.png" alt="" class="game-icon" id="gameIconImg">
           <div>
@@ -723,7 +751,7 @@
           <li><strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics</li>
           <li><strong>39 mazes, three worlds</strong> — elemental adventures, real-world cities, and mega-city landmarks</li>
           <li><strong>Living hazards & weather</strong> — lava, storms, wind and rain that physically push your ball around</li>
-          <li><strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play</li>
+          <li><strong>Daily maze + endless mode</strong> — plus local 2-player races and full offline play, no connection needed</li>
         </ul>
         <div class="cta-row">
           <a class="btn btn-primary" id="gameCta" href="https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/" target="_blank" rel="noopener">Get it on Steam<span class="sr-only"> (opens in a new tab on the Steam store)</span></a>
@@ -798,11 +826,11 @@
       name: "Matter MazeBall",
       subtitle: "Element Trials",
       tagline: "tilt, roll, survive.",
-      description: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Stone sinks, ice melts, fire spreads — and the maze doesn't care which one you brought. 30 elemental balls, 39 mazes across three worlds, no two runs alike.",
-      sectionBlurb: "Tilt-and-roll physics mazes where fire, ice, water & storms rule the ball.",
+      description: "Every ball rolls differently. Stone sinks. Ice melts. Fire spreads. The maze doesn't care which one you brought. 30 elemental balls, 39 mazes across three worlds — no two runs alike.",
+      sectionBlurb: "Tilt-and-roll physics mazes where fire, ice, water, and storms decide how your ball moves.",
       tags: ["Casual", "Puzzle", "Local Co-op"],
       badgeText: "Out now on Steam & Google Play",
-      eyebrowText: "// out now on steam & google play",
+      eyebrowText: "Available now on Steam & Google Play",
       releaseDate: "2026-08-25", // most recent launch (Google Play) — "newest" sorts on this
       status: "Available on Steam & Google Play",
       storeUrl: "https://store.steampowered.com/app/4946500/Matter_MazeBall_Element_Trials/",
@@ -815,7 +843,7 @@
         "<strong>30 elemental balls</strong> — stone, fire, water, ice, air and more, each with its own physics",
         "<strong>39 mazes, three worlds</strong> — elemental adventures, real-world cities, and mega-city landmarks",
         "<strong>Living hazards & weather</strong> — lava, storms, wind and rain that physically push your ball around",
-        "<strong>Daily maze + endless mode</strong>, local 2-player races, and full offline play"
+        "<strong>Daily maze + endless mode</strong> — plus local 2-player races and full offline play, no connection needed"
       ],
       assets: {
         icon: "assets/mazeball-icon.png",
@@ -825,10 +853,10 @@
       },
       seo: {
         title: "Garoo Interactive — Matter MazeBall",
-        description: "Garoo Interactive is an independent game studio. Matter MazeBall: Element Trials, our first release, is out now on Steam and Google Play — a tilt-physics maze game with 30 elemental balls and 39 mazes.",
+        description: "Garoo Interactive is a small independent studio. We build original physics games, ourselves, start to finish. Our first release, Matter MazeBall: Element Trials, is out now on Steam and Google Play — 30 elemental balls, 39 mazes, and no two runs alike.",
         ogTitle: "Matter MazeBall — tilt, roll, survive.",
-        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.",
-        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything. Out now on Steam and Google Play."
+        ogDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. 30 elemental balls, 39 mazes, three worlds. Out now on Steam and Google Play.",
+        twitterDescription: "A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. Out now on Steam and Google Play."
       },
       // Matter MazeBall's real in-game colors — scoped only to #hero and
       // #featured-game via inline custom properties, never global chrome.
