@@ -464,6 +464,17 @@
   .waypoint h3 { font-family: var(--font-display); font-size: 16.5px; line-height: 1.25; margin: 0 0 6px; font-weight: 700; letter-spacing: 0.005em; color: var(--ink); }
   .waypoint p { font-size: 14.5px; font-weight: 600; color: var(--ink-1); line-height: 1.6; margin: 0; max-width: 52ch; }
 
+  .shot-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(10px, 2vw, 20px);
+    margin-top: clamp(32px, 5vw, 52px);
+  }
+  .shot-strip img {
+    width: 100%; height: auto; display: block;
+    border: 3px solid var(--ink); border-radius: 18px;
+    box-shadow: var(--shadow-hard-md); background: #1c1640;
+  }
+  @media (max-width: 560px) { .shot-strip { grid-template-columns: repeat(2, 1fr); } }
+
   /* ---------- garoo arcade feature ---------- */
   #garoo-arcade {
     --game-accent: #7a5af0;
@@ -781,6 +792,12 @@
         </div>
       </div>
     </div>
+    <div class="shot-strip reveal" aria-label="Matter MazeBall screenshots from iPhone">
+      <img src="assets/mazeball-ios-home.jpg" width="462" height="1000" loading="lazy" alt="Matter MazeBall title screen with Play, 2 Player, Shop and Records buttons">
+      <img src="assets/mazeball-ios-fire.jpg" width="462" height="1000" loading="lazy" alt="A fire ball rolling through a lava maze with a minimap in the corner">
+      <img src="assets/mazeball-ios-water.jpg" width="462" height="1000" loading="lazy" alt="A water ball in a flooded blue maze">
+      <img src="assets/mazeball-ios-balls.jpg" width="462" height="1000" loading="lazy" alt="Choose Your Ball screen listing Stone, Fire, Water, Ice, Air and Spark">
+    </div>
   </section>
 
   <section id="garoo-arcade">
@@ -790,8 +807,8 @@
     </div>
     <div class="game-feature arcade-feature">
       <div class="arcade-shots reveal">
-        <img class="arcade-shot" src="assets/arcade-00-hub-puzzle.jpg" width="540" height="960" loading="lazy" alt="Garoo Arcade home screen on the Puzzle tab, listing Pathline, Lucent, Gem Flow, Picross and Lights Out">
-        <img class="arcade-shot arcade-shot-2" src="assets/arcade-01-hub-sport.jpg" width="540" height="960" loading="lazy" alt="Garoo Arcade home screen on the Sport tab, listing the tap-and-race events">
+        <img class="arcade-shot" src="assets/arcade-00-hub-puzzle.jpg" width="443" height="960" loading="lazy" alt="Garoo Arcade home screen on the Puzzle tab, listing Pathline, Lucent, Gem Flow, Picross and Lights Out">
+        <img class="arcade-shot arcade-shot-2" src="assets/arcade-01-hub-sport.jpg" width="443" height="960" loading="lazy" alt="Garoo Arcade home screen on the Sport tab, listing the tap-and-race events">
       </div>
       <div class="game-copy reveal">
         <p class="eyebrow-mono">Available now on Google Play</p>
