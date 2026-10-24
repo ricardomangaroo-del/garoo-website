@@ -698,6 +698,24 @@
     header { flex-wrap: wrap; row-gap: 12px; }
     nav { width: 100%; justify-content: flex-start; gap: 18px; }
   }
+
+  /* ---------- coming soon ---------- */
+  #coming-soon { --game-accent: #4a7dff; }
+  #coming-soon .section-head h2::after { background: var(--game-accent); }
+  .soon-card { display: flex; align-items: center; gap: 18px; max-width: 560px; background: var(--paper); border: 3px solid var(--ink); border-radius: var(--radius-md); box-shadow: 0 5px 0 var(--ink); padding: 18px 20px; }
+  .soon-card .game-icon { width: 64px; height: 64px; border-radius: 16px; flex: none; }
+  .soon-card h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.2; margin: 0 0 2px; color: var(--ink); }
+  .soon-hook { margin: 0 0 10px; color: var(--ink-1); font-weight: 600; font-size: 15px; }
+  .soon-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .soon-meta li.soon-status { background: #2f5bd0; color: #fff; border-color: var(--ink); }
+  .soon-meta li.soon-status::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #fff; margin-right: 7px; vertical-align: 1px; }
+  .soon-meta li { font-weight: 800; font-size: 12px; letter-spacing: 0.03em; color: var(--ink); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 4px 11px; background: var(--bg-1); }
+  .soon-wrap { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+  .soon-shots { display: flex; justify-content: center; }
+  .soon-shot { width: clamp(140px, 16vw, 170px); height: auto; border: 3px solid var(--ink); border-radius: 22px; box-shadow: 0 5px 0 var(--ink); background: var(--ink); }
+  .soon-shot + .soon-shot { margin: 28px 0 0 -14px; }
+  @media (max-width: 780px) { .soon-wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .soon-card { flex-direction: column; align-items: flex-start; } }
 </style>
 </head>
 <body>
@@ -707,7 +725,7 @@
     <img src="assets/garoo-icon.png" alt="">
     Garoo Interactive
   </a>
-  <nav>
+  <nav aria-label="Primary">
     <a href="#featured-game" id="navGameLink">Matter MazeBall</a>
     <a href="#garoo-arcade">Garoo Arcade</a>
     <a href="#studio">Studio</a>
@@ -809,8 +827,8 @@
     </div>
     <div class="game-feature arcade-feature">
       <div class="arcade-shots reveal">
-        <img class="arcade-shot" src="assets/arcade-00-hub-puzzle.jpg" width="443" height="960" loading="lazy" alt="Garoo Arcade home screen on the Puzzle tab, listing Pathline, Lucent, Gem Flow, Picross and Lights Out">
-        <img class="arcade-shot arcade-shot-2" src="assets/arcade-01-hub-sport.jpg" width="443" height="960" loading="lazy" alt="Garoo Arcade home screen on the Sport tab, listing the tap-and-race events">
+        <img class="arcade-shot" src="assets/arcade-00-hub-puzzle.jpg" width="443" height="960" loading="lazy" alt="Pathline in Garoo Arcade: a rainbow line threading through a glowing grid of tiles">
+        <img class="arcade-shot arcade-shot-2" src="assets/arcade-01-hub-sport.jpg" width="443" height="960" loading="lazy" alt="Hurdles in Garoo Arcade: runners clearing hurdles on a red track in a stadium">
       </div>
       <div class="game-copy reveal">
         <p class="eyebrow-mono">Available now on Google Play</p>
@@ -832,6 +850,30 @@
           <a class="btn btn-ghost" href="mini-games-privacy.html">Privacy policy</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="coming-soon">
+    <div class="section-head reveal">
+      <h2>Coming soon</h2>
+      <p>Starcarver is in testing and store review. We'll add the links when it's live.</p>
+    </div>
+    <div class="soon-wrap">
+    <div class="soon-card reveal">
+      <img src="assets/starcarver-icon.png" alt="" class="game-icon" width="64" height="64" loading="lazy">
+      <div>
+        <h3>Starcarver</h3>
+        <p class="soon-hook">Tap to leap between orbits. Collect every gem. Carve your way through the stars.</p>
+        <ul class="soon-meta">
+          <li class="soon-status">In testing and store review</li>
+          <li>Android · iPhone</li>
+        </ul>
+      </div>
+    </div>
+    <div class="soon-shots reveal">
+      <img class="soon-shot" src="assets/starcarver-shot-1.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a glowing ship arcing between lava planets, collecting gems">
+      <img class="soon-shot" src="assets/starcarver-shot-2.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a ship leaving a bright trail across icy planets">
+    </div>
     </div>
   </section>
 
@@ -879,7 +921,7 @@
 
 <footer>
   <span>&copy; 2026 Garoo Interactive. All rights reserved.</span>
-  <nav>
+  <nav aria-label="Footer">
     <a href="privacy.html">Privacy Policy</a>
     <a href="mini-games-privacy.html">Garoo Arcade Privacy</a>
     <a href="mailto:hello@garoointeractive.com">Contact</a>
