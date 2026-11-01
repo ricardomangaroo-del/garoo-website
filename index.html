@@ -9,18 +9,21 @@
      all of these from GAMES[].seo at runtime, so swapping in a newer game
      keeps this block in sync automatically instead of relying on someone
      to remember the manual edit. -->
-<title>Garoo Interactive — Matter MazeBall</title>
-<meta name="description" content="Garoo Interactive is a small independent studio. We build original physics games, ourselves, start to finish. Our first release, Matter MazeBall: Element Trials, is out now on Steam, Google Play and the App Store — 30 elemental balls, 39 mazes, and no two runs alike.">
+<title>Garoo Interactive: Games with a mechanic of their own</title>
+<meta name="description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta property="og:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. 30 elemental balls, 39 mazes, three worlds. Out now on Steam, Google Play and the App Store.">
-<meta property="og:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
+<meta property="og:title" content="Garoo Interactive: Games with a mechanic of their own">
+<meta property="og:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
+<meta property="og:image" content="https://garoointeractive.com/assets/og-garoo-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Garoo Interactive logo on a lime background">
 <meta property="og:url" content="https://garoointeractive.com/">
 <meta property="og:site_name" content="Garoo Interactive">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Matter MazeBall — tilt, roll, survive.">
-<meta name="twitter:description" content="A cel-shaded tilt-physics maze where what your ball is made of changes everything — stone sinks, ice melts, fire spreads. Out now on Steam, Google Play and the App Store.">
-<meta name="twitter:image" content="https://garoointeractive.com/assets/mazeball-screenshot.png">
+<meta name="twitter:title" content="Garoo Interactive: Games with a mechanic of their own">
+<meta name="twitter:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
+<meta name="twitter:image" content="https://garoointeractive.com/assets/og-garoo-1200x630.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
@@ -47,7 +50,15 @@
     --studio-accent-dark: #c2431f;    /* borders, shadows — 4.9:1 on paper */
     --studio-accent-ink: #8a2c14;     /* text-safe variant — 8.2:1 on paper */
     --studio-accent-2: #0aa6b8;       /* secondary neutral, e.g. the 2nd manifesto dot — kept clearly separated in hue+lightness from --ink-2, the 3rd dot's color (was #3f7d8c, measured 1.16:1 against --ink-2, i.e. visually the same color) */
-    --studio-tint: #ffe3d9;           /* light hover wash for nav / ghost buttons */
+    --studio-tint: #eaf8cc;           /* light hover wash for nav / ghost buttons (pale Garoo lime) */
+    /* Garoo brand green, SAMPLED from the logo pixels (assets/garoo-logo.png):
+       body of the kangaroo-G = rgb(128,216,0); its shaded underside = rgb(88,184,0).
+       --lime-ink is the text-safe darkening (6.4:1 on --bg-0). Ink on --lime = 7.3:1. */
+    --lime: #80d800;
+    --lime-light: #a3e83a;
+    --lime-deep: #58b800;
+    --lime-ink: #2f6b00;
+    --lime-wash: #f1fbdc;
     --line: rgba(40,48,68,0.14);
     --line-strong: var(--ink);
     --radius-sm: 999px;         /* pill — buttons, chips, badges */
@@ -106,7 +117,7 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
-  ::selection { background: var(--studio-accent); color: var(--ink); }
+  ::selection { background: var(--lime); color: var(--ink); }
   .sr-only {
     position: absolute; width: 1px; height: 1px;
     padding: 0; margin: -1px; overflow: hidden;
@@ -173,8 +184,10 @@
   }
   nav a:active { transform: translateY(2px); box-shadow: 0 0.5px 0 var(--ink); }
   nav a.is-active {
-    background: linear-gradient(180deg, var(--studio-accent-light), var(--studio-accent));
-    box-shadow: 0 2.5px 0 var(--studio-accent-dark);
+    background: linear-gradient(180deg, var(--lime-light), var(--lime));
+    box-shadow: 0 2.5px 0 var(--ink);
+    /* not colour alone (lime vs cream is ~1.4:1): current section also gets an underline */
+    text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px;
   }
 
   /* BRAND GUARD: the Garoo mark is never stretched, recolored or redrawn.
@@ -413,10 +426,11 @@
   }
   .section-head h2::after {
     content: ""; position: absolute; left: 1px; bottom: 0;
-    width: 46px; height: 5px; border-radius: 3px;
-    /* --studio-accent-dark, not --studio-accent: the base coral measured
-       2.75:1 on --bg-0, under the 3:1 WCAG floor for non-text UI */
-    background: var(--studio-accent-dark);
+    width: 52px; height: 9px; border-radius: 999px;
+    /* Garoo-lime speed streak with an ink outline (the outline carries the 3:1
+       non-text contrast; lime alone is ~1.7:1 on --bg-0). Game sections override
+       the fill with their own accent. */
+    background: var(--lime); border: 2px solid var(--ink);
   }
   /* the featured-game section is the one place this underline should
      follow the game's own accent instead of the studio's */
@@ -462,7 +476,7 @@
   .waypoint::before {
     content: ""; position: absolute; left: 18px; top: 20px;
     width: 15px; height: 15px; border-radius: 50%;
-    background: var(--studio-accent); border: 2px solid var(--ink);
+    background: var(--lime); border: 2px solid var(--ink);
   }
   .waypoint:nth-child(2)::before { background: var(--studio-accent-2); }
   .waypoint:nth-child(3)::before { background: var(--ink-2); }
@@ -654,26 +668,45 @@
     padding: 13px 2px; margin: -13px -2px;
     min-height: 44px; box-sizing: border-box;
   }
-  .contact-links a:hover { color: var(--studio-accent-ink); }
+  .contact-links a { text-decoration: underline; text-decoration-color: var(--lime-deep); text-decoration-thickness: 3px; text-underline-offset: 5px; }
+  .contact-links a:hover { color: var(--lime-ink); }
   .contact-links span { color: var(--ink-2); font-weight: 800; font-size: 11.5px; letter-spacing: 0.03em; text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 4px; }
 
+  /* ---------- footer = brand sign-off: lime band, full logo on a cream plate ---------- */
   footer {
-    padding: 32px clamp(20px, 6vw, 64px) 48px;
-    max-width: 1220px; margin: 0 auto;
-    display: flex; flex-wrap: wrap; gap: 16px;
-    align-items: center; justify-content: space-between;
-    border-top: 3px solid var(--ink);
-    color: var(--ink-2); font-weight: 700; font-size: 12.5px; font-family: var(--font-body);
+    position: relative; isolation: isolate; overflow: hidden;
+    background: var(--lime);
+    border-top: 4px solid var(--ink);
+    color: var(--ink); font-weight: 700; font-size: 14px; font-family: var(--font-body);
   }
-  footer nav { gap: 20px; }
+  footer .footer-streaks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+    /* streaks only in the outer thirds: never behind the line or the links */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 32%, transparent 72%, #000 84%, #000 100%);
+            mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 32%, transparent 72%, #000 84%, #000 100%); }
+  .footer-family { display: flex; gap: 14px; margin-left: auto; padding-right: 4px; }
+  .footer-family img { width: 68px; height: 68px; border: 3px solid var(--ink); border-radius: 18px; background: var(--paper); box-shadow: 0 5px 0 var(--ink); }
+  .footer-family img:nth-child(1) { transform: rotate(-6deg); }
+  .footer-family img:nth-child(2) { transform: translateY(-8px) rotate(4deg); }
+  .footer-family img:nth-child(3) { transform: rotate(-3deg); }
+  @media (max-width: 860px) { .footer-family, footer .footer-streaks { display: none; } }
+  .footer-inner {
+    max-width: 1220px; margin: 0 auto;
+    padding: clamp(36px, 6vw, 60px) clamp(20px, 6vw, 64px) clamp(36px, 6vw, 56px);
+    display: flex; align-items: center; gap: clamp(24px, 5vw, 56px); flex-wrap: wrap;
+  }
+  .footer-inner .logo-plate { flex: none; width: clamp(180px, 20vw, 232px); padding: 14px 16px; border-radius: 22px; box-shadow: 0 7px 0 var(--ink); }
+  .footer-meta { flex: 1 1 280px; min-width: 0; }
+  .footer-line { font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 3vw, 32px); line-height: 1.15; margin: 0 0 14px; max-width: 18ch; text-wrap: balance; }
+  .footer-copy { display: block; margin-bottom: 4px; }
+  footer nav { gap: 6px 22px; }
   footer nav a {
-    color: var(--ink-2); text-decoration: none; font-weight: 700;
-    background: none; border: none; box-shadow: none;
+    color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; font-weight: 800;
+    background: none; border: none; box-shadow: none; border-radius: 0;
     display: inline-flex; align-items: center;
     padding: 13px 2px; margin: -13px -2px;
     min-height: 44px; box-sizing: border-box;
   }
-  footer nav a:hover { color: var(--ink-1); background: none; transform: none; }
+  footer nav a:hover { color: var(--ink); background: none; transform: none; text-decoration-color: var(--paper); text-decoration-thickness: 4px; }
   footer nav a:active { transform: none; box-shadow: none; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -699,96 +732,140 @@
     }
   }
 
-  @media (max-width: 560px) {
-    header { flex-wrap: wrap; row-gap: 12px; }
-    nav { width: 100%; justify-content: flex-start; gap: 18px; }
+  /* compact header (<=860px): icon mark + ONE horizontally scrollable chip row, ~64px tall.
+     The wordmark text stays in the DOM (visually hidden) so the link keeps its name. */
+  @media (max-width: 860px) {
+    header { flex-wrap: nowrap; gap: 12px; padding: 8px clamp(14px, 4vw, 28px); }
+    .logo { flex: none; padding: 7px 6px; margin: 0 -6px; } /* 44px-wide target around the 32px mark */
+    .logo-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    header nav {
+      flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; gap: 8px;
+      overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+      padding: 6px 28px 9px 6px; margin: -6px 0 -9px;
+      scroll-padding-inline: 12px 40px; /* focused chips scroll clear of the right-edge fade */
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 30px), transparent);
+              mask-image: linear-gradient(90deg, #000 calc(100% - 30px), transparent);
+    }
+    header nav::-webkit-scrollbar { display: none; }
+    header nav a { flex: none; white-space: nowrap; }
   }
 
   html { scroll-padding-top: 92px; }
+  main:focus { outline: none; } /* skip-link target only; not a control */
   .skip-link { position: absolute; left: 12px; top: -80px; z-index: 100; background: var(--paper); color: var(--ink); font-weight: 800; padding: 10px 16px; border: 3px solid var(--ink); border-radius: var(--radius-sm); box-shadow: 0 3px 0 var(--ink); }
   .skip-link:focus { top: 12px; }
   /* ---------- studio band (above the featured-game hero) ----------
-     Deliberately dark: the company speaks in ink, the game below speaks in sky.
-     Signature = three "verb cards" (tilt / leap / draw) — what a Garoo mechanic is. */
+     The studio speaks in Garoo lime: the surface IS the brand colour. The full
+     stacked logo sits on a cream plate (the black wordmark needs a light ground),
+     the three game icons orbit it as a family, and generic speed streaks (inspired
+     by the mark's, never a redraw of it) run behind. */
   .studio-band {
     position: relative; isolation: isolate; overflow: hidden;
-    color: var(--paper);
+    color: var(--ink);
     background:
-      radial-gradient(ellipse 60% 80% at 88% 20%, rgba(255,107,74,0.26), transparent 62%),
-      radial-gradient(ellipse 50% 70% at 8% 100%, rgba(10,166,184,0.20), transparent 60%),
-      linear-gradient(180deg, #1b2133 0%, #283044 100%);
+      radial-gradient(ellipse 55% 75% at 78% 45%, rgba(255,255,255,0.38), transparent 65%),
+      linear-gradient(180deg, #8ae012 0%, var(--lime) 100%);
     border-bottom: 4px solid var(--ink);
   }
   .studio-band::before { /* dot grid, fades out toward the bottom */
     content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background-image: radial-gradient(rgba(255,250,240,0.16) 1.2px, transparent 1.4px);
+    background-image: radial-gradient(rgba(40,48,68,0.13) 1.2px, transparent 1.4px);
     background-size: 26px 26px;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
             mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
   }
+  .band-streaks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+  .band-streaks .sl { animation: slIn 0.9s var(--ease-out) backwards; }
+  @keyframes slIn { from { transform: translateX(-80px); opacity: 0; } to { transform: none; opacity: 1; } }
   .studio-band-inner {
     max-width: 1220px; margin: 0 auto;
-    display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center;
+    display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center;
     gap: clamp(28px, 5vw, 64px);
-    padding: clamp(48px, 8vw, 96px) clamp(20px, 6vw, 64px) clamp(52px, 8vw, 92px);
+    padding: clamp(44px, 7vw, 88px) clamp(20px, 6vw, 64px) clamp(52px, 8vw, 92px);
   }
-  .studio-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 22px; font-family: var(--font-body); font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffcf4d; }
-  .studio-eyebrow img { width: 34px; height: 34px; border-radius: 9px; border: 2px solid var(--ink); box-shadow: 0 2px 0 rgba(0,0,0,0.4); background: var(--paper); object-fit: contain; }
-  .studio-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 7.4vw, 88px); line-height: 1.08; letter-spacing: -0.005em; margin: 0 0 24px; max-width: 12ch; text-wrap: balance; color: var(--paper); }
-  .studio-title em { font-style: normal; position: relative; white-space: nowrap; color: #fff; z-index: 0; }
-  .studio-title em::after { /* marker swipe behind the word */
-    content: ""; position: absolute; z-index: -1; left: -0.08em; right: -0.1em; bottom: 0.14em; height: 0.3em;
-    background: var(--studio-accent); border-radius: 0.2em 0.35em 0.25em 0.4em; transform: rotate(-1.2deg);
+  .studio-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 6.6vw, 80px); line-height: 1.08; letter-spacing: -0.005em; margin: 0 0 22px; max-width: 12ch; text-wrap: balance; color: var(--ink); }
+  .studio-title em { font-style: normal; position: relative; white-space: nowrap; color: var(--paper); z-index: 0; padding: 0 0.12em; }
+  .studio-title em::after { /* ink marker slab behind the word */
+    content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 0.1em; bottom: 0.02em;
+    background: var(--ink); border-radius: 0.2em 0.3em 0.22em 0.32em; transform: rotate(-1.4deg);
   }
-  .studio-lede { font-size: clamp(16.5px, 1.7vw, 19.5px); font-weight: 600; line-height: 1.65; color: #d9deec; max-width: 50ch; margin: 0 0 28px; text-wrap: pretty; }
-  .studio-out { margin: 0 0 12px; font-family: var(--font-body); font-weight: 800; font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,250,240,0.7); }
+  .studio-lede { font-size: clamp(16.5px, 1.7vw, 19.5px); font-weight: 700; line-height: 1.6; color: var(--ink); max-width: 50ch; margin: 0 0 28px; text-wrap: pretty; }
+  .studio-out { margin: 0 0 12px; font-family: var(--font-body); font-weight: 800; font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .studio-games { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 22px; padding: 0; list-style: none; }
-  .game-chip { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 9px 20px 9px 10px; color: var(--paper); text-decoration: none; background: rgba(255,250,240,0.08); border: 2px solid rgba(255,250,240,0.55); border-radius: 18px; max-width: 100%; min-width: 0; transition: transform 0.2s var(--ease-out), background 0.2s, border-color 0.2s; }
-  .game-chip img { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--paper); flex: none; }
+  .game-chip { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 9px 20px 9px 10px; color: var(--ink); text-decoration: none; background: var(--paper); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 4px 0 var(--ink); max-width: 100%; min-width: 0; transition: transform 0.2s var(--ease-out), background 0.2s, box-shadow 0.2s var(--ease-out); }
+  .game-chip img { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--ink); flex: none; }
   .game-chip strong { display: block; font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1.15; }
-  .game-chip small { display: block; font-weight: 700; font-size: 14px; color: #dde2f0; }
-  .game-chip:hover { transform: translateY(-3px); background: rgba(255,250,240,0.12); border-color: var(--paper); }
-  .game-chip:hover small { color: #eef1f9; }
-  .game-chip:focus-visible { outline: 3px solid #ffcf4d; outline-offset: 3px; }
-  .studio-how { display: inline-block; font-weight: 800; font-size: 14.5px; color: #ffcf4d; text-decoration: none; padding: 12px 0; min-height: 44px; border-bottom: 2px solid transparent; }
-  .studio-how:hover { border-bottom-color: #ffcf4d; }
-  .studio-how:focus-visible { outline: 3px solid #ffcf4d; outline-offset: 3px; }
+  .game-chip small { display: block; font-weight: 700; font-size: 14px; color: var(--ink-1); }
+  .game-chip:hover { transform: translateY(-3px); background: var(--lime-wash); box-shadow: 0 7px 0 var(--ink); }
+  .game-chip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+  .game-chip:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+  .studio-how { display: inline-block; font-weight: 800; font-size: 14.5px; color: var(--ink); text-decoration: none; padding: 10px 0 8px; min-height: 44px; border-bottom: 3px solid var(--ink); }
+  .studio-how:hover { background: var(--paper); }
+  .studio-how:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
-  /* verb cards */
-  .verbs { position: relative; height: clamp(300px, 36vw, 440px); }
-  .verb {
-    position: absolute; width: clamp(150px, 17vw, 210px); aspect-ratio: 200 / 250; margin: 0;
-    border: 3px solid var(--paper); border-radius: 22px; overflow: hidden;
-    box-shadow: 0 8px 0 rgba(0,0,0,0.38), 0 22px 40px -12px rgba(0,0,0,0.55);
+  /* brand stage: cream logo plate + orbiting game icons */
+  .brand-stage { position: relative; padding: 34px 30px 50px; }
+  .orbit-ring { position: absolute; inset: 0; border-radius: 50%; border: 3px dashed rgba(40,48,68,0.5); z-index: 0; pointer-events: none; }
+  .logo-plate {
+    position: relative; z-index: 1;
+    background: var(--paper); border: 4px solid var(--ink); border-radius: 28px;
+    box-shadow: 0 10px 0 var(--ink);
+    padding: clamp(12px, 2.4vw, 22px);
+    display: grid; place-items: center;
+    animation: plateIn 0.7s var(--ease-out) backwards;
   }
-  .verb svg { display: block; width: 100%; height: 100%; }
-  .verb figcaption { position: absolute; left: 10px; bottom: 10px; font-family: var(--font-display); font-weight: 800; font-size: 13.5px; letter-spacing: 0.04em; line-height: 1; color: var(--ink); background: var(--paper); padding: 5px 11px; border-radius: 999px; box-shadow: 0 2px 0 rgba(0,0,0,0.35); }
-  .verb-tilt { left: 2%;  top: 8%;  transform: rotate(-7deg); }
-  .verb-leap { left: 34%; top: 34%; transform: rotate(3deg); z-index: 2; }
-  .verb-draw { left: 62%; top: 4%;  transform: rotate(-2deg); z-index: 1; }
+  @keyframes plateIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  .brand-logo { display: block; width: min(100%, 440px); height: auto; }
+  .footer-inner .brand-logo { width: 100%; }
+  .orbit-icon {
+    position: absolute; z-index: 2; width: clamp(54px, 7vw, 76px); height: auto; aspect-ratio: 1;
+    border: 3px solid var(--ink); border-radius: 18px; background: var(--paper);
+    box-shadow: 0 5px 0 var(--ink);
+    transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+    animation: oiPop 0.6s var(--ease-spring) var(--d, 0.5s) backwards, oiBob 4.6s ease-in-out calc(var(--d, 0.5s) + 0.6s) 5 alternate;
+  }
+  .oi-1 { left: 9%;  top: 11%; --r: -8deg; --d: 0.55s; }
+  .oi-2 { left: 98%; top: 30%; --r: 7deg;  --d: 0.7s;  width: clamp(61px, 7.9vw, 86px); }
+  .oi-3 { left: 78%; top: 99%; --r: -5deg; --d: 0.85s; width: clamp(61px, 7.9vw, 86px); }
+  @keyframes oiPop { from { opacity: 0; transform: translate(-50%, -50%) rotate(var(--r)) scale(0.6); } to { opacity: 1; transform: translate(-50%, -50%) rotate(var(--r)) scale(1); } }
+  @keyframes oiBob { from { transform: translate(-50%, -50%) rotate(var(--r)) translateY(0); } to { transform: translate(-50%, -50%) rotate(var(--r)) translateY(-7px); } }
+
   @media (max-width: 860px) {
-    .studio-band-inner { grid-template-columns: 1fr; }
+    .studio-band-inner { grid-template-columns: 1fr; padding-top: 32px; gap: 20px; }
+    .brand-stage { order: -1; width: min(100%, 440px); margin: 0 auto; padding: 26px 24px 44px; }
     .studio-title { max-width: 14ch; }
-    .studio-band-inner { padding-top: 36px; gap: 22px; }
     .studio-lede { margin-bottom: 20px; }
     .studio-games { display: grid; grid-template-columns: 1fr; }
-    .verbs { height: auto; display: flex; justify-content: center; gap: 0; padding: 8px 0 14px; }
-    .verb { position: relative; left: auto; top: auto; width: min(31vw, 150px); }
-    .verb-tilt { transform: rotate(-6deg); margin-right: -6px; }
-    .verb-leap { transform: rotate(2deg) translateY(14px); }
-    .verb-draw { transform: rotate(-3deg); margin-left: -6px; }
+    .oi-1 { left: 7%; top: 8%; }
   }
-  .v-plank { animation: vRock 3.4s ease-in-out 6 alternate; transform-origin: 100px 150px; }
-  .v-ball { animation: vBall 3.4s ease-in-out 6 alternate; transform-box: fill-box; transform-origin: center; }
-  .v-ship { animation: vOrbit 6s linear 4; transform-origin: 100px 112px; }
-  .v-trail { stroke-dasharray: 460; animation: vDraw 4.2s ease-in-out 6; }
-  @keyframes vRock  { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
-  @keyframes vBall  { from { transform: translateX(-46px) rotate(-200deg); } to { transform: translateX(46px) rotate(200deg); } }
-  @keyframes vOrbit { to { transform: rotate(360deg); } }
-  @keyframes vDraw  { 0% { stroke-dashoffset: 460; } 58%, 88% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -460; } }
+  @media (max-width: 400px) {
+    .brand-stage { padding: 22px 12px 40px; }
+    .logo-plate { padding: 10px; border-width: 3px; border-radius: 22px; box-shadow: 0 8px 0 var(--ink); }
+  }
+
+  /* full-width brand break between sections: lime speed bars either side of the icon */
+  .brand-break { margin-block: -6px; display: flex; align-items: center; gap: 14px; max-width: 1220px; margin-inline: auto; padding: 0 clamp(20px, 6vw, 64px); }
+  .brand-break i { flex: 1; height: 14px; background: var(--lime); border: 3px solid var(--ink); border-radius: 999px; }
+  .brand-break i:first-child { margin-right: -2px; }
+  .brand-break span { flex: none; display: block; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 3px 0 var(--ink); padding: 5px 10px; }
+  .brand-break img { display: block; height: 32px; width: auto; }
+
+  /* the manifesto section: pale-lime full-bleed, ink rules */
+  #studio { position: relative; isolation: isolate; }
+  #studio::before {
+    content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
+    background: var(--lime-wash); border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink);
+  }
+  /* three rules, three filled greens: the logo's lime, its shaded underside, a text-safe deep green */
+  #studio .waypoint:nth-child(2)::before { background: var(--lime-deep); }
+  #studio .waypoint:nth-child(3)::before { background: var(--lime-ink); }
   @media (prefers-reduced-motion: reduce) {
-    .v-plank, .v-ball, .v-ship, .v-trail { animation: none; }
-    .v-trail { stroke-dashoffset: 0; }
+    .band-streaks .sl, .logo-plate, .orbit-icon { animation: none; }
+  }
+  /* Windows High Contrast: drop the decorative speed streaks (they would sit behind text); borders/text recolor on their own */
+  @media (forced-colors: active) {
+    .band-streaks, .footer-streaks { display: none; }
+    .game-chip, nav a, .logo-plate { forced-color-adjust: auto; }
   }
 
   /* ---------- coming soon ---------- */
@@ -816,7 +893,7 @@
 <header>
   <a class="logo" href="/">
     <img src="assets/garoo-icon.png" alt="">
-    Garoo Interactive
+    <span class="logo-word">Garoo Interactive</span>
   </a>
   <nav aria-label="Primary">
     <a href="#featured-game" id="navGameLink">Matter MazeBall</a>
@@ -828,61 +905,29 @@
   </nav>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <div class="studio-band" id="top">
+    <svg class="band-streaks" viewBox="0 0 1200 600" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false"><g transform="rotate(-9 300 300)"><rect class="sl" x="-120" y="70" width="560" height="20" rx="10" fill="#58b800" fill-opacity=".55" style="animation-delay:0s"/><rect class="sl" x="-60" y="118" width="430" height="20" rx="10" fill="#ffffff" fill-opacity=".4" style="animation-delay:.08s"/><rect class="sl" x="-160" y="170" width="640" height="26" rx="13" fill="#58b800" fill-opacity=".55" style="animation-delay:.16s"/><rect class="sl" x="-40" y="226" width="360" height="18" rx="9" fill="#ffffff" fill-opacity=".4" style="animation-delay:.24s"/><rect class="sl" x="-140" y="290" width="520" height="24" rx="12" fill="#58b800" fill-opacity=".55" style="animation-delay:.32s"/><rect class="sl" x="-80" y="352" width="300" height="18" rx="9" fill="#ffffff" fill-opacity=".4" style="animation-delay:.4s"/><rect class="sl" x="-120" y="410" width="600" height="22" rx="11" fill="#58b800" fill-opacity=".55" style="animation-delay:.12s"/><rect class="sl" x="-60" y="468" width="420" height="18" rx="9" fill="#58b800" fill-opacity=".55" style="animation-delay:.2s"/><rect class="sl" x="-100" y="525" width="500" height="24" rx="12" fill="#ffffff" fill-opacity=".4" style="animation-delay:.28s"/></g></svg>
     <div class="studio-band-inner">
       <div class="studio-copy">
-        <p class="studio-eyebrow"><img src="assets/garoo-icon.png" alt="" width="34" height="34">Garoo Interactive</p>
         <h1 class="studio-title">Games with a <em>mechanic</em> of their own.</h1>
         <p class="studio-lede">Every Garoo game starts with a mechanic we haven't seen, is built by hand in code, and is made to include as many players as it can.</p>
         <p class="studio-out">Out now</p>
         <ul class="studio-games" aria-label="Games out now">
-          <li><a class="game-chip" href="#featured-game"><img src="assets/mazeball-icon.png" alt="" width="44" height="44"><span><strong>Matter MazeBall</strong><small>Steam · iPhone · Android · Mac</small></span></a></li>
+          <li><a class="game-chip" href="#featured-game"><img src="assets/mazeball-icon-128.png" alt="" width="44" height="44"><span><strong>Matter MazeBall</strong><small>Steam · iPhone · Android · Mac</small></span></a></li>
           <li><a class="game-chip" href="#garoo-arcade"><img src="assets/arcade-icon.png" alt="" width="44" height="44"><span><strong>Garoo Arcade</strong><small>iPhone · iPad · Android</small></span></a></li>
           <li><a class="game-chip" href="#starcarver"><img src="assets/starcarver-icon.png" alt="" width="44" height="44"><span><strong>Starcarver</strong><small>iPhone</small></span></a></li>
         </ul>
         <a class="studio-how" href="#studio">How we work <span aria-hidden="true">→</span></a>
       </div>
-      <div class="verbs" role="img" aria-label="Three small diagrams of game mechanics: tilting a ball along a plank, leaping between orbits, and drawing one line through a grid.">
-        <figure class="verb verb-tilt" aria-hidden="true">
-          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="vsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fc1f2"/><stop offset="1" stop-color="#bfe6fb"/></linearGradient></defs>
-            <rect width="200" height="250" fill="url(#vsky)"/>
-            <g fill="#fff" opacity=".85"><ellipse cx="46" cy="52" rx="24" ry="9"/><ellipse cx="62" cy="46" rx="16" ry="9"/><ellipse cx="158" cy="78" rx="20" ry="7"/></g>
-            <g class="v-plank">
-              <rect x="12" y="150" width="176" height="16" rx="8" fill="#283044"/>
-              <rect x="12" y="147" width="176" height="14" rx="7" fill="#ffcf4d" stroke="#283044" stroke-width="3"/>
-              <g class="v-ball"><circle cx="100" cy="128" r="17" fill="#ff6b4a" stroke="#283044" stroke-width="3"/><path d="M92 121 q8 -7 16 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/><circle cx="100" cy="128" r="3" fill="#283044"/></g><ellipse cx="100" cy="161" rx="30" ry="3.5" fill="#283044" opacity=".18"/>
-            </g>
-          </svg>
-          <figcaption>Tilt</figcaption>
-        </figure>
-        <figure class="verb verb-leap" aria-hidden="true">
-          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice">
-            <rect width="200" height="250" fill="#141a2b"/>
-            <g fill="#fffaf0" opacity=".7"><circle cx="24" cy="30" r="1.6"/><circle cx="170" cy="44" r="1.3"/><circle cx="40" cy="200" r="1.4"/><circle cx="178" cy="196" r="1.8"/><circle cx="120" cy="22" r="1.2"/></g>
-            <circle cx="100" cy="112" r="62" fill="none" stroke="#fffaf0" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 7"/>
-            <g><circle cx="100" cy="112" r="24" fill="#ff9c82" stroke="#fffaf0" stroke-width="3"/><path d="M78 104 q22 -8 44 0 M77 116 q23 8 46 0" stroke="#c2431f" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".7"/><ellipse cx="100" cy="112" rx="40" ry="9" fill="none" stroke="#ffcf4d" stroke-width="4" transform="rotate(-18 100 112)"/></g>
-            <rect x="150" y="101" width="20" height="20" rx="3" transform="rotate(45 160 111)" fill="#ffcf4d" stroke="#fffaf0" stroke-width="2"/>
-            <g class="v-ship"><path d="M100 20 l11 24 l-11 9 l-11 -9 z" fill="#3fd6e6" stroke="#fffaf0" stroke-width="3" stroke-linejoin="round"/><path d="M100 53 v14" stroke="#3fd6e6" stroke-width="3" stroke-linecap="round" opacity=".5"/></g>
-          </svg>
-          <figcaption>Leap</figcaption>
-        </figure>
-        <figure class="verb verb-draw" aria-hidden="true">
-          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="vline" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf4d"/><stop offset=".5" stop-color="#3fd6e6"/><stop offset="1" stop-color="#b79bff"/></linearGradient></defs>
-            <rect width="200" height="250" fill="#2a2150"/>
-            <g fill="#3a2f6e" stroke="#4a3d8a" stroke-width="2">
-              <rect x="22" y="40" width="34" height="34" rx="9"/><rect x="62" y="40" width="34" height="34" rx="9"/><rect x="102" y="40" width="34" height="34" rx="9"/><rect x="142" y="40" width="34" height="34" rx="9"/>
-              <rect x="22" y="80" width="34" height="34" rx="9"/><rect x="62" y="80" width="34" height="34" rx="9"/><rect x="102" y="80" width="34" height="34" rx="9"/><rect x="142" y="80" width="34" height="34" rx="9"/>
-              <rect x="22" y="120" width="34" height="34" rx="9"/><rect x="62" y="120" width="34" height="34" rx="9"/><rect x="102" y="120" width="34" height="34" rx="9"/><rect x="142" y="120" width="34" height="34" rx="9"/>
-              <rect x="22" y="160" width="34" height="34" rx="9"/><rect x="62" y="160" width="34" height="34" rx="9"/><rect x="102" y="160" width="34" height="34" rx="9"/><rect x="142" y="160" width="34" height="34" rx="9"/>
-            </g>
-            <circle cx="39" cy="57" r="7" fill="#ffcf4d" stroke="#fffaf0" stroke-width="2.5"/>
-            <path class="v-trail" d="M39 57 V97 H79 V57 H119 V97 H159 V137 H119 V177 H79 V137 H39 V177" fill="none" stroke="url(#vline)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <figcaption>Draw</figcaption>
-        </figure>
+      <div class="brand-stage">
+        <div class="orbit-ring" aria-hidden="true"></div>
+        <img class="orbit-icon oi-1" src="assets/mazeball-icon-128.png" alt="" width="76" height="76" aria-hidden="true">
+        <img class="orbit-icon oi-2" src="assets/arcade-icon.png" alt="" width="76" height="76" aria-hidden="true">
+        <img class="orbit-icon oi-3" src="assets/starcarver-icon.png" alt="" width="76" height="76" aria-hidden="true">
+        <div class="logo-plate">
+          <img class="brand-logo" src="assets/garoo-logo-498.png" srcset="assets/garoo-logo-498.png 498w, assets/garoo-logo.png 996w" sizes="(max-width: 860px) 70vw, 440px" width="996" height="848" alt="Garoo Interactive" fetchpriority="high">
+        </div>
       </div>
     </div>
   </div>
@@ -972,6 +1017,8 @@
     </div>
   </section>
 
+  <div class="brand-break" aria-hidden="true"><i></i><span><img src="assets/garoo-icon.png" width="876" height="559" alt=""></span><i></i></div>
+
   <section id="garoo-arcade">
     <div class="section-head reveal">
       <h2>Garoo Arcade</h2>
@@ -1005,6 +1052,8 @@
       </div>
     </div>
   </section>
+
+  <div class="brand-break" aria-hidden="true"><i></i><span><img src="assets/garoo-icon.png" width="876" height="559" alt=""></span><i></i></div>
 
   <section id="starcarver">
     <div class="section-head reveal">
@@ -1082,13 +1131,27 @@
 </main>
 
 <footer>
-  <span>&copy; 2026 Garoo Interactive. All rights reserved.</span>
-  <nav aria-label="Footer">
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="mini-games-privacy.html">Garoo Arcade Privacy</a>
-    <a href="starcarver-privacy.html">Starcarver Privacy</a>
-    <a href="mailto:hello@garoointeractive.com">Contact</a>
-  </nav>
+  <svg class="footer-streaks" viewBox="0 0 1200 300" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false"><g transform="rotate(-9 900 150)"><rect x="120" y="70" width="560" height="20" rx="10" fill="#58b800" fill-opacity=".55"/><rect x="60" y="118" width="430" height="20" rx="10" fill="#ffffff" fill-opacity=".4"/><rect x="160" y="170" width="640" height="26" rx="13" fill="#58b800" fill-opacity=".55"/><rect x="40" y="226" width="360" height="18" rx="9" fill="#ffffff" fill-opacity=".4"/><rect x="140" y="290" width="520" height="24" rx="12" fill="#58b800" fill-opacity=".55"/><rect x="80" y="352" width="300" height="18" rx="9" fill="#ffffff" fill-opacity=".4"/><rect x="120" y="410" width="600" height="22" rx="11" fill="#58b800" fill-opacity=".55"/><rect x="60" y="468" width="420" height="18" rx="9" fill="#58b800" fill-opacity=".55"/><rect x="100" y="525" width="500" height="24" rx="12" fill="#ffffff" fill-opacity=".4"/></g></svg>
+  <div class="footer-inner">
+    <div class="logo-plate">
+      <img class="brand-logo" src="assets/garoo-logo-498.png" width="996" height="848" loading="lazy" alt="Garoo Interactive">
+    </div>
+    <div class="footer-meta">
+      <p class="footer-line">Games with a mechanic of their own.</p>
+      <span class="footer-copy">&copy; 2026 Garoo Interactive. All rights reserved.</span>
+      <nav aria-label="Footer">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="mini-games-privacy.html">Garoo Arcade Privacy</a>
+        <a href="starcarver-privacy.html">Starcarver Privacy</a>
+        <a href="mailto:hello@garoointeractive.com">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-family" aria-hidden="true">
+      <img src="assets/mazeball-icon-128.png" alt="" width="68" height="68" loading="lazy">
+      <img src="assets/arcade-icon.png" alt="" width="68" height="68" loading="lazy">
+      <img src="assets/starcarver-icon.png" alt="" width="68" height="68" loading="lazy">
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -1171,7 +1234,9 @@
     var p = game.palette || {};
 
     // ---- SEO / head metadata ----
-    if (game.seo) {
+    // Page identity is the STUDIO (static head tags above). The featured game's seo data is kept
+    // but no longer rewrites title/description/OG at runtime.
+    if (false && game.seo) {
       document.title = game.seo.title;
       setMeta('name', 'description', game.seo.description);
       setMeta('property', 'og:title', game.seo.ogTitle);
@@ -1332,6 +1397,21 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
+  })();
+
+  // Compact header (<=860px): the chip row scrolls sideways. When a chip takes keyboard focus,
+  // scroll it fully clear of the right-edge fade (CSS scroll-padding alone is not reliable for
+  // chips that are only partly visible).
+  (function () {
+    var nav = document.querySelector('header nav');
+    if (!nav) return;
+    nav.addEventListener('focusin', function (e) {
+      var a = e.target.closest ? e.target.closest('a') : null;
+      if (!a || nav.scrollWidth <= nav.clientWidth + 1) return;
+      var nb = nav.getBoundingClientRect(), b = a.getBoundingClientRect();
+      if (b.left < nb.left + 12) nav.scrollLeft -= (nb.left + 12) - b.left;
+      else if (b.right > nb.right - 40) nav.scrollLeft += b.right - (nb.right - 40);
+    });
   })();
 
   // Nav active-section indicator, matching the section currently in view.
