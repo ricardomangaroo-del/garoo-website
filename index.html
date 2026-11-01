@@ -792,8 +792,8 @@
   }
 
   /* ---------- coming soon ---------- */
-  #coming-soon { --game-accent: #4a7dff; }
-  #coming-soon .section-head h2::after { background: var(--game-accent); }
+  #starcarver { --game-accent: #4a7dff; }
+  #starcarver .section-head h2::after { background: var(--game-accent); }
   .soon-card { display: flex; align-items: center; gap: 18px; max-width: 560px; background: var(--paper); border: 3px solid var(--ink); border-radius: var(--radius-md); box-shadow: 0 5px 0 var(--ink); padding: 18px 20px; }
   .soon-card .game-icon { width: 64px; height: 64px; border-radius: 16px; flex: none; }
   .soon-card h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.2; margin: 0 0 2px; color: var(--ink); }
@@ -821,6 +821,7 @@
   <nav aria-label="Primary">
     <a href="#featured-game" id="navGameLink">Matter MazeBall</a>
     <a href="#garoo-arcade">Garoo Arcade</a>
+    <a href="#starcarver">Starcarver</a>
     <a href="#studio">Studio</a>
     <a href="#contact">Contact</a>
     <a href="privacy.html">Privacy</a>
@@ -838,6 +839,7 @@
         <ul class="studio-games" aria-label="Games out now">
           <li><a class="game-chip" href="#featured-game"><img src="assets/mazeball-icon.png" alt="" width="44" height="44"><span><strong>Matter MazeBall</strong><small>Steam · iPhone · Android · Mac</small></span></a></li>
           <li><a class="game-chip" href="#garoo-arcade"><img src="assets/arcade-icon.png" alt="" width="44" height="44"><span><strong>Garoo Arcade</strong><small>iPhone · iPad · Android</small></span></a></li>
+          <li><a class="game-chip" href="#starcarver"><img src="assets/starcarver-icon.png" alt="" width="44" height="44"><span><strong>Starcarver</strong><small>iPhone</small></span></a></li>
         </ul>
         <a class="studio-how" href="#studio">How we work <span aria-hidden="true">→</span></a>
       </div>
@@ -1004,28 +1006,36 @@
     </div>
   </section>
 
-  <section id="coming-soon">
+  <section id="starcarver">
     <div class="section-head reveal">
-      <h2>Coming soon</h2>
-      <p>Starcarver is out now on iPhone. The Android version is still in testing.</p>
+      <h2>Starcarver</h2>
+      <p>A one-tap orbit arcade. Every jump leaves a line of light.</p>
     </div>
-    <div class="soon-wrap">
-    <div class="soon-card reveal">
-      <img src="assets/starcarver-icon.png" alt="" class="game-icon" width="64" height="64" loading="lazy">
-      <div>
-        <h3>Starcarver</h3>
-        <p class="soon-hook">Tap to leap between orbits. Collect every gem. Carve your way through the stars.</p>
-        <ul class="soon-meta">
-          <li class="soon-status">Out now on iPhone</li>
-          <li>Android in testing</li>
-        </ul>
-        <p style="margin:12px 0 0"><a class="btn btn-ghost" href="https://apps.apple.com/us/app/starcarver/id6821371196" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a></p>
+    <div class="game-feature arcade-feature">
+      <div class="arcade-shots reveal">
+        <img class="arcade-shot" src="assets/starcarver-shot-1.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a glowing ship arcing between lava planets, collecting gems">
+        <img class="arcade-shot arcade-shot-2" src="assets/starcarver-shot-2.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a ship carving a long bright trail through a field of ringed purple and gold planets">
       </div>
-    </div>
-    <div class="soon-shots reveal">
-      <img class="soon-shot" src="assets/starcarver-shot-1.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a glowing ship arcing between lava planets, collecting gems">
-      <img class="soon-shot" src="assets/starcarver-shot-2.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a ship carving a long bright trail through a field of ringed purple and gold planets">
-    </div>
+      <div class="game-copy reveal">
+        <p class="eyebrow-mono">Out now on the App Store &middot; Android in testing</p>
+        <div class="game-title-row">
+          <img src="assets/starcarver-icon.png" alt="" class="game-icon" width="50" height="50" loading="lazy">
+          <div>
+            <h3>Starcarver</h3>
+            <p class="game-sub">One-Tap Orbit Arcade</p>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li><strong>One tap</strong> &mdash; your satellite circles a planet. Tap, and it snaps to the next one</li>
+          <li><strong>50 systems</strong> &mdash; hand-built across 10 sectors, each a small puzzle in timing and route</li>
+          <li><strong>Chain gems</strong> &mdash; sweep every ring, build your combo, clear a system with no hits for three stars</li>
+          <li><strong>Your constellation</strong> &mdash; an ink trail follows every run, so each one draws its own path across the sky</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="https://apps.apple.com/us/app/starcarver/id6821371196" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
+          <a class="btn btn-ghost" href="starcarver-privacy.html">Privacy policy</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1076,6 +1086,7 @@
   <nav aria-label="Footer">
     <a href="privacy.html">Privacy Policy</a>
     <a href="mini-games-privacy.html">Garoo Arcade Privacy</a>
+    <a href="starcarver-privacy.html">Starcarver Privacy</a>
     <a href="mailto:hello@garoointeractive.com">Contact</a>
   </nav>
 </footer>
