@@ -52,3 +52,6 @@ workspace STATUS.md — not backfilled here.
 
 ## 2026-10-31 - Brand pass: gates done, share description replaced
 - art-director APPROVED WITH NOTES (fixes applied), accessibility ACCESSIBLE WITH NOTES (fixes by auditor: nav focus scroll, logo target, active underline, skip-link focus, forced-colors), brand-voice: share description replaced with the platform-free line (135 chars) so it does not go stale. NOT committed, NOT deployed.
+
+## 2026-10-31 - Starcarver privacy policy updated for the 1.1 ads version
+- **[DONE]** starcarver-privacy.html replaced with the compliance-reviewed ads policy (platform-compliance RE-AUDIT 15/17: publisher named as on Google Play, one optional rewarded AdMob video, child-directed treatment, no accounts; "Versions before 1.1 contain no ads"). Effective date 31 October 2026 (deploy date). Internal review comments stripped. Deployed BEFORE the ads build is submitted (compliance ordering, F1). Founder authorization: "you can do all except real iphone test" (2026-10-31).
