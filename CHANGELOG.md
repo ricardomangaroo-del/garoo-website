@@ -55,3 +55,6 @@ workspace STATUS.md — not backfilled here.
 
 ## 2026-10-31 - Starcarver privacy policy updated for the 1.1 ads version
 - **[DONE]** starcarver-privacy.html replaced with the compliance-reviewed ads policy (platform-compliance RE-AUDIT 15/17: publisher named as on Google Play, one optional rewarded AdMob video, child-directed treatment, no accounts; "Versions before 1.1 contain no ads"). Effective date 31 October 2026 (deploy date). Internal review comments stripped. Deployed BEFORE the ads build is submitted (compliance ordering, F1). Founder authorization: "you can do all except real iphone test" (2026-10-31).
+
+## 2026-11-01 - Starcarver privacy: consent-fallback sentence
+- **[DONE]** Added the compliance-required sentence (RE-AUDIT 18 F3) to section 4: if Google's consent check cannot complete, ads are requested only on devices whose time zone is clearly outside Europe. Matches ads.js (tag ios-v1.1-b5).
