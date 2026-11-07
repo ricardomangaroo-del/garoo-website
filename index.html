@@ -934,6 +934,123 @@
     #spokefall .sf-swatches li { forced-color-adjust: none; }
   }
   @media (hover: hover) and (pointer: fine) { #spokefall .feature-list li:hover::before { transform: rotate(45deg) scale(1.7); } }
+
+  /* ===== How to play: button + guide dialog (2026-11-07) ===== */
+  .guide-row { margin-top: 16px; }
+  .btn-guide {
+    cursor: pointer; font-family: var(--font-body);
+    background: var(--guide-accent, var(--game-accent)); color: var(--guide-on, var(--ink));
+    width: 100%; justify-content: center; max-width: 360px;
+  }
+  .btn-guide .btn-guide-icon { font-family: var(--font-display); font-size: 18px; line-height: 1; }
+  .btn-guide:hover { transform: translateY(-2px); filter: brightness(1.06); }
+  .btn-guide:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  #featured-game { --guide-accent: var(--game-accent); }
+  #garoo-arcade { --guide-accent: #b9a6ff; }
+  #starcarver { --guide-accent: #a9c1ff; }
+  #spokefall { --guide-accent: #ffb59e; }
+
+  dialog.guide {
+    --g-accent: #58c968; --g-ink: #1f7d31;
+    padding: 0; border: 3px solid var(--ink); border-radius: var(--radius-lg);
+    background: var(--paper); color: var(--ink-1);
+    width: min(760px, calc(100vw - 24px)); max-height: calc(100dvh - 24px);
+    box-shadow: 0 8px 0 var(--ink); overflow: hidden;
+  }
+  dialog.guide[open] { display: flex; flex-direction: column; animation: guideIn 0.26s var(--ease-out); }
+  dialog.guide::backdrop { background: rgba(40,48,68,0.62); }
+  @keyframes guideIn { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+  .guide-head {
+    display: flex; align-items: center; gap: 12px; flex: 0 0 auto;
+    padding: 14px 14px 14px 18px; background: var(--g-accent); border-bottom: 3px solid var(--ink); color: var(--ink);
+  }
+  .guide-head img { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--ink); background: var(--paper); flex: 0 0 auto; object-fit: contain; }
+  .guide-head h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(19px, 4.6vw, 26px); line-height: 1.15; margin: 0; flex: 1 1 auto; color: var(--ink); }
+  .guide-head h2 small { display: block; font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+  .guide-close {
+    flex: 0 0 auto; width: 48px; height: 48px; cursor: pointer;
+    border: 3px solid var(--ink); border-radius: 50%; background: var(--paper); color: var(--ink);
+    font: 800 24px/1 var(--font-body); box-shadow: 0 3px 0 var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .guide-close:hover { background: var(--studio-tint); }
+  .guide-close:active { transform: translateY(3px); box-shadow: none; }
+  .guide-body { overflow-y: auto; overscroll-behavior: contain; padding: 18px 18px 26px; -webkit-overflow-scrolling: touch; }
+  .guide-body > :first-child { margin-top: 0; }
+  .guide-body h3 {
+    font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1.2; color: var(--ink);
+    margin: 26px 0 8px; padding-bottom: 6px; border-bottom: 3px solid var(--g-accent);
+  }
+  .guide-body h4 { font-family: var(--font-display); font-weight: 800; font-size: 16.5px; margin: 16px 0 4px; color: var(--ink); }
+  .guide-body p, .guide-body li, .guide-body td, .guide-body th, .guide-body dd { font-size: 16px; line-height: 1.55; color: var(--ink-1); }
+  .guide-body p { margin: 0 0 10px; }
+  .guide-body strong { color: var(--ink); }
+  .guide-body ul, .guide-body ol { margin: 0 0 12px; padding-left: 22px; }
+  .guide-body li { margin: 0 0 5px; }
+  .guide-body .guide-lede { font-size: 17.5px; line-height: 1.5; color: var(--ink); font-weight: 700; }
+  .guide-body .guide-note { background: var(--bg-1); border: 2px solid var(--ink); border-radius: 14px; padding: 10px 14px; margin: 12px 0; }
+  .guide-body .guide-tip { background: var(--lime-wash); border: 2px solid var(--ink); border-radius: 14px; padding: 10px 14px; margin: 12px 0; }
+  .guide-body .guide-tip > strong:first-child, .guide-body .guide-note > strong:first-child { font-family: var(--font-display); margin-right: 4px; }
+  .guide-table-wrap { overflow-x: auto; margin: 0 0 14px; }
+  .guide-body table { border-collapse: collapse; width: 100%; min-width: 320px; }
+  .guide-body th, .guide-body td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 2px solid var(--line); }
+  .guide-body th { font-weight: 800; color: var(--ink); background: var(--bg-1); border-bottom: 2px solid var(--ink); }
+  .guide-body tbody th { background: transparent; border-bottom: 2px solid var(--line); white-space: nowrap; }
+  .guide-toc { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 6px; padding: 0; }
+  .guide-toc a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px;
+    background: var(--paper); color: var(--ink); font-weight: 800; font-size: 14.5px; text-decoration: none;
+  }
+  .guide-toc a:hover { background: var(--studio-tint); }
+  .guide-body details { border: 2px solid var(--ink); border-radius: 16px; background: #fff; margin: 0 0 10px; }
+  .guide-body summary {
+    cursor: pointer; list-style: none; min-height: 48px; padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-weight: 800; font-size: 17.5px; color: var(--ink);
+  }
+  .guide-body summary::-webkit-details-marker { display: none; }
+  .guide-body summary::after { content: "+"; margin-left: auto; font-size: 22px; line-height: 1; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--ink); border-radius: 50%; flex: 0 0 auto; }
+  .guide-body details[open] > summary::after { content: "\2212"; }
+  .guide-body summary small { font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .guide-body details[open] > summary { border-bottom: 2px solid var(--ink); background: var(--bg-1); border-radius: 14px 14px 0 0; }
+  .guide-body details > .guide-pane { padding: 6px 14px 12px; }
+  .guide-body .guide-sw { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--ink); border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
+  .guide-body a { color: var(--g-ink); font-weight: 800; }
+  .guide-foot { margin-top: 24px; font-size: 14px; color: var(--ink-2); }
+  dialog.guide :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn-guide:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  body.guide-open { overflow: hidden; }
+  @media (max-width: 480px) {
+    dialog.guide { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); border-radius: 22px; }
+    .guide-body { padding: 14px 14px 22px; }
+    .btn-guide { max-width: none; }
+    .guide-body tbody th { white-space: normal; width: 34%; }
+    .guide-body th, .guide-body td { padding: 8px 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    dialog.guide[open] { animation: none; }
+    .btn-guide:hover, .btn-guide:active { transform: none; }
+  }
+  @media (forced-colors: active) { dialog.guide { border-color: CanvasText; } .guide-head { border-color: CanvasText; } }
+
+  /* art-director fixes (2026-11-07): secondary-weight button, flush TOC, no table clipping on phones, prose measure */
+  .btn-guide { background: var(--paper); color: var(--ink); width: auto; max-width: none; }
+  .btn-guide .btn-guide-icon {
+    display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+    border: 2px solid var(--ink); border-radius: 50%; background: var(--guide-accent, var(--game-accent)); font-size: 15px;
+  }
+  .btn-guide:hover { background: var(--guide-accent, var(--studio-tint)); }
+  #spokefall .btn-guide { background: var(--sf-cream-hi); }
+  #spokefall .btn-guide:hover { background: var(--guide-accent); }
+  .guide-body .guide-toc { padding: 0; margin: 0 0 6px; }
+  .guide-body p, .guide-body li { max-width: 68ch; }
+  .guide-body .guide-note { background: color-mix(in srgb, var(--g-accent) 16%, var(--paper)); }
+  @media (max-width: 480px) {
+    dialog.guide { max-height: calc(100dvh - 28px); }
+    .guide-body table { min-width: 0; }
+    .guide-body td, .guide-body th { overflow-wrap: anywhere; }
+    .guide-body .guide-toc { flex-wrap: nowrap; overflow-x: auto; margin-inline: -14px; padding: 0 14px 8px; scroll-snap-type: x proximity; }
+    .guide-toc li { flex: 0 0 auto; scroll-snap-align: start; }
+  }
 </style>
 </head>
 <body>
@@ -1059,6 +1176,7 @@
         <a class="btn btn-ghost" id="gameCtaMac" href="https://apps.apple.com/us/app/matter-mazeball-elements/id6818357434" target="_blank" rel="noopener">Mac App Store<span class="sr-only"> (opens in a new tab on the Mac App Store)</span></a>
           <a class="btn btn-ghost" href="#contact">Say hello</a>
         </div>
+        <div class="guide-row"><button type="button" class="btn btn-guide" data-guide="mazeball" aria-haspopup="dialog"><span class="btn-guide-icon" aria-hidden="true">?</span>How to play<span class="sr-only"> Matter MazeBall</span></button></div>
       </div>
     </div>
     <div class="shot-strip reveal" aria-label="Matter MazeBall screenshots from iPhone">
@@ -1101,6 +1219,7 @@
           <a class="btn btn-ghost" href="https://apps.apple.com/us/app/garoo-arcade/id6813999890" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
           <a class="btn btn-ghost" href="mini-games-privacy.html">Privacy policy</a>
         </div>
+        <div class="guide-row"><button type="button" class="btn btn-guide" data-guide="arcade" aria-haspopup="dialog"><span class="btn-guide-icon" aria-hidden="true">?</span>How to play<span class="sr-only"> Garoo Arcade</span></button></div>
       </div>
     </div>
   </section>
@@ -1137,6 +1256,7 @@
           <a class="btn btn-ghost" href="https://apps.apple.com/us/app/starcarver/id6821371196" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
           <a class="btn btn-ghost" href="starcarver-privacy.html">Privacy policy</a>
         </div>
+        <div class="guide-row"><button type="button" class="btn btn-guide" data-guide="starcarver" aria-haspopup="dialog"><span class="btn-guide-icon" aria-hidden="true">?</span>How to play<span class="sr-only"> Starcarver</span></button></div>
       </div>
     </div>
   </section>
@@ -1173,6 +1293,7 @@
           <a class="btn btn-ghost" href="https://apps.apple.com/us/app/spokefall/id6828239011" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
           <a class="btn btn-ghost" href="spokefall-privacy.html">Privacy policy</a>
         </div>
+        <div class="guide-row"><button type="button" class="btn btn-guide" data-guide="spokefall" aria-haspopup="dialog"><span class="btn-guide-icon" aria-hidden="true">?</span>How to play<span class="sr-only"> Spokefall</span></button></div>
       </div>
     </div>
   </section>
@@ -1218,6 +1339,421 @@
     </div>
   </section>
 </main>
+
+<template id="guide-mazeball">
+<p class="guide-lede">Tilt your phone to roll a ball through a maze to the glowing exit. Every ball behaves differently, and fire, water, ice, mud and storms all change how it moves. Pick the right one for the maze.</p>
+<ul class="guide-toc" aria-label="In this guide">
+  <li><a href="#g-mb-basics">The basics</a></li><li><a href="#g-mb-controls">Controls</a></li><li><a href="#g-mb-modes">Modes</a></li><li><a href="#g-mb-balls">Balls</a></li><li><a href="#g-mb-hazards">Tiles and weather</a></li><li><a href="#g-mb-rewards">Medals and coins</a></li><li><a href="#g-mb-tips">Tips</a></li><li><a href="#g-mb-settings">Settings</a></li>
+</ul>
+
+<h3 id="g-mb-basics">The basics</h3>
+<ul>
+  <li><strong>Reach the exit.</strong> The exit portal stays hidden until you get close. Then "Exit found" appears, and you roll to it.</li>
+  <li><strong>The clock counts up.</strong> Your time is compared with each maze's gold, silver and bronze par times.</li>
+  <li><strong>A run ends</strong> if you fall in a hole, or if a hazard wears your ball down. There are no lives. Restart, or spend coins to continue from your last safe tile.</li>
+  <li><strong>Each play is fresh.</strong> The exit moves to a new spot, always reachable and far from the start. The Daily maze keeps its exit fixed for the day.</li>
+</ul>
+<p>From the home screen: <strong>Play</strong> (choose a ball, then a maze, then Start), <strong>2 Player</strong>, <strong>Shop</strong> and <strong>Records</strong>.</p>
+
+<h3 id="g-mb-controls">Controls</h3>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Where</th><th scope="col">How you steer</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Phone, Tilt (default)</th><td>Lean the phone. It measures from how you hold it when the run starts, with a small dead zone, and about 30&deg; of lean is full speed. On iPhone, the game asks for motion access when you press Start.</td></tr>
+    <tr><th scope="row">Phone, Stick</th><td>An on-screen joystick steers the ball, and no tilting is needed. Switch in Settings.</td></tr>
+    <tr><th scope="row">Keyboard</th><td>Arrow keys roll the ball. In 2 Player on one keyboard, Player 2 uses W, A, S, D.</td></tr>
+    <tr><th scope="row">Steam</th><td>Arrow keys, or a gamepad's left stick or D-pad. Press R to restart. In menus, the gamepad D-pad moves and A confirms.</td></tr>
+  </tbody>
+</table></div>
+<p>In a run, buttons let you go back, mute, <strong>recenter</strong> your tilt (if the phone drifts), toggle the minimap, and restart.</p>
+
+<h3 id="g-mb-modes">Modes</h3>
+<p>The level page has five tabs.</p>
+<details open><summary>Adventure <small>9 mazes</small></summary><div class="guide-pane">
+  <p>Elemental mazes: Meadow, Flooded Ruins, Mud Flats, Furnace Depths, Glacier Caves, Storm Peak, Elemental Gauntlet, Shifting Sands and Tesla Fields. Each one introduces a new element.</p>
+</div></details>
+<details><summary>World Cities <small>10 mazes</small></summary><div class="guide-pane">
+  <p>Paris, New York, Venice, Cairo, Tokyo, London, Dubai, Rio de Janeiro, Great Wall of China and Sydney. Each city has its own ambient scenery, such as balloons, tides, petals or fog.</p>
+</div></details>
+<details><summary>Mega Cities <small>10 mazes</small></summary><div class="guide-pane">
+  <p>Rome, Moscow, Beijing, Istanbul, Athens, Barcelona, San Francisco, Hong Kong, Amsterdam and Las Vegas. Your first Continue in a Mega City maze is free.</p>
+</div></details>
+<details><summary>Cinema <small>10 mazes</small></summary><div class="guide-pane">
+  <p>Wide corridors and big set-piece hazard areas, like The Drowned Ballroom, Orbital Reactor Core, The Great Freeze and The Laser Vault.</p>
+</div></details>
+<details><summary>Daily &amp; Random</summary><div class="guide-pane">
+  <p><strong>Daily maze:</strong> one 17&times;17 maze a day, the same for everyone, with its own weather. Its date follows UTC, so it changes at UTC midnight. Par times are 40, 65 and 105 seconds.</p>
+  <p><strong>Random mazes:</strong> a fresh layout and weather every time, in four sizes: Small, Medium, Large and Mega. Each is a single maze with its own par times.</p>
+  <p><strong>Daily quests and a login streak</strong> also live on this tab, with coin rewards.</p>
+</div></details>
+<details><summary>2 Player <small>one device</small></summary><div class="guide-pane">
+  <p><strong>Live Race:</strong> both balls run the same maze at once on one shared screen. Player 1 tilts, and Player 2 uses the on-screen joystick (or W, A, S, D on a keyboard). Balls can bump each other, and the first to the exit wins.</p>
+  <p><strong>Ghost Relay:</strong> Player 1 runs the maze. Then Player 2 races a see-through ghost of that run.</p>
+</div></details>
+
+<h3 id="g-mb-balls">Balls</h3>
+<p>There are 30 balls. Stone, Fire, Water, Ice and Air are free, and the rest are bought with coins. The card for each ball shows Speed, Grip and Toughness. Here are a few that show how different they are:</p>
+<ul>
+  <li><strong>Stone</strong> is heavy and fireproof, and it smashes cracked walls when moving fast. It struggles in water.</li>
+  <li><strong>Fire</strong> shrugs off lava and melts ice patches, but water puts it out quickly.</li>
+  <li><strong>Water</strong> speeds through pools and puts out fire tiles, but fire boils it away.</li>
+  <li><strong>Ice</strong> glides with almost no drag and freezes water tiles into ice it can skate over. Fire melts it.</li>
+  <li><strong>Air</strong> floats over holes and water, but storm gusts toss it around.</li>
+  <li><strong>Spark</strong> recharges on tesla tiles, but water is bad for it.</li>
+  <li><strong>Phantom</strong> passes straight through cracked walls.</li>
+  <li><strong>Diamond</strong> is immune to every hazard.</li>
+</ul>
+<p>Staying on a harmful tile fills a damage meter (Burning, Melting, Zapped, Extinguishing). The ball visibly shrinks, and at 100% the run ends. The meter recovers slowly once you are off the hazard. A few balls are fragile and shatter on a hard wall hit, like Glass, Bubble and Balloon.</p>
+
+<h3 id="g-mb-hazards">Tiles and weather</h3>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Tile or weather</th><th scope="col">What it does</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Water</th><td>Drags heavy balls down. Floaters skim across.</td></tr>
+    <tr><th scope="row">Fire</th><td>Wears most balls down. On some mazes, the flames pulse on and off.</td></tr>
+    <tr><th scope="row">Ice</th><td>Almost no friction, so you slide.</td></tr>
+    <tr><th scope="row">Mud</th><td>Slows you a lot.</td></tr>
+    <tr><th scope="row">Sand dunes</th><td>Slows most balls a little.</td></tr>
+    <tr><th scope="row">Tesla tile</th><td>Pulses on and off. It zaps while it is on.</td></tr>
+    <tr><th scope="row">Wind vent</th><td>Pushes the ball in a fixed direction, and pushes light balls hardest.</td></tr>
+    <tr><th scope="row">Cracked wall</th><td>Heavy balls can smash it at speed. Phantom and Galaxy pass through, and Acid dissolves it.</td></tr>
+    <tr><th scope="row">Hole</th><td>Ends the run, unless your ball flies over holes (Air, Bubble, Balloon).</td></tr>
+    <tr><th scope="row">Rain</th><td>Makes everything slippery.</td></tr>
+    <tr><th scope="row">Snow</th><td>Heavy going, which slows most balls.</td></tr>
+    <tr><th scope="row">Storm</th><td>Rain plus rotating wind gusts.</td></tr>
+  </tbody>
+</table></div>
+<p>Mazes are checked so a hole never blocks the only route.</p>
+
+<h3 id="g-mb-rewards">Medals and coins</h3>
+<ul>
+  <li><strong>Medals</strong> go to gold, silver or bronze finishes against par. The win screen tells you the time needed for the next medal.</li>
+  <li><strong>Coins:</strong> 10 per win, plus 20 for gold, 10 for silver or 5 for bronze, plus 25 the first time you clear a maze. Coins picked up in the maze count too.</li>
+  <li><strong>Boosts</strong> are armed before you press Start. <em>Shield</em> gives 4 seconds of hazard immunity at the start. <em>2x Coins</em> doubles that run's coins.</li>
+  <li><strong>No-Map Challenge</strong> is optional. Hide the minimap for the whole run and finish without opening it for double coins. Open it once and the bonus is gone.</li>
+  <li><strong>Continue</strong> costs coins (75, then 150, 225, up to 400) and puts you back at your last safe tile with a brief shield.</li>
+  <li><strong>Season Pass:</strong> every win earns XP toward 10 tiers.</li>
+  <li><strong>Shop:</strong> balls, locked mazes, trails, skins, victory effects and boosts. Cosmetics are cosmetic only.</li>
+</ul>
+<div class="guide-note"><strong>About ads (phone).</strong> Rewarded video is always optional. It can revive a run, double your win coins, or open the daily chest.</div>
+<p>On Steam, every ball and maze is unlocked, and there are no ads or purchases.</p>
+
+<h3 id="g-mb-tips">Tips</h3>
+<ul>
+  <li>Look at the maze's hazards on the level page, then pick a ball that shrugs them off.</li>
+  <li>Small tilts beat big ones. Ice and rain make a heavy lean hard to undo.</li>
+  <li>Wind vents and storms push light balls the most. A heavy ball keeps its line.</li>
+  <li>Use the minimap to plan, unless you are going for the No-Map bonus.</li>
+  <li>Your tilt drifts? Hit Recenter.</li>
+  <li>Records keeps your eight best times per maze, with the ball and medal.</li>
+</ul>
+
+<h3 id="g-mb-settings">Settings</h3>
+<ul>
+  <li><strong>Controls:</strong> Tilt or Stick on phones. On Steam: Keys / Pad or Mouse stick.</li>
+  <li><strong>Tilt sensitivity</strong> slider, from gentle to quick (called Control sensitivity on Steam).</li>
+  <li><strong>Music</strong>, <strong>Sound effects</strong> and <strong>Vibration</strong>, each on its own. Vibration works on Android.</li>
+  <li><strong>Privacy Policy</strong> link, plus an ad privacy choices row where your region requires one.</li>
+  <li>Steam adds a <strong>Map fog of war</strong> toggle.</li>
+</ul>
+<p class="guide-foot">Progress, records and coins are saved on your device. There is no account.</p>
+</template>
+<template id="guide-arcade">
+<p class="guide-lede">Twenty pocket games in one app: puzzles, reflex runs, tilt games and a stadium of races. Pick a category on the home screen, then pick a game. Each game below has its own short guide.</p>
+<ul class="guide-toc" aria-label="In this guide">
+  <li><a href="#g-ar-hub">The app</a></li><li><a href="#g-ar-puzzle">Puzzle</a></li><li><a href="#g-ar-arcade">Arcade</a></li><li><a href="#g-ar-motion">Motion</a></li><li><a href="#g-ar-sport">Sport</a></li><li><a href="#g-ar-settings">Settings</a></li>
+</ul>
+
+<h3 id="g-ar-hub">The app</h3>
+<ul>
+  <li><strong>Four tabs:</strong> Puzzle (5 games), Arcade (3), Motion (2) and Sport (10). The tab you used last is remembered.</li>
+  <li><strong>Coins</strong> come from finishing levels and runs. Your balance is at the top of the home screen, next to Settings and the Shop.</li>
+  <li><strong>Free and locked.</strong> Pathline and Sprint are free to play. Each of the other 18 games gives you one Free Trial run (no coins earned during it). After that, a game unlocks for 1,000 coins, and unlocks are permanent.</li>
+  <li><strong>The Shop</strong> sells hints, streak shields, themes, Pathline line skins, game unlocks and Remove Ads, all for coins. Coin packs for real money also appear where your store offers them.</li>
+  <li><strong>Ads</strong> are always optional. A win screen can offer a short ad for bonus coins, and Pathline and Gem Flow can offer one for a hint. No ad ever interrupts a run. Remove Ads (1,500 coins) hides the prompts.</li>
+  <li><strong>Your progress is saved on your device.</strong> There is no account.</li>
+</ul>
+
+<h3 id="g-ar-puzzle">Puzzle</h3>
+<details open><summary>Pathline <small>free</small></summary><div class="guide-pane">
+  <p><strong>Goal:</strong> draw one unbroken line from the gold-ringed start tile through every open tile, without crossing yourself. Blocked tiles are skipped.</p>
+  <p><strong>Controls:</strong> press the start tile and drag. Move up, down, left or right. Drag back over your own line to undo steps. Buttons: Undo, Hint and Reset.</p>
+  <p><strong>Checkpoints:</strong> numbered tiles must be entered in order, and the next one is highlighted.</p>
+  <ul>
+    <li><strong>Daily:</strong> one shared 6&times;6 puzzle a day. After you solve it, it stays solved until tomorrow's. Your streak counts consecutive days, and a Streak Shield saves it if you miss one. Streak badges arrive at 3, 7, 14 and 30 days.</li>
+    <li><strong>Free play:</strong> unlimited puzzles in five tiers, from Rookie to Expert. Win 3 puzzles to move up a tier.</li>
+    <li><strong>Speed:</strong> opens once you solve the Daily. It is a timed re-run of that same puzzle.</li>
+  </ul>
+  <p><strong>Hints:</strong> you get 3 free a day. A hint lights the next correct tile, and works while your line matches the solution so far. When you are out, you can watch an optional ad for one or spend 40 coins.</p>
+  <p><strong>Coins:</strong> 30 plus a streak bonus for a Daily win, plus a little extra for checkpoints and for a new best time.</p>
+</div></details>
+<details><summary>Lucent</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> slide the rings left and right so each ring has an opening under the colored light, and the light falls through every ring onto its gem.</p>
+  <p><strong>Controls:</strong> drag each ring sideways. It settles into a slot, and each new slot counts as one move.</p>
+  <p><strong>Rules:</strong> several lights share the same rings, so opening one path can close another. Everything is visible, and every level can be solved. Finish within twice par (par is the number of rings) for a "Clean line" bonus.</p>
+  <p>Levels start with two rings and one light, then add rings, lights (red, gold and teal) and longer rings as you go. There is no hint button and no timer.</p>
+</div></details>
+<details><summary>Gem Flow</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> connect every pair of matching gems with a pipe, and fill every cell on the board.</p>
+  <p><strong>Controls:</strong> drag from a gem to its twin. Drag back along a pipe to shorten it. Start on an existing pipe to redraw it.</p>
+  <p><strong>Rules:</strong> a pipe cannot pass through another color's gem. Drawing over another pipe trims that pipe back to that point. Every board can be solved. Each color has its own shape on its gems, so you can tell them apart by shape as well as color.</p>
+  <p>Boards grow from 5&times;5 to 8&times;8, with more pairs as you go. The Hint button reveals one whole pipe, through an optional ad (up to 3 a day) or free with Remove Ads.</p>
+</div></details>
+<details><summary>Picross</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> fill the grid so every row and column matches its number clues. A clue gives the lengths of the runs of filled cells, in order. A 0 means an empty line.</p>
+  <p><strong>Controls:</strong> tap a cell. The mode button switches between Fill (paint) and Mark (an X to rule a cell out). Tap again to clear. Pause hides the board and stops the timer.</p>
+  <p><strong>Rules:</strong> any fill that satisfies every clue wins. Boards are random, so some need a guess. Marks do not count toward the win.</p>
+  <p>Boards start at 5&times;5 and grow to 8&times;8. A fast solve earns a "Sharp eyes" bonus. The Hint button fills one needed cell and has no limit.</p>
+</div></details>
+<details><summary>Lights Out</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> turn every tile dark on the 5&times;5 board.</p>
+  <p><strong>Controls:</strong> tap a tile. It flips itself and its four neighbors (up, down, left and right, but not diagonals).</p>
+  <p><strong>Rules:</strong> every puzzle can be solved. Par is the fewest presses needed, and finishing at par or better earns a "Perfect clear". Hint pulses a tile that is part of a solution. Restart rolls a new scramble at the same level.</p>
+  <p class="guide-tip"><strong>Tip:</strong> pressing the same tile twice cancels out, and the order of presses does not matter.</p>
+</div></details>
+
+<h3 id="g-ar-arcade">Arcade</h3>
+<p>Three one-tap runs. They have no hint buttons and no pause button, and they stop when you leave the app. Your best score is saved.</p>
+<details><summary>Refract</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> thread a beam of light down through a stack of spinning rings for as long as you can.</p>
+  <p><strong>Controls:</strong> tap anywhere, just as the gap in the ring reaches the marker at the bottom. A tap that misses the gap ends the run ("Beam Blocked!"). A tap close to dead center is a <strong>perfect</strong> and builds a streak.</p>
+  <p>Score is gates passed. The rings spin faster and the gaps shrink as you go. From 6 gates, some rings get two gaps. From 10, some gaps breathe (blue). From 16, some rings reverse (purple).</p>
+</div></details>
+<details><summary>Nodecut</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> clear the gold nodes as they reach the marker at the top of the spinning ring. Leave the red ones alone.</p>
+  <p><strong>Controls:</strong> tap anywhere when a node is at the marker.</p>
+  <ul>
+    <li><strong>Gold</strong> node: +1 and builds a streak. <strong>Emerald</strong> node (it has an extra ring): +2.</li>
+    <li>Tapping with nothing at the marker is harmless.</li>
+    <li>The run ends if you clear a red node (marked with an X), or if a gold or emerald node slips past.</li>
+    <li>After 12 points, a second marker opens on the opposite side.</li>
+  </ul>
+</div></details>
+<details><summary>Chargeflip</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> guide a charged bead through a gauntlet without touching the red rails or any pylon.</p>
+  <p><strong>Controls:</strong> tap anywhere to flip the bead between + and &minus;. That is the only steering.</p>
+  <p><strong>Rules:</strong> pylons carry a + or &minus;. Like charges push the bead away, and opposite charges pull it in. The sign is drawn on the bead and the pylons, so you never need color alone.</p>
+  <p>Catch the sparks in a row to build a combo (x2 after 3, up to x6) that boosts your distance score. Missing a spark resets the combo. The course speeds up, pylons start to bob, and later pairs of pylons form pinch gates with a spark in the middle.</p>
+</div></details>
+
+<h3 id="g-ar-motion">Motion</h3>
+<p>These two read your phone's tilt. On iPhone, the first Start asks for motion access. With no motion sensor, drag left and right on the screen, or use the arrow keys. Each has a pause button.</p>
+<details><summary>Ballast</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> balance an orb on a see-saw beam, and roll under the falling sparks to catch them.</p>
+  <p><strong>Rules:</strong> the beam tilts with your phone and the orb rolls downhill. If it rolls off either end, the run is over. The beam gets shorter, gravity stronger and the sparks faster as time passes. Score is sparks caught.</p>
+  <p class="guide-tip"><strong>Tip:</strong> the orb has momentum, so use small tilts and correct early.</p>
+</div></details>
+<details><summary>Echo</summary><div class="guide-pane">
+  <p><strong>Goal:</strong> roll a marble to the gold exit of a maze you can barely see. Walls glow only near the marble.</p>
+  <p><strong>Rules:</strong> the marble starts top-left and the exit sits bottom-right, a gold diamond that is always faintly visible. You start with 20 seconds, and each cleared maze adds more time. Mazes begin at 6&times;6 and grow by one each level, up to 12&times;12. When the time runs out, the run ends, and your score is the level you reached.</p>
+  <p>The fallback controls also include Up and Down, and a vertical drag.</p>
+</div></details>
+
+<h3 id="g-ar-sport">Sport</h3>
+<p>Ten tap-and-race events: <strong>Sprint, Cycle Race, Hurdles, Rowing, XC Ski, Swimming, Speed Skating, Kayak Sprint, Wheelchair Sprint</strong> and <strong>Steeplechase</strong>. You race three computer runners in four lanes. Sprint is free, and the others unlock as described above.</p>
+<h4>How an event runs</h4>
+<ul>
+  <li>Every event is <strong>Heat 1, Heat 2, Heat 3, then the Final.</strong> After a countdown of 3, 2, 1, GO, your inputs push your speed up. Your speed fades if you stop, so keep a steady rhythm.</li>
+  <li><strong>Finish in the top 2 of 4</strong> to advance from a heat. Miss it and you can retry the same heat as often as you like.</li>
+  <li>Later rounds are tougher: opponents are faster, and your speed fades quicker. The Final has no cut-off, so any finishing place ends the event.</li>
+  <li>Inputs before GO are ignored, and there is no false start. You can pause at any time.</li>
+</ul>
+<h4>The controls</h4>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Events</th><th scope="col">Controls</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Sprint, Swimming, Speed Skating</th><td>Tap the <strong>left and right pads, one after the other</strong>. Tapping the same pad twice gives only a quarter of the push. The next pad glows.</td></tr>
+    <tr><th scope="row">Cycle Race, Wheelchair Sprint</th><td><strong>Rub up and down</strong> in the zone. Distance counts in both directions, so faster rubbing means faster strokes.</td></tr>
+    <tr><th scope="row">Rowing, Kayak Sprint</th><td><strong>Pull down</strong> in the zone, then lift and pull again. Only downward movement counts.</td></tr>
+    <tr><th scope="row">Hurdles, Steeplechase</th><td>Tap <strong>Run</strong> fast, and tap <strong>Jump</strong> a little before each barrier. Clip one and you lose most of your speed, but you keep running.</td></tr>
+    <tr><th scope="row">XC Ski</th><td>Tap <strong>both pads at the same time</strong> (within a split second) to plant the poles. Single taps do nothing for speed.</td></tr>
+  </tbody>
+</table></div>
+<h4>Rewards</h4>
+<ul>
+  <li>Your best Final time is saved per event.</li>
+  <li>Coins: 6 for qualifying from a heat. The Final pays 28, 16, 10 or 6 for 1st to 4th, plus 15 for a new personal best.</li>
+  <li>The top three in the Final see a Gold, Silver or Bronze Medal badge on the result screen. Winners get a "Champion!" moment.</li>
+  <li>A new tournament always starts at Heat 1.</li>
+</ul>
+<div class="guide-tip"><strong>Tip:</strong> steady beats frantic. Race Assist (see Settings) makes your speed fade more slowly if you want an easier time.</div>
+
+<h3 id="g-ar-settings">Settings</h3>
+<ul>
+  <li><strong>Sound</strong>, <strong>Haptics</strong> and a <strong>Volume</strong> slider.</li>
+  <li><strong>Race Assist</strong> (off by default): in Sport events your speed fades more slowly, and tapping the same pad twice costs you less.</li>
+  <li><strong>Reset progress</strong>, which asks you to confirm and wipes streaks, coins, history and unlocks.</li>
+  <li>A <strong>Privacy policy</strong> link, an ad privacy choices row where your region requires one, and a support email.</li>
+</ul>
+<p>The app follows your device's reduce-motion setting for screen transitions.</p>
+<p class="guide-foot">Progress is saved on your device only. There are no accounts.</p>
+</template>
+<template id="guide-starcarver">
+<p class="guide-lede">Your satellite circles a planet. Tap, and it leaps to the next orbit, leaving a line of light. Collect every gem in a system, slip past the red hazards, and carve your route across the sky.</p>
+<ul class="guide-toc" aria-label="In this guide">
+  <li><a href="#g-sc-basics">The basics</a></li><li><a href="#g-sc-controls">Controls</a></li><li><a href="#g-sc-scoring">Gems, combo and lives</a></li><li><a href="#g-sc-stars">Stars and unlocking</a></li><li><a href="#g-sc-more">Systems, daily and shop</a></li><li><a href="#g-sc-tips">Tips</a></li><li><a href="#g-sc-settings">Settings</a></li>
+</ul>
+
+<h3 id="g-sc-basics">The basics</h3>
+<ul>
+  <li><strong>Clear a system</strong> by collecting every gem in it. There is no timer to beat.</li>
+  <li><strong>Hazards</strong> are the red shards. Some circle a planet's orbit, and some float in the lanes between planets, a few sliding back and forth. Touching one costs a life.</li>
+  <li><strong>You start each attempt with three lives.</strong> Run out and the attempt ends.</li>
+  <li><strong>The skill is timing.</strong> Your satellite always leaps to the nearest other planet, so you choose <em>when</em> to tap and which way you are circling, not where to aim.</li>
+</ul>
+<p>Planets look different, but they all behave the same.</p>
+
+<h3 id="g-sc-controls">Controls</h3>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Input</th><th scope="col">Jump</th><th scope="col">Flip direction</th><th scope="col">Pause</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Touch or mouse</th><td>Tap or click anywhere</td><td>The Flip button in a bottom corner</td><td>The pause button</td></tr>
+    <tr><th scope="row">Keyboard</th><td>Space</td><td>R</td><td>Esc</td></tr>
+    <tr><th scope="row">Gamepad</th><td>A</td><td>LB or RB</td><td>Start</td></tr>
+  </tbody>
+</table></div>
+<p>Where you tap on the screen does not matter. A faint dashed arc shows where your next tap would land. <strong>Flip</strong> reverses the way you circle your current planet, which changes which planet is nearest. It has a short cooldown, and it does nothing mid-leap.</p>
+<p>In menus, use the arrow keys or the gamepad D-pad to move and A to choose.</p>
+
+<h3 id="g-sc-scoring">Gems, combo and lives</h3>
+<ul>
+  <li><strong>Ring gems</strong> sit on a planet's orbit and are collected as you circle past them. <strong>Space gems</strong> float between planets, and you can grab them mid-leap.</li>
+  <li><strong>Score per gem = 10 &times; your combo.</strong></li>
+  <li><strong>Combo</strong> starts at x1 and goes up one step for every 5 gems you collect, to a top of x8. A hit sends it back to x1.</li>
+  <li><strong>Every 5 gems also earns a life,</strong> up to a maximum of 6.</li>
+  <li><strong>After a hit</strong> you get under a second of safe time. You also get a short safe moment at the start of each attempt.</li>
+</ul>
+<p>A cream ring and arrow warn you shortly before a hazard closes in on your orbit. A "clean" counter appears when you chain several leaps without a hit.</p>
+
+<h3 id="g-sc-stars">Stars and unlocking</h3>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Result</th><th scope="col">What it takes</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">3 stars</th><td>Clear the system with no hits.</td></tr>
+    <tr><th scope="row">2 stars</th><td>Clear it with one hit and a score at or above the system's target.</td></tr>
+    <tr><th scope="row">1 star</th><td>Any other clear.</td></tr>
+  </tbody>
+</table></div>
+<p>Your best stars for each system are kept. Clearing a system opens the next one, strictly in order.</p>
+<div class="guide-note"><strong>Chart Secured.</strong> If you run out of lives after collecting at least three quarters of a system's gems, the next system still opens. You get no stars for it. Below that mark, the result is Chart Interrupted, and you try again.</div>
+
+<h3 id="g-sc-more">Systems, daily and shop</h3>
+<ul>
+  <li><strong>50 hand-built systems in 10 sectors.</strong> Only the first is open at the start. Later systems add more planets, faster hazards and tighter hit windows.</li>
+  <li><strong>Your constellation.</strong> The satellite's ink trail stays on the sky for the whole attempt, so each run draws its own path. It is purely visual and does not affect scoring.</li>
+  <li><strong>Daily challenge.</strong> After you have seen the first-run help, a Daily button appears. It picks one system you have already passed for the date and sets a goal: no hits, one hit allowed, or up to three flips. Finishing it pays 10 Starmarks once per date.</li>
+  <li><strong>Starmarks</strong> come from clears, Chart Secured and failed attempts. Spend them in the shop on trail and satellite looks (cosmetic only), or on an Extra Jump.</li>
+  <li><strong>Extra Jump</strong> costs 30 Starmarks. On a Chart Interrupted or Chart Secured card, it puts you back in with one life. You can use one per attempt.</li>
+</ul>
+<div class="guide-note"><strong>About ads.</strong> There is one optional ad: a "Free Jump (ad)" button on those same cards. Watch it to the end and you get that same extra life. Close it early and nothing happens. The button appears only when an ad is ready, and it is never shown after a full clear.</div>
+
+<h3 id="g-sc-tips">Tips</h3>
+<ul>
+  <li>Watch the preview arc before you tap. It shows exactly where the leap would land.</li>
+  <li>If the nearest planet is the wrong one, flip first and then tap.</li>
+  <li>Take the gems next to a hazard last, once you can read its rhythm.</li>
+  <li>Stuck on three stars? Learn the system first with a sloppy run, then come back for a clean one.</li>
+  <li>Keep your combo high near the end of a system, where the last gems are worth the most.</li>
+</ul>
+
+<h3 id="g-sc-settings">Settings</h3>
+<ul>
+  <li><strong>Sound</strong> and <strong>Haptics</strong>, plus a quick mute button on the play screen.</li>
+  <li><strong>Reduce Motion</strong> calms screen shake, particle bursts and idle drift. It also follows your device's setting.</li>
+  <li><strong>Flip button side</strong>: left (the default) or right.</li>
+  <li><strong>How to Play</strong>: replays the in-game intro.</li>
+  <li>A <strong>Privacy Policy</strong> link, and an ad privacy choices row where your region requires one.</li>
+</ul>
+<p class="guide-foot">Progress is saved on your device only. There are no accounts.</p>
+</template>
+<template id="guide-spokefall">
+<p class="guide-lede">Turn the rings until one whole spoke is a single color. It breaks, the wheel steps in, and new rings arrive. Keep the wheel from filling up.</p>
+<ul class="guide-toc" aria-label="In this guide">
+  <li><a href="#g-sf-basics">The basics</a></li><li><a href="#g-sf-controls">Controls</a></li><li><a href="#g-sf-scoring">Scoring and chains</a></li><li><a href="#g-sf-modes">The five modes</a></li><li><a href="#g-sf-tips">Tips</a></li><li><a href="#g-sf-settings">Settings</a></li>
+</ul>
+
+<h3 id="g-sf-basics">The basics</h3>
+<p>The wheel has 12 spokes and holds up to 6 rings. Each ring is a full circle of colored tiles, and every ring turns on its own.</p>
+<ul>
+  <li><strong>A spoke breaks</strong> when the tile on every ring along it, from the hub to the rim, is the same color. It needs at least two rings.</li>
+  <li><strong>Rings keep coming.</strong> New ones arrive at the rim on a timer, and everything else shifts one level in. When the wheel is full, the run ends.</li>
+  <li><strong>After a break,</strong> the innermost ring collapses into the hub (once the wheel has more than four rings), fresh tiles drop in from the rim, and some rings step one notch on their own. That step can line up the next spoke for free. That is a chain.</li>
+</ul>
+<p>The opening wheel never starts with a ready-made spoke, and it is never a dead board.</p>
+
+<h3 id="g-sf-controls">Controls</h3>
+<div class="guide-table-wrap"><table>
+  <thead><tr><th scope="col">Input</th><th scope="col">What it does</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Drag (touch or mouse)</th><td>Grab a ring and turn it around the wheel. When you let go, it settles on the nearest notch.</td></tr>
+    <tr><th scope="row">Flick</th><td>Let go with some speed and the ring coasts forward and lands a few notches ahead. Any flick moves at least one notch.</td></tr>
+    <tr><th scope="row">Tap to turn (optional)</th><td>Turn it on in Settings. Tap a tile and its ring turns one notch. You can pick clockwise or anticlockwise.</td></tr>
+    <tr><th scope="row">Keyboard</th><td>Up and Down arrows choose a ring (Up goes outward). Left and Right turn it one notch.</td></tr>
+  </tbody>
+</table></div>
+<p>The game plays in portrait. Turn a phone sideways and it pauses with a card asking you to turn it upright. It also pauses when you leave the app.</p>
+
+<h3 id="g-sf-scoring">Scoring and chains</h3>
+<p>Every broken spoke scores <strong>40 &times; the rings on the wheel &times; your chain number</strong>. Two spokes breaking at once each score in full.</p>
+<ul>
+  <li>4 rings, first break: 160 points.</li>
+  <li>6 rings, third link of a chain: 720 points.</li>
+</ul>
+<p>A <strong>chain</strong> counts breaks the wheel causes by itself, with no touch from you. Touching a ring ends it. The counter shows from x2 upward.</p>
+<p>Long chains also buy time. A chain of two or more, or several spokes breaking together, pushes back the next ring's arrival. A single plain break does not.</p>
+<div class="guide-note"><strong>Free respin.</strong> In Classic and Daily, a chain of 3 or more earns one respin per run. When the wheel would fill, it resets to four fresh rings instead. Your score stays.</div>
+
+<h3 id="g-sf-modes">The five modes</h3>
+<details open><summary>Classic <small>endless</small></summary><div class="guide-pane">
+  <p>Play until the wheel fills. Rings arrive slowly at first, then faster over the first few minutes. You start with three colors and add one about every 50 seconds, or after every 5 spokes cleared, whichever is slower, up to six.</p>
+  <p>When the wheel is full, you get a short last-chance moment to clear a spoke before the run ends. Your best score is saved.</p>
+</div></details>
+<details><summary>Daily <small>same wheel for everyone, each day</small></summary><div class="guide-pane">
+  <p>Plays like Classic, but the wheel is seeded from the date on your device, so everyone on the same date gets the same rings in the same order. The color count follows the clock alone. All six are in by 150 seconds.</p>
+  <p>You can replay it as often as you like, and your best for the day is kept. A new Daily starts at your device's midnight.</p>
+</div></details>
+<details><summary>Rush <small>90 seconds</small></summary><div class="guide-pane">
+  <p>A 90-second clock, four colors from the start, and rings that arrive fast. Score as much as you can. Clearing spokes does not add time. The run ends when the clock hits zero, or sooner if the wheel fills. There is no respin.</p>
+</div></details>
+<details><summary>Unwind <small>no clock, no fail</small></summary><div class="guide-pane">
+  <p>Rings arrive every 14 seconds with three or four colors. If the wheel is full, the next ring simply waits until you clear a spoke. Tap <strong>Done</strong> when you are ready to stop.</p>
+  <p>Unwind's best score is your <strong>longest chain</strong>. If two runs tie, spokes cleared decide.</p>
+</div></details>
+<details><summary>Few Flicks <small>a puzzle</small></summary><div class="guide-pane">
+  <p>No new rings arrive. You get five rings and four colors, and the goal is to clear <strong>8 spokes in as few flicks as you can</strong>. A flick is any move that leaves a ring on a different notch than it started.</p>
+  <p>Each puzzle shows a <strong>Bot par</strong>, the flick count a simple solver found. It is a guide, and you can beat it. <strong>Again</strong> replays the same puzzle, <strong>New puzzle</strong> deals another, and <strong>Stop here</strong> leaves without recording. Only wins are saved.</p>
+</div></details>
+
+<h3 id="g-sf-tips">Tips</h3>
+<ul>
+  <li>Look one move ahead. Match the outer rings first, then bring the inner ones into line.</li>
+  <li>Aim for chains over speed. A step after a break can line up the next spoke, and the multiplier grows with every link.</li>
+  <li>When the wheel gets crowded, the rim shows a striped band. It is a pattern, so it does not rely on color.</li>
+  <li>Hard to drag? Try Tap to turn in Settings.</li>
+  <li>In Rush, go for big breaks on full wheels. The clock never waits for you.</li>
+</ul>
+
+<h3 id="g-sf-settings">Settings</h3>
+<ul>
+  <li><strong>Sound</strong>, <strong>Music</strong> and <strong>Haptics</strong>.</li>
+  <li><strong>Reduce motion</strong> gives you calmer visuals with no shake. It follows your device setting until you change it.</li>
+  <li><strong>Colour-blind aids</strong> adds a shape to every tile: <span aria-hidden="true">&#9650;</span> triangle, diamond, dot, plus, square and bar for the six colors.</li>
+  <li><strong>Tap to turn</strong> and <strong>Tap direction</strong>.</li>
+  <li>A <strong>Privacy policy</strong> link, in the "Ads and privacy" group.</li>
+</ul>
+<div class="guide-note"><strong>About ads.</strong> The only ad is optional. In Classic, from your second Wheel full onward, you can choose to watch a short ad for four fresh rings and keep your score. Skip it and nothing is lost.</div>
+<p class="guide-foot">Scores and settings stay on your device. There is no account.</p>
+</template>
+
+<dialog class="guide" id="guideDialog" aria-labelledby="guideTitle">
+  <div class="guide-head">
+    <img id="guideIcon" src="" alt="" width="44" height="44">
+    <h2 id="guideTitle" tabindex="-1"></h2>
+    <button type="button" class="guide-close" id="guideClose" aria-label="Close guide"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="guide-body" id="guideBody" tabindex="0" role="region" aria-labelledby="guideTitle"></div>
+</dialog>
+
 
 <footer>
   <svg class="footer-streaks" viewBox="0 0 1200 300" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false"><g transform="rotate(-9 900 150)"><rect x="120" y="70" width="560" height="20" rx="10" fill="#58b800" fill-opacity=".55"/><rect x="60" y="118" width="430" height="20" rx="10" fill="#ffffff" fill-opacity=".4"/><rect x="160" y="170" width="640" height="26" rx="13" fill="#58b800" fill-opacity=".55"/><rect x="40" y="226" width="360" height="18" rx="9" fill="#ffffff" fill-opacity=".4"/><rect x="140" y="290" width="520" height="24" rx="12" fill="#58b800" fill-opacity=".55"/><rect x="80" y="352" width="300" height="18" rx="9" fill="#ffffff" fill-opacity=".4"/><rect x="120" y="410" width="600" height="22" rx="11" fill="#58b800" fill-opacity=".55"/><rect x="60" y="468" width="420" height="18" rx="9" fill="#58b800" fill-opacity=".55"/><rect x="100" y="525" width="500" height="24" rx="12" fill="#ffffff" fill-opacity=".4"/></g></svg>
@@ -1665,6 +2201,72 @@
         anim.onfinish = function () { burst.remove(); };
       });
     });
+  })();
+
+  // How to play: one native <dialog> shared by every game. Guides live in
+  // <template id="guide-KEY"> blocks; opening clones the template in.
+  (function () {
+    var dlg = document.getElementById('guideDialog');
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    var body = document.getElementById('guideBody');
+    var title = document.getElementById('guideTitle');
+    var icon = document.getElementById('guideIcon');
+    var last = null;
+    var META = {
+      mazeball:   { name: 'Matter MazeBall', icon: 'assets/mazeball-icon-128.png', accent: '#7ddd8b', ink: '#1f7d31' },
+      arcade:     { name: 'Garoo Arcade',    icon: 'assets/arcade-icon.png',       accent: '#b9a6ff', ink: '#4a31a8' },
+      starcarver: { name: 'Starcarver',      icon: 'assets/starcarver-icon.png',   accent: '#a9c1ff', ink: '#2a4fb8' },
+      spokefall:  { name: 'Spokefall',       icon: 'assets/spokefall-icon.png',    accent: '#ffb59e', ink: '#8e2008' }
+    };
+    function open(key, trigger) {
+      var tpl = document.getElementById('guide-' + key), m = META[key];
+      if (!tpl || !m) return;
+      last = trigger;
+      body.innerHTML = '';
+      body.appendChild(tpl.content.cloneNode(true));
+      // Horizontally scrollable table wrappers must be keyboard-reachable (WCAG 2.1.1)
+      body.querySelectorAll('.guide-table-wrap').forEach(function (w, i) {
+        w.tabIndex = 0; w.setAttribute('role', 'region');
+        var prev = w.previousElementSibling;
+        w.setAttribute('aria-label', (prev && /^H[2-4]$/.test(prev.tagName) ? prev.textContent : 'Table') + ' table, scrollable');
+      });
+      title.innerHTML = '<small>How to play</small>' + m.name;
+      icon.src = m.icon;
+      dlg.style.setProperty('--g-accent', m.accent);
+      dlg.style.setProperty('--g-ink', m.ink);
+      document.body.classList.add('guide-open');
+      dlg.showModal();
+      body.scrollTop = 0;
+      title.focus();
+      if (history.replaceState) history.replaceState(null, '', '#how-to-play-' + key);
+    }
+    function close() { if (dlg.open) dlg.close(); }
+    dlg.addEventListener('close', function () {
+      document.body.classList.remove('guide-open');
+      if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+      if (last && document.contains(last)) last.focus();
+    });
+    // Close on backdrop click (click lands on the dialog itself, outside its box)
+    dlg.addEventListener('mousedown', function (e) {
+      if (e.target === dlg) close();
+    });
+    document.getElementById('guideClose').addEventListener('click', close);
+    // In-guide jump links scroll the body, not the page
+    body.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#g-"]');
+      if (!a) return;
+      e.preventDefault();
+      var t = body.querySelector('[id="' + a.getAttribute('href').slice(1) + '"]');
+      if (!t) return;
+      var d = t.closest('details'); if (d) d.open = true;
+      t.scrollIntoView({ block: 'start' });
+      t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true });
+    });
+    document.querySelectorAll('.btn-guide').forEach(function (b) {
+      b.addEventListener('click', function () { open(b.getAttribute('data-guide'), b); });
+    });
+    var m = /^#how-to-play-(\w+)$/.exec(location.hash);
+    if (m) { var b = document.querySelector('.btn-guide[data-guide="' + m[1] + '"]'); if (b) open(m[1], b); }
   })();
 </script>
 
