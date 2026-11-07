@@ -10,10 +10,10 @@
      keeps this block in sync automatically instead of relying on someone
      to remember the manual edit. -->
 <title>Garoo Interactive: Games with a mechanic of their own</title>
-<meta name="description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
+<meta name="description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade, Starcarver and Spokefall. Made to include as many players as we can.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Garoo Interactive: Games with a mechanic of their own">
-<meta property="og:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
+<meta property="og:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade, Starcarver and Spokefall. Made to include as many players as we can.">
 <meta property="og:image" content="https://garoointeractive.com/assets/og-garoo-1200x630.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="Garoo Interactive">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Garoo Interactive: Games with a mechanic of their own">
-<meta name="twitter:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade and Starcarver. Made to include as many players as we can.">
+<meta name="twitter:description" content="Original games, built by hand in code. Out now: Matter MazeBall, Garoo Arcade, Starcarver and Spokefall. Made to include as many players as we can.">
 <meta name="twitter:image" content="https://garoointeractive.com/assets/og-garoo-1200x630.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -757,7 +757,7 @@
   /* ---------- studio band (above the featured-game hero) ----------
      The studio speaks in Garoo lime: the surface IS the brand colour. The full
      stacked logo sits on a cream plate (the black wordmark needs a light ground),
-     the three game icons orbit it as a family, and generic speed streaks (inspired
+     the four game icons orbit it as a family, and generic speed streaks (inspired
      by the mark's, never a redraw of it) run behind. */
   .studio-band {
     position: relative; isolation: isolate; overflow: hidden;
@@ -796,6 +796,9 @@
   .game-chip img { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--ink); flex: none; }
   .game-chip strong { display: block; font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1.15; }
   .game-chip small { display: block; font-weight: 700; font-size: 14px; color: var(--ink-1); }
+  .game-chip small { text-wrap: balance; }
+  .game-chip small span { white-space: nowrap; }
+  @media (min-width: 861px) { .studio-games { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .game-chip { height: 100%; padding-right: 14px; } }
   .game-chip:hover { transform: translateY(-3px); background: var(--lime-wash); box-shadow: 0 7px 0 var(--ink); }
   .game-chip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
   .game-chip:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
@@ -825,8 +828,9 @@
     animation: oiPop 0.6s var(--ease-spring) var(--d, 0.5s) backwards, oiBob 4.6s ease-in-out calc(var(--d, 0.5s) + 0.6s) 5 alternate;
   }
   .oi-1 { left: 9%;  top: 11%; --r: -8deg; --d: 0.55s; }
-  .oi-2 { left: 98%; top: 30%; --r: 7deg;  --d: 0.7s;  width: clamp(61px, 7.9vw, 86px); }
-  .oi-3 { left: 78%; top: 99%; --r: -5deg; --d: 0.85s; width: clamp(61px, 7.9vw, 86px); }
+  .oi-2 { left: 98%; top: 30%; --r: 7deg;  --d: 1.1s;  width: clamp(61px, 7.9vw, 86px); }
+  .oi-3 { left: 78%; top: 99%; --r: -5deg; --d: 1.7s; width: clamp(61px, 7.9vw, 86px); }
+  .oi-4 { left: 3%;  top: 68%; --r: 6deg;  --d: 2.3s; }
   @keyframes oiPop { from { opacity: 0; transform: translate(-50%, -50%) rotate(var(--r)) scale(0.6); } to { opacity: 1; transform: translate(-50%, -50%) rotate(var(--r)) scale(1); } }
   @keyframes oiBob { from { transform: translate(-50%, -50%) rotate(var(--r)) translateY(0); } to { transform: translate(-50%, -50%) rotate(var(--r)) translateY(-7px); } }
 
@@ -838,6 +842,7 @@
     .studio-games { display: grid; grid-template-columns: 1fr; }
     .oi-1 { left: 7%; top: 8%; }
   }
+  @media (max-width: 480px) { .oi-2 { left: 94%; } .oi-4 { left: 22%; top: 99%; } .brand-stage { margin-bottom: 18px; } }
   @media (max-width: 400px) {
     .brand-stage { padding: 22px 12px 40px; }
     .logo-plate { padding: 10px; border-width: 3px; border-radius: 22px; box-shadow: 0 8px 0 var(--ink); }
@@ -885,6 +890,50 @@
   .soon-shot + .soon-shot { margin: 28px 0 0 -14px; }
   @media (max-width: 780px) { .soon-wrap { grid-template-columns: 1fr; } }
   @media (max-width: 480px) { .soon-card { flex-direction: column; align-items: flex-start; } }
+
+  /* ---------- spokefall: cream paper + ink + six glass colours (palette from pallet/GAMEPLAN.md) ---------- */
+  #spokefall {
+    --game-accent: #df3000;        /* vermilion, one of the six tile colours */
+    --game-accent-dark: #8e2008;
+    --game-accent-ink: #8e2008;
+    --sf-cream: #f3e8dc;
+    --sf-cream-hi: #fcf5ec;
+    --sf-ink: #1c1630;
+    position: relative; isolation: isolate;
+  }
+  #spokefall::before {
+    content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
+    background: var(--sf-cream); border-top: 4px solid var(--sf-ink);
+  }
+  #spokefall .section-head h2::after { background: var(--game-accent); border-color: var(--sf-ink); }
+  #spokefall .section-head p, #spokefall .game-sub { color: #3a3550; }
+  #spokefall .feature-list li { color: #3a3550; }
+  #spokefall .eyebrow-mono { background: var(--sf-cream-hi); border-color: var(--sf-ink); box-shadow: 0 2.5px 0 var(--sf-ink); }
+  #spokefall .arcade-shot { border-color: var(--sf-ink); box-shadow: 0 5px 0 var(--sf-ink); background: var(--sf-cream-hi); }
+  #spokefall .game-icon { border-color: var(--sf-ink); box-shadow: 0 3px 0 var(--sf-ink); }
+  #spokefall .btn-ghost { background: var(--sf-cream-hi); }
+  #spokefall .btn-ghost:hover { background: #fff; }
+  /* six-colour glass strip: decorative, sits in the section's top-right as a spoke key */
+  .sf-swatches { display: flex; gap: 6px; margin: 0 0 14px; padding: 0; list-style: none; }
+  .sf-swatches li { width: 26px; height: 14px; border: 2px solid var(--sf-ink); border-radius: 5px; box-shadow: 0 2px 0 var(--sf-ink); }
+  .sf-swatches li:nth-child(1) { background: #df3000; }
+  .sf-swatches li:nth-child(2) { background: #ffe23a; }
+  .sf-swatches li:nth-child(3) { background: #008660; }
+  .sf-swatches li:nth-child(4) { background: #6cc6f2; }
+  .sf-swatches li:nth-child(5) { background: #2a3f9e; }
+  .sf-swatches li:nth-child(6) { background: #e070b0; }
+  #spokefall .arcade-shot-2 { margin: 36px 0 0 -4px; }
+  @media (max-width: 780px) { #spokefall .arcade-shot { width: min(44%, 200px); } #spokefall .arcade-shot-2 { margin-left: 10px; } }
+  #spokefall .feature-list li::before { border-radius: 2px; transform: rotate(45deg); }
+  /* a11y (2026-11-07): the global reduced-motion rule sets hover transform:none !important, which would un-rotate the diamond bullet; keep the rotation, drop only the scale */
+  @media (prefers-reduced-motion: reduce) { #spokefall .feature-list li:hover::before { transform: rotate(45deg) !important; } }
+  /* a11y (2026-11-07): forced-colors repaints backgrounds to Canvas, which would erase the 6px diamond bullets and the swatch fills; keep bullets/underline visible with system colours and let the swatches keep their (decorative) colours inside their borders */
+  @media (forced-colors: active) {
+    #spokefall .feature-list li::before { forced-color-adjust: none; background: CanvasText; }
+    #spokefall .section-head h2::after { forced-color-adjust: none; background: Highlight; border-color: CanvasText; }
+    #spokefall .sf-swatches li { forced-color-adjust: none; }
+  }
+  @media (hover: hover) and (pointer: fine) { #spokefall .feature-list li:hover::before { transform: rotate(45deg) scale(1.7); } }
 </style>
 </head>
 <body>
@@ -899,6 +948,7 @@
     <a href="#featured-game" id="navGameLink">Matter MazeBall</a>
     <a href="#garoo-arcade">Garoo Arcade</a>
     <a href="#starcarver">Starcarver</a>
+    <a href="#spokefall">Spokefall</a>
     <a href="#studio">Studio</a>
     <a href="#contact">Contact</a>
     <a href="privacy.html">Privacy</a>
@@ -914,9 +964,10 @@
         <p class="studio-lede">Every Garoo game starts with a mechanic we haven't seen, is built by hand in code, and is made to include as many players as it can.</p>
         <p class="studio-out">Out now</p>
         <ul class="studio-games" aria-label="Games out now">
-          <li><a class="game-chip" href="#featured-game"><img src="assets/mazeball-icon-128.png" alt="" width="44" height="44"><span><strong>Matter MazeBall</strong><small>Steam · iPhone · Android · Mac</small></span></a></li>
-          <li><a class="game-chip" href="#garoo-arcade"><img src="assets/arcade-icon.png" alt="" width="44" height="44"><span><strong>Garoo Arcade</strong><small>iPhone · iPad · Android</small></span></a></li>
-          <li><a class="game-chip" href="#starcarver"><img src="assets/starcarver-icon.png" alt="" width="44" height="44"><span><strong>Starcarver</strong><small>iPhone</small></span></a></li>
+          <li><a class="game-chip" href="#featured-game"><img src="assets/mazeball-icon-128.png" alt="" width="44" height="44"><span><strong>Matter MazeBall</strong><small><span>Steam ·</span> <span>iPhone ·</span> <span>Android ·</span> <span>Mac</span></small></span></a></li>
+          <li><a class="game-chip" href="#garoo-arcade"><img src="assets/arcade-icon.png" alt="" width="44" height="44"><span><strong>Garoo Arcade</strong><small><span>iPhone ·</span> <span>iPad ·</span> <span>Android</span></small></span></a></li>
+          <li><a class="game-chip" href="#starcarver"><img src="assets/starcarver-icon.png" alt="" width="44" height="44"><span><strong>Starcarver</strong><small><span>iPhone ·</span> <span>Android</span></small></span></a></li>
+          <li><a class="game-chip" href="#spokefall"><img src="assets/spokefall-icon.png" alt="" width="44" height="44"><span><strong>Spokefall</strong><small><span>iPhone ·</span> <span>iPad</span></small></span></a></li>
         </ul>
         <a class="studio-how" href="#studio">How we work <span aria-hidden="true">→</span></a>
       </div>
@@ -925,6 +976,7 @@
         <img class="orbit-icon oi-1" src="assets/mazeball-icon-128.png" alt="" width="76" height="76" aria-hidden="true">
         <img class="orbit-icon oi-2" src="assets/arcade-icon.png" alt="" width="76" height="76" aria-hidden="true">
         <img class="orbit-icon oi-3" src="assets/starcarver-icon.png" alt="" width="76" height="76" aria-hidden="true">
+        <img class="orbit-icon oi-4" src="assets/spokefall-icon.png" alt="" width="76" height="76" aria-hidden="true">
         <div class="logo-plate">
           <img class="brand-logo" src="assets/garoo-logo-498.png" srcset="assets/garoo-logo-498.png 498w, assets/garoo-logo.png 996w" sizes="(max-width: 860px) 70vw, 440px" width="996" height="848" alt="Garoo Interactive" fetchpriority="high">
         </div>
@@ -1066,7 +1118,7 @@
         <img class="arcade-shot arcade-shot-2" src="assets/starcarver-shot-2.jpg" width="443" height="960" loading="lazy" alt="Starcarver: a ship carving a long bright trail through a field of ringed purple and gold planets">
       </div>
       <div class="game-copy reveal">
-        <p class="eyebrow-mono">Out now on the App Store &middot; Android in testing</p>
+        <p class="eyebrow-mono">Out now on Google Play and the App Store</p>
         <div class="game-title-row">
           <img src="assets/starcarver-icon.png" alt="" class="game-icon" width="50" height="50" loading="lazy">
           <div>
@@ -1081,8 +1133,45 @@
           <li><strong>Your constellation</strong> &mdash; an ink trail follows every run, so each one draws its own path across the sky</li>
         </ul>
         <div class="cta-row">
+          <a class="btn-store-badge" href="https://play.google.com/store/apps/details?id=com.garoo.starcarver" target="_blank" rel="noopener"><img src="assets/google-play-badge.png" alt="Get Starcarver on Google Play (opens in a new tab on the Google Play store)"></a>
           <a class="btn btn-ghost" href="https://apps.apple.com/us/app/starcarver/id6821371196" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
           <a class="btn btn-ghost" href="starcarver-privacy.html">Privacy policy</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="brand-break" aria-hidden="true"><i></i><span><img src="assets/garoo-icon.png" width="876" height="559" alt=""></span><i></i></div>
+
+  <section id="spokefall">
+    <div class="section-head reveal">
+      <h2>Spokefall</h2>
+      <p>Flick the rings until a whole spoke is one color. Then watch it shatter.</p>
+    </div>
+    <div class="game-feature arcade-feature">
+      <div class="arcade-shots reveal">
+        <img class="arcade-shot" src="assets/spokefall-shot-1.jpg" width="443" height="962" loading="lazy" alt="Spokefall title screen: the multicolor Spokefall logotype above a wheel of red, yellow and blue glass rings, with a Play button below">
+        <img class="arcade-shot arcade-shot-2" src="assets/spokefall-shot-2.jpg" width="443" height="962" loading="lazy" alt="Spokefall: a spoke of glass tiles breaking away from a six-color wheel, with a +160 score pop">
+      </div>
+      <div class="game-copy reveal">
+        <p class="eyebrow-mono">Out now on the App Store</p>
+        <ul class="sf-swatches" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+        <div class="game-title-row">
+          <img src="assets/spokefall-icon.png" alt="" class="game-icon" width="50" height="50" loading="lazy">
+          <div>
+            <h3>Spokefall</h3>
+            <p class="game-sub">Ring Puzzle &middot; iPhone &middot; iPad &middot; Free</p>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li><strong>Flick or drag</strong> &mdash; swipe any ring and it spins, then settles into place</li>
+          <li><strong>Then it falls</strong> &mdash; after a shatter the wheel steps in and new rings arrive at the rim. Line up another spoke right behind it to start a chain</li>
+          <li><strong>Five modes</strong> &mdash; Classic, Daily, Rush, Unwind and Few Flicks. Daily is one wheel a day, the same for everyone</li>
+          <li><strong>No account</strong> &mdash; scores and settings stay on your device. One optional ad, only if you choose it</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="https://apps.apple.com/us/app/spokefall/id6828239011" target="_blank" rel="noopener">App Store<span class="sr-only"> (opens in a new tab on the Apple App Store)</span></a>
+          <a class="btn btn-ghost" href="spokefall-privacy.html">Privacy policy</a>
         </div>
       </div>
     </div>
@@ -1143,6 +1232,7 @@
         <a href="privacy.html">Privacy Policy</a>
         <a href="mini-games-privacy.html">Garoo Arcade Privacy</a>
         <a href="starcarver-privacy.html">Starcarver Privacy</a>
+        <a href="spokefall-privacy.html">Spokefall Privacy</a>
         <a href="mailto:hello@garoointeractive.com">Contact</a>
       </nav>
     </div>
